@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Project_Fourm</title>
+    <link rel="stylesheet" href="~/css/SidebarLayout.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <nav class="sidebar">
+            <div class="sidebar_hide">
+                <i class="material-icons" name="chevron_left">chevron_left</i>
+            </div>
+            <a href="#" class="sidebar_link">
+                <div class="sidebar_icon-contaiener">
+                    <i class="material-icons">account_circle</i>
+                </div>
+                <span class="sidebar_label">Profile</span>
+            </a>
+
+            <a href="#" class="sidebar_link">
+                <div class="sidebar_icon-contaiener">
+                    <i class="material-icons">trending_up</i>
+                </div>
+                <span class="sidebar_label">Popular</span>
+            </a>
+
+            <a href="#" class="sidebar_link">
+                <div class="sidebar_icon-contaiener">
+                    <i class="material-icons">feed</i>
+                </div>
+                <span class="sidebar_label">Feed</span>
+            </a>
+
+            <a href="#" class="sidebar_link">
+                <div class="sidebar_icon-contaiener">
+                    <i class="material-icons">settings</i>
+                </div>
+                <span class="sidebar_label">Settings</span>
+            </a>
+        </nav>
+        <main class="main">
+            @RenderBody()
+        </main>
+
+    
+    </div>
+    <script src="~/js/SidebarHideScript.js"></script>
+</body>
+</html>
