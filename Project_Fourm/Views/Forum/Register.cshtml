@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_SidebarLayoutLoggedOutUser";
+
+
+
+
+    <div class="main-register-container">
+        <form asp-controller="Forum" asp-action="Login" method="post">
+            <h2 id="register-header">Sign up</h2>
+            <div class="register-class">
+                <input type="text" placeholder="Username" />
+                <i></i>
+            </div>
+            <div class="register-class" id="register-password">
+                <input type="password" placeholder="Password" />
+                <i></i>
+            </div>
+            <div class="register-class" id="register-email">
+                <input type="email" placeholder="E-Mail" />
+                <i></i>
+            </div>
+            <div class="register-class" id="register-email">
+                <input type="date"/>
+                <i></i>
+            </div>
+            <input id="register-submit" type="submit" value="Register" />
+        </form>
+    </div>
+}

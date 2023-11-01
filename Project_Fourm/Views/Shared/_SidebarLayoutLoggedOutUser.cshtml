@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Project_Fourm</title>
+    <link rel="stylesheet" href="~/css/SidebarLayout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/MainPage.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Register.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+</head>
+<body>
+    <div class="page-container">
+        <nav class="sidebar">
+            <div class="sidebar_hide">
+                <i class="material-icons" name="chevron_left">chevron_left</i>
+            </div>
+            <a href="/Forum/Register" class="sidebar_link">
+                <div class="sidebar_icon-contaiener">
+                    <i class="material-icons">person_add</i>
+                </div>
+                <span class="sidebar_label">Register</span>
+            </a>
+
+            <a href="/Forum/Login" class="sidebar_link">
+                <div class="sidebar_icon-contaiener">
+                    <i class="material-icons">login</i>
+                </div>
+                <span class="sidebar_label">Login</span>
+            </a>
+
+        </nav>
+        <main class="main">
+            @RenderBody()
+        </main>
+
+    
+    </div>
+    <script src="~/js/SidebarHideScript.js"></script>
+</body>
+</html>

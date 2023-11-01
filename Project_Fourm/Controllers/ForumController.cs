@@ -11,6 +11,22 @@ namespace Project_Fourm.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult LogOut()
+        {
+            return View();
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

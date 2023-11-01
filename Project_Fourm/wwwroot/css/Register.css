@@ -1,0 +1,88 @@
+
+.main-register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .main-register-container form {
+        position: absolute;
+        padding: 50px 40px;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+    }
+
+#register-header {
+    color: rgb(231, 233, 234);
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 0.1em;
+}
+
+.register-class {
+    position: relative;
+    margin-top: 35px;
+}
+
+    .register-class input {
+        position: relative;
+        width: 100%;
+        padding: 20px 10px 10px;
+        background-color: transparent;
+        outline: none;
+        box-shadow: none;
+        border: none;
+        color: rgb(231, 233, 234);
+        font-size: 1em;
+        letter-spacing: 0.05em;
+        transition: 0.5s;
+        z-index: 10;
+    }
+
+        .register-class input::placeholder {
+            letter-spacing: 0.15em;
+            transition: 0.5s;
+        }
+
+    .register-class i {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        border-radius: 3px;
+        width: 100%;
+        height: 2px;
+        background-color: rgb(231, 233, 234);
+        transition: 0.5s;
+    }
+
+    .register-class input:focus ~ i {
+        height: 44px;
+    }
+
+    .register-class input:focus {
+        color: black;
+    }
+
+#forgot-passwd {
+    margin: 10px 0;
+}
+
+    #forgot-passwd a {
+        font-size: 0.70em;
+        text-decoration: none;
+        color: #93938c;
+    }
+.register-class input[type="date"]::-webkit-calendar-picker-indicator{
+    display:none;
+}
+#register-submit {
+    border: none;
+    outline: none;
+    padding: 9px;
+    font-size: 1em;
+    border-radius: 10px;
+    letter-spacing: 0.1em;
+    margin-top: 10px;
+    background-color: rgb(231, 233, 234);
+}
