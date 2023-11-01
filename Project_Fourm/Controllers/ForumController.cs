@@ -6,6 +6,13 @@ namespace Project_Fourm.Controllers
 {
     public class ForumController : Controller
     {
+        private readonly ForumProjectContext Context;
+
+        public ForumController(ForumProjectContext context)
+        {
+            this.Context = context;
+        }
+
         public IActionResult Index()
         {
             return View();
