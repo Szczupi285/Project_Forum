@@ -7,7 +7,6 @@
 
     .main-register-container form {
         position: absolute;
-        padding: 50px 40px;
         border-radius: 8px;
         display: flex;
         flex-direction: column;
@@ -89,10 +88,11 @@
 
 .register-error-message{
     min-height: 34.4px;
+    max-width: 214.4px;
     border: none;
     outline: none;
     padding: 5px;
-    font-size: 1em;
+    font-size: 0.90em;
     letter-spacing: 0.1em;
     margin-top: 5px;
     text-align: center;

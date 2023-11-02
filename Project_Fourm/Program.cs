@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Project_Fourm.Models;
 
@@ -9,6 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ForumProjectContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

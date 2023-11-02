@@ -84,6 +84,7 @@
 }
 .login-error-message {
     min-height: 34.4px;
+    max-width: 214.4px;
     border: none;
     outline: none;
     padding: 5px;
