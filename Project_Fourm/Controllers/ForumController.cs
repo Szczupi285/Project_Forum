@@ -29,9 +29,37 @@ namespace Project_Fourm.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
+        }
+
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
+        }
+        [HttpPost]
+        public IActionResult Register(RegisterModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Index");
+            }
+            else 
+            {
+                return View(model);
+            }
+                
+
         }
 
         public IActionResult Error()

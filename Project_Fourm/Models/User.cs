@@ -19,6 +19,8 @@ public partial class User
 
     public bool IsAdmin { get; set; }
 
+    public DateTime? CreationDate { get; set; }
+
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 
     public virtual ICollection<Post> PostsNavigation { get; set; } = new List<Post>();

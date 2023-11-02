@@ -104,6 +104,10 @@ public partial class ForumProjectContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false)
                 .HasColumnName("avatar_file_path");
+            entity.Property(e => e.CreationDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("creation_date");
             entity.Property(e => e.DateOfBirth)
                 .HasColumnType("date")
                 .HasColumnName("date_of_birth");

@@ -82,3 +82,15 @@
     margin-top: 10px;
     background-color: rgb(231, 233, 234);
 }
+.login-error-message {
+    min-height: 34.4px;
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    margin-top: 5px;
+    text-align: center;
+    color: rgb(174, 33, 33);
+    display: inline-block;
+}

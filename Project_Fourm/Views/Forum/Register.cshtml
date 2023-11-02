@@ -1,4 +1,5 @@
-﻿@*
+﻿@model RegisterModel
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -8,25 +9,29 @@
 
 
     <div class="main-register-container">
-        <form asp-controller="Forum" asp-action="Login" method="post">
+        <form asp-controller="Forum" asp-action="Register" method="post">
             <h2 id="register-header">Sign up</h2>
             <div class="register-class">
-                <input type="text" placeholder="Username" />
+                <input type="text" placeholder="Username" asp-for="Username" />
                 <i></i>
             </div>
             <div class="register-class" id="register-password">
-                <input type="password" placeholder="Password" />
+                <input type="password" placeholder="Password" asp-for="Password" />
                 <i></i>
             </div>
             <div class="register-class" id="register-email">
-                <input type="email" placeholder="E-Mail" />
+                <input type="email" placeholder="E-Mail" asp-for="Email"  />
                 <i></i>
             </div>
             <div class="register-class" id="register-email">
-                <input type="date"/>
+                <input type="date" asp-for="Date"/>
                 <i></i>
             </div>
             <input id="register-submit" type="submit" value="Register" />
+            <span asp-validation-for="Username" class="register-error-message"></span>
+            <span asp-validation-for="Password" class="register-error-message"></span>
+            <span asp-validation-for="Email" class="register-error-message"></span>
+            <span asp-validation-for="Date" class="register-error-message"></span>
         </form>
     </div>
 }
