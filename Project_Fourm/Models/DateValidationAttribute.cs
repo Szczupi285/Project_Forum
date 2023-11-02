@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Project_Fourm.Models
 {
@@ -6,11 +7,14 @@ namespace Project_Fourm.Models
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if(value is DateOnly)
-            {
-                DateTime dateTime = (DateTime)value;
+            
 
-                if (dateTime < DateTime.Now)
+            if (value is not null)
+            {
+                
+                DateTime dateOfBirth = (DateTime)value;
+
+                if (dateOfBirth < DateTime.Now)
                     return ValidationResult.Success;
                 else
                     return new ValidationResult("Invalid date");

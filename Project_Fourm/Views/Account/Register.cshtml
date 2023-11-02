@@ -9,7 +9,7 @@
 
 
     <div class="main-register-container">
-        <form asp-controller="Forum" asp-action="Register" method="post">
+        <form asp-controller="Account" asp-action="Register" method="post">
             <h2 id="register-header">Sign up</h2>
             <div class="register-class">
                 <input type="text" placeholder="Username" asp-for="Username" />
@@ -24,7 +24,8 @@
                 <i></i>
             </div>
             <div class="register-class" id="register-email">
-                <input type="date" asp-for="Date"/>
+                <label id="label-date" for="date">Date of Birth</label>
+                <input type="date" asp-for="Date" min="1900-01-01" max="3000-01-01" />
                 <i></i>
             </div>
             <input id="register-submit" type="submit" value="Register" />

@@ -23,6 +23,7 @@ namespace Project_Fourm.Models
 
         [DateValidation]
         [Required(ErrorMessage = "Date is required")]
-        public string Date { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime Date { get; set; }
     }
 }

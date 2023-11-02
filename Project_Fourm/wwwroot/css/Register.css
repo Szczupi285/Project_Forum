@@ -100,5 +100,14 @@
     display: inline-block;
 }
 
-
+#label-date {
+    position: absolute;
+    z-index: 2;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    font-size: 1em;
+    color: grey;
+    justify-content: right;
+}
 
