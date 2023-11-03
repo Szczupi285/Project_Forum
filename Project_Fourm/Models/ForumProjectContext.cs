@@ -10,9 +10,9 @@ public partial class ForumProjectContext : DbContext
     {
     }
 
-    public ForumProjectContext(DbContextOptions<ForumProjectContext> options)
-        : base(options)
+    public ForumProjectContext(DbContextOptions<ForumProjectContext> options) : base(options)
     {
+        
     }
 
     public virtual DbSet<Post> Posts { get; set; }

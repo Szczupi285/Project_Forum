@@ -1,7 +1,9 @@
-﻿namespace Project_Fourm.Services
+﻿using Project_Fourm.Models;
+
+namespace Project_Fourm.Services
 {
     public interface IRegisterService
     {
-        void Register(string username, string Password, string Email, string Date);
+        Task RegisterUser(ForumProjectContext context, string username, string password, string email, DateTime date);
     }
 }

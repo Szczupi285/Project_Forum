@@ -9,10 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<ForumProjectContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
+builder.Services.AddDbContext<ForumProjectContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
+   
+    
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IRegisterService, RegisterService>();
+
 
 
 var app = builder.Build();

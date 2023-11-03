@@ -1,55 +1,58 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Project_Fourm.Models;
-using System.CodeDom;
+﻿    using Microsoft.AspNetCore.Mvc;
+    using Project_Fourm.Models;
+    using Project_Fourm.Services;
 
-namespace Project_Fourm.Controllers
-{
-    public class AccountController : Controller
+    namespace Project_Fourm.Controllers
     {
+        public class AccountController : Controller
+        {
+            private readonly ForumProjectContext ProjectContext;
+            private readonly IRegisterService RegisterService;
 
-        private readonly ForumProjectContext Context;
 
-        public AccountController(ForumProjectContext context)
-        {
-            Context = context;
-        }
-
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Login(LoginModel model)
-        {
-            if (ModelState.IsValid)
+            public AccountController(IRegisterService registerService, ForumProjectContext projectContext)
             {
-                return RedirectToAction("Index", "Forum");
-            }
-            else
-            {
-                return View(model);
-            }
-        }
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Register(RegisterModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                return View(model);
+                RegisterService = registerService;
+                this.ProjectContext = projectContext;
             }
 
+            [HttpGet]
+            public IActionResult Login()
+            {
+                return View();
+            }
+            [HttpPost]
+            public IActionResult Login(LoginModel model)
+            {
+                if (ModelState.IsValid)
+                {
+                    return RedirectToAction("Index", "Forum");
+                }
+                else
+                {
+                    return View(model);
+                }
+            }
 
+            [HttpGet]
+            public IActionResult Register()
+            {
+                return View();
+            }
+            [HttpPost]
+            public async Task<IActionResult> Register(RegisterModel model)
+            {
+                if (ModelState.IsValid)
+                {
+                    await RegisterService.RegisterUser(ProjectContext, model.Username, model.Password, model.Email, model.Date);
+                    return RedirectToAction("Login");
+                }
+                else
+                {
+                    return View(model);
+                }
+
+
+            }
         }
     }
-}
