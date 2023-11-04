@@ -8,7 +8,7 @@ using System.CodeDom;
             {
                 public async Task RegisterUser(ForumProjectContext context, string username, string password, string email, DateTime date)
                 {
-                        User user = new User
+                      /*  User user = new User
                         {
                             Username = username,
                             Passwd = password,
@@ -17,9 +17,9 @@ using System.CodeDom;
                             IsAdmin = false
                         };
 
-                    //    await context.Users.AddAsync(user);
-                      //  await context.SaveChangesAsync();
-
+                        await context.Users.AddAsync(user);
+                       await context.SaveChangesAsync();
+                      */
 
                 }
             }

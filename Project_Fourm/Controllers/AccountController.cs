@@ -46,6 +46,8 @@ using Microsoft.AspNetCore.Mvc;
             {
                 if (ModelState.IsValid)
                 {
+                try
+                {
                     ApplicationUser user = new ApplicationUser
                     {
                         UserName = model.Username,
@@ -53,6 +55,13 @@ using Microsoft.AspNetCore.Mvc;
 
                     };
                     await UserManager.CreateAsync(user, model.Password);
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                   
+                    
 
 
                     await RegisterService.RegisterUser(ProjectContext, model.Username, model.Password, model.Email, model.Date);
