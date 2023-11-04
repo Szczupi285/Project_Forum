@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Mvc;
         {
             private readonly ForumProjectContext ProjectContext;
             private readonly IRegisterService RegisterService;
+            private readonly UserManager<ApplicationUser> UserManager;
 
-            public AccountController(IRegisterService registerService, ForumProjectContext projectContext)
+            public AccountController(IRegisterService registerService, ForumProjectContext projectContext, UserManager<ApplicationUser> userManager)
             {
                 RegisterService = registerService;
                 this.ProjectContext = projectContext;
+                UserManager = userManager;
             }
 
             [HttpGet]
@@ -44,6 +46,8 @@ using Microsoft.AspNetCore.Mvc;
             {
                 if (ModelState.IsValid)
                 {
+               
+
                     await RegisterService.RegisterUser(ProjectContext, model.Username, model.Password, model.Email, model.Date);
                     return RedirectToAction("Login");
                 }
