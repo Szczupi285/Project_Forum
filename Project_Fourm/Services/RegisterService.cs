@@ -1,7 +1,8 @@
-﻿        using Project_Fourm.Models;
-        using System.CodeDom;
+﻿        using Project_.Models;
+using Project_Forum.Models;
+using System.CodeDom;
 
-        namespace Project_Fourm.Services
+        namespace Project_Forum.Services
         {
             public class RegisterService : IRegisterService
             {

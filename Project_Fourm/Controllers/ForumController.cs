@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Project_Fourm.Models;
+using Project_.Models;
+using Project_Forum.Models;
 using System.Diagnostics;
 
-namespace Project_Fourm.Controllers
+namespace Project_Forum.Controllers
 {
     public class ForumController : Controller
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Project_Fourm.Models;
+namespace Project_Forum.Models;
 
 public partial class Tag
 {

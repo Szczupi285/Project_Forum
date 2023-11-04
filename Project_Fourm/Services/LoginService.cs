@@ -1,4 +1,4 @@
-﻿namespace Project_Fourm.Services
+﻿namespace Project_Forum.Services
 {
     public class LoginService : ILoginService
     {

@@ -1,6 +1,6 @@
-﻿using Project_Fourm.Models;
+﻿using Project_Forum.Models;
 
-namespace Project_Fourm.Services
+namespace Project_Forum.Services
 {
     public interface IRegisterService
     {

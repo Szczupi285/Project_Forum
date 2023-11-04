@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-
-namespace Project_Fourm.Models;
+using Project_.Models;
+namespace Project_Forum.Models;
 
 public partial class ForumProjectContext : DbContext
 {

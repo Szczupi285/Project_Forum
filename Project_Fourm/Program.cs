@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
-using Project_Fourm.Models;
-using Project_Fourm.Services;
+using Project_Forum.Models;
+using Project_Forum.Services;
+using Microsoft.AspNetCore.Identity;
+using Project_Forum.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ForumProjectContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<Project_ForumContext>();
    
     
 
@@ -34,6 +39,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 

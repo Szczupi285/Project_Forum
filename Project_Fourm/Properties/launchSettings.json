@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "Project_Fourm": {
+    "Project_Forum": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

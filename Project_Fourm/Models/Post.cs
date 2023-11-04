@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Project_Forum.Models;
+using System;
 using System.Collections.Generic;
 
-namespace Project_Fourm.Models;
+namespace Project_
+    .Models;
 
 public partial class Post
 {

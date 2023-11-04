@@ -1,8 +1,8 @@
 ﻿    using Microsoft.AspNetCore.Mvc;
-    using Project_Fourm.Models;
-    using Project_Fourm.Services;
+    using Project_Forum.Models;
+    using Project_Forum.Services;
 
-    namespace Project_Fourm.Controllers
+    namespace Project_Forum.Controllers
     {
         public class AccountController : Controller
         {

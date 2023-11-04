@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Project_Fourm.Models
+namespace Project_Forum.Models
 {
     public class LoginModel
     {
