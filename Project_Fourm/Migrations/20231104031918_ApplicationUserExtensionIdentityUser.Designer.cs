@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_Forum.Data;
 
@@ -11,9 +12,11 @@ using Project_Forum.Data;
 namespace Project_Forum.Migrations
 {
     [DbContext(typeof(Project_ForumContext))]
-    partial class Project_ForumContextModelSnapshot : ModelSnapshot
+    [Migration("20231104031918_ApplicationUserExtensionIdentityUser")]
+    partial class ApplicationUserExtensionIdentityUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
