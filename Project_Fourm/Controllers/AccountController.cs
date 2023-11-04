@@ -46,7 +46,14 @@ using Microsoft.AspNetCore.Mvc;
             {
                 if (ModelState.IsValid)
                 {
-               
+                    ApplicationUser user = new ApplicationUser
+                    {
+                        UserName = model.Username,
+                        Email = model.Email,
+
+                    };
+                    await UserManager.CreateAsync(user, model.Password);
+
 
                     await RegisterService.RegisterUser(ProjectContext, model.Username, model.Password, model.Email, model.Date);
                     return RedirectToAction("Login");

@@ -33,11 +33,13 @@ public partial class ForumProjectContext : Project_ForumContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("ConnectionString");
+        optionsBuilder.UseSqlServer("Server=DESKTOP-EKI8377;Database=Forum_Project;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Post>(entity =>
         {
             entity.HasKey(e => e.PostId).HasName("PK__Posts__DD0C73BAE06A7BAE");
