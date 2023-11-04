@@ -15,7 +15,7 @@ builder.Services.AddDbContext<ForumProjectContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<Project_ForumContext>();
+    .AddEntityFrameworkStores<ForumProjectContext>();
    
     
 

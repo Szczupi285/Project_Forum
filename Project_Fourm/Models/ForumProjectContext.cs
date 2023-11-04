@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Project_.Models;
+using Project_Forum.Data;
+
 namespace Project_Forum.Models;
 
-public partial class ForumProjectContext : DbContext
+public partial class ForumProjectContext : Project_ForumContext
 {
-    public ForumProjectContext()
-    {
-    }
+
+    
 
     public ForumProjectContext(DbContextOptions<ForumProjectContext> options) : base(options)
     {
         
     }
+
+   
 
     public virtual DbSet<Post> Posts { get; set; }
 
@@ -27,7 +30,7 @@ public partial class ForumProjectContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-
+        optionsBuilder.UseSqlServer("ConnectionString");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

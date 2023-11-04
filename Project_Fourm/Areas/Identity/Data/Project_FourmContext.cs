@@ -6,10 +6,24 @@ namespace Project_Forum.Data;
 
 public class Project_ForumContext : IdentityDbContext<IdentityUser>
 {
+
+    public Project_ForumContext()
+    {
+    }
+
     public Project_ForumContext(DbContextOptions<Project_ForumContext> options)
         : base(options)
     {
     }
+    protected Project_ForumContext(DbContextOptions options)
+        : base(options)
+    {
+    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseSqlServer("ConnectionString");
+    }
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -17,8 +17,8 @@ using System.CodeDom;
                             IsAdmin = false
                         };
 
-                        await context.Users.AddAsync(user);
-                        await context.SaveChangesAsync();
+                    //    await context.Users.AddAsync(user);
+                      //  await context.SaveChangesAsync();
 
 
                 }
