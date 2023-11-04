@@ -1,4 +1,5 @@
-﻿    using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
     using Project_Forum.Models;
     using Project_Forum.Services;
 
@@ -8,7 +9,6 @@
         {
             private readonly ForumProjectContext ProjectContext;
             private readonly IRegisterService RegisterService;
-
 
             public AccountController(IRegisterService registerService, ForumProjectContext projectContext)
             {

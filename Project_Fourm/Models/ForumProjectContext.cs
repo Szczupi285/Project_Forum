@@ -9,6 +9,10 @@ namespace Project_Forum.Models;
 public partial class ForumProjectContext : Project_ForumContext
 {
 
+    public ForumProjectContext()
+    {
+
+    }
     
 
     public ForumProjectContext(DbContextOptions<ForumProjectContext> options) : base(options)
@@ -16,7 +20,12 @@ public partial class ForumProjectContext : Project_ForumContext
         
     }
 
-   
+    public ForumProjectContext(DbContextOptions options) : base(options)
+    {
+
+    }
+
+
 
     public virtual DbSet<Post> Posts { get; set; }
 
