@@ -12,6 +12,11 @@
         flex-direction: column;
     }
 
+.register-class {
+    min-height: 105px;
+}
+
+
 #register-header {
     color: rgb(231, 233, 234);
     font-weight: 500;
@@ -33,7 +38,7 @@
         box-shadow: none;
         border: none;
         color: rgb(231, 233, 234);
-        font-size: 1em;
+        font-size: 1.1em;
         letter-spacing: 0.05em;
         transition: 0.5s;
         z-index: 10;

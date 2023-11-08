@@ -3,15 +3,18 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    
 }
+
 .main-login-container form{
     position: absolute;
     padding: 50px 40px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+}
+
+.login-class{
+    min-height: 110px;
 }
 
 #login-header{
@@ -21,13 +24,13 @@
     letter-spacing: 0.1em;
 }
 
-.login-class{
+.login-field{
     position: relative;
-    widows: 300px;
+    widows: 300;
     margin-top: 35px;
 }
 
-.login-class input{
+.login-field input{
     position: relative;
     width: 100%;
     padding: 20px 10px 10px;
@@ -36,18 +39,18 @@
     box-shadow: none;
     border: none;
     color:  rgb(231, 233, 234); 
-    font-size: 1em;
+    font-size: 1.1em;
     letter-spacing: 0.05em;
     transition: 0.5s;
     z-index: 10;
 
 }
 
-.login-class input::placeholder{
+.login-field input::placeholder{
     letter-spacing: 0.15em;
     transition: 0.5s;
 }
-.login-class i{
+.login-field i{
     position: absolute;
     left: 0;
     bottom: 0;
@@ -58,16 +61,14 @@
     transition: 0.5s;
 }
 
-.login-class input:focus ~i{
+.login-field input:focus ~i{
     height: 44px;
 }
-.login-class input:focus{
+.login-field input:focus{
     color: black;
 }
-#forgot-passwd{
-    margin: 10px 0;
-}
-#forgot-passwd a{
+
+#forgot-passwd {
     font-size: 0.70em;
     text-decoration: none;
     color: #93938c;
@@ -83,15 +84,17 @@
     background-color: rgb(231, 233, 234);
 }
 .login-error-message {
-    min-height: 34.4px;
-    max-width: 214.4px;
+    max-width: inherit;
     border: none;
     outline: none;
-    padding: 5px;
-    font-size: 1em;
+    max-width: 200px;
+    font-size: 0.70em;
     letter-spacing: 0.1em;
     margin-top: 5px;
     text-align: center;
     color: rgb(174, 33, 33);
     display: inline-block;
+    float: right;
+    word-wrap: break-word;
 }
+
