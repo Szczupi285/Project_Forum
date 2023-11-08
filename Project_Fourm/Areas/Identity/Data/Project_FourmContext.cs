@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Project_Forum.Models;
 
 namespace Project_Forum.Data;
@@ -22,7 +23,13 @@ public class Project_ForumContext : IdentityDbContext<ApplicationUser>
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer("Server=DESKTOP-EKI8377;Database=Forum_Project;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True;");
+        IConfiguration configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.Development.json")
+            .Build();
+
+
+        optionsBuilder.UseSqlServer(configuration.GetConnectionString("ConnectionString"));
     }
 
 
