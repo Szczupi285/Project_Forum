@@ -12,27 +12,35 @@
         <form asp-controller="Account" asp-action="Register" method="post">
             <h2 id="register-header">Sign up</h2>
             <div class="register-class">
-                <input type="text" placeholder="Username" asp-for="Username" />
-                <i></i>
+                <div class="register-field">
+                    <input type="text" placeholder="Username" asp-for="Username" />
+                    <i></i>
+                </div>
+                <span asp-validation-for="Username" class="register-error-message"></span>
             </div>
             <div class="register-class" id="register-password">
-                <input type="password" placeholder="Password" asp-for="Password" />
-                <i></i>
+                <div class="register-field"> 
+                    <input type="password" placeholder="Password" asp-for="Password" />
+                    <i></i>
+                </div>
+                <span asp-validation-for="Password" class="register-error-message"></span>
             </div>
             <div class="register-class" id="register-email">
-                <input type="email" placeholder="E-Mail" asp-for="Email"  />
-                <i></i>
+                <div class="register-field">
+                    <input type="email" placeholder="E-Mail" asp-for="Email"  />
+                    <i></i>
+                </div>
+                <span asp-validation-for="Email" class="register-error-message"></span>
             </div>
             <div class="register-class" id="register-email">
-                <label id="label-date" for="date">Date of Birth</label>
-                <input type="date" asp-for="Date" min="1900-01-01" max="3000-01-01" />
-                <i></i>
+                <div class="register-field">
+                    <label id="label-date" for="date">Date of Birth</label>
+                    <input type="date" asp-for="Date" min="1900-01-01" max="2100-01-01" />
+                    <i></i>
+                </div>
+                <span asp-validation-for="Date" class="register-error-message"></span>
             </div>
             <input id="register-submit" type="submit" value="Register" />
-            <span asp-validation-for="Username" class="register-error-message"></span>
-            <span asp-validation-for="Password" class="register-error-message"></span>
-            <span asp-validation-for="Email" class="register-error-message"></span>
-            <span asp-validation-for="Date" class="register-error-message"></span>
         </form>
     </div>
 }

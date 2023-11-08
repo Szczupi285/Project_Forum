@@ -1,9 +1,11 @@
-﻿using Project_Forum.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Project_Forum.Models;
 
 namespace Project_Forum.Services
 {
     public interface IRegisterService
     {
-        Task RegisterUser(ForumProjectContext context, string username, string password, string email, DateTime date);
+        Task<bool> RegisterUser(UserManager<ApplicationUser> userManager, RegisterModel model, ModelStateDictionary modelState);
     }
 }

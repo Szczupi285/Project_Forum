@@ -7,9 +7,8 @@ namespace Project_.Models
     {
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            
 
-            if (value is not null)
+            if (!String.IsNullOrEmpty(value.ToString()))
             {
                 
                 DateTime dateOfBirth = (DateTime)value;
@@ -20,7 +19,10 @@ namespace Project_.Models
                     return new ValidationResult("Invalid date");
                     
             }
-            return new ValidationResult("Invalid date");
+            else
+            {
+                return new ValidationResult("Invalid date");
+            }
 
         }
     }

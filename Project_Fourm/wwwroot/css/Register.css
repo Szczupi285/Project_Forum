@@ -19,12 +19,12 @@
     letter-spacing: 0.1em;
 }
 
-.register-class {
+.register-field {
     position: relative;
     margin-top: 35px;
 }
 
-    .register-class input {
+    .register-field input {
         position: relative;
         width: 100%;
         padding: 20px 10px 10px;
@@ -39,12 +39,12 @@
         z-index: 10;
     }
 
-        .register-class input::placeholder {
+        .register-field input::placeholder {
             letter-spacing: 0.15em;
             transition: 0.5s;
         }
 
-    .register-class i {
+    .register-field i {
         position: absolute;
         left: 0;
         bottom: 0;
@@ -55,11 +55,11 @@
         transition: 0.5s;
     }
 
-    .register-class input:focus ~ i {
+    .register-field input:focus ~ i {
         height: 44px;
     }
 
-    .register-class input:focus {
+    .register-field input:focus {
         color: black;
     }
 
@@ -72,9 +72,15 @@
         text-decoration: none;
         color: #93938c;
     }
+
+.register-class{
+    margin: 5px;
+}
+
 .register-class input[type="date"]::-webkit-calendar-picker-indicator{
     display:none;
 }
+
 #register-submit {
     border: none;
     outline: none;
@@ -87,18 +93,20 @@
 }
 
 .register-error-message{
-    min-height: 34.4px;
-    max-width: 214.4px;
+    max-width: inherit;
     border: none;
     outline: none;
-    padding: 5px;
-    font-size: 0.90em;
+    max-width:200px;
+    font-size: 0.70em;
     letter-spacing: 0.1em;
     margin-top: 5px;
     text-align: center;
     color: rgb(174, 33, 33);
     display: inline-block;
+    float: right;
+    word-wrap:break-word;
 }
+
 
 #label-date {
     position: absolute;

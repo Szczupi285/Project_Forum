@@ -22,8 +22,8 @@ namespace Project_Forum.Models
         [RegularExpression(pattern: @"^[\w\.-]+@[\w\.-]+\.\w+$", ErrorMessage ="Invalid E-Mail")]
         public string Email { get; set; }
 
-        [DateValidation]
         [Required(ErrorMessage = "Date is required")]
+        [DateValidation]
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
     }
