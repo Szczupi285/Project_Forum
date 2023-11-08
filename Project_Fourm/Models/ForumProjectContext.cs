@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Project_Forum.Models;
@@ -14,6 +15,8 @@ public partial class ForumProjectContext : DbContext
         : base(options)
     {
     }
+
+    public DbSet<IdentityUserClaim<string>> AspNetUserClaims { get; set; }
 
     public virtual DbSet<ApplicationUser> AspNetUsers { get; set; }
 

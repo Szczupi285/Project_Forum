@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace Project_Forum.Models
 {
@@ -10,6 +11,6 @@ namespace Project_Forum.Models
 
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
-
+      
     }
 }

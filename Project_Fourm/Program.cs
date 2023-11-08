@@ -5,6 +5,7 @@ using Project_Forum.Models;
 using Project_Forum.Services;
 using Microsoft.AspNetCore.Identity;
 using Project_Forum.Data;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +15,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ForumProjectContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
+
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ForumProjectContext>();
+    .AddEntityFrameworkStores<ForumProjectContext>().AddDefaultTokenProviders();
    
     
 
@@ -45,6 +47,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Forum}/{action=Index}/{id?}");
+    pattern: "{controller=Forum}/{action=LogOut}/{id?}");
 
 app.Run();

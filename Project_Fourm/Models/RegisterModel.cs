@@ -8,6 +8,7 @@ namespace Project_Forum.Models
     {
         [StringLength(maximumLength: 36)]
         [Required(ErrorMessage ="Username is required")]
+        [RegularExpression(@"^[a-zA-Z0-9]{3,36}$",ErrorMessage = "Username can't contain special characters")]
         public string Username { get; set; }
 
         [StringLength(100, MinimumLength = 10, 
