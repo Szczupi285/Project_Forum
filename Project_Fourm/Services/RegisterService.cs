@@ -34,6 +34,7 @@ namespace Project_Forum.Services
                 UserName = model.Username,
                 Email = model.Email,
                 DateOfBirth = model.Date,
+                LockoutEnabled = false,
 
             };
 

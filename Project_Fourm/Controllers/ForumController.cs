@@ -14,7 +14,7 @@ namespace Project_Forum.Controllers
             this.Context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string userId)
         {
             return View();
         }

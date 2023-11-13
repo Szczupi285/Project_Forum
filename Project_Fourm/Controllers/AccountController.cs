@@ -9,16 +9,21 @@ namespace Project_Forum.Controllers
     {
         private readonly ForumProjectContext ProjectContext;
         private readonly IRegisterService RegisterService;
+        private readonly ILoginService LoginService;
         private readonly UserManager<ApplicationUser> UserManager;
         private readonly SignInManager<ApplicationUser> SignInManager;
+        private readonly ILogger<AccountController> _logger;
 
-        public AccountController(IRegisterService registerService, ForumProjectContext projectContext, 
-            UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(IRegisterService registerService, ForumProjectContext projectContext,
+            UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager
+            ,ILoginService loginService, ILogger<AccountController> logger)
         {
             RegisterService = registerService;
             this.ProjectContext = projectContext;
             UserManager = userManager;
             SignInManager = signInManager;
+            LoginService = loginService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -31,15 +36,17 @@ namespace Project_Forum.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Username);
-
-                if (user != null)
+                bool result = await LoginService.SignIn(UserManager, SignInManager, model);
+                if(result == true)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Forum");
                 }
-                ModelState.AddModelError("Username", "Wrong login or password");
-                return View(model);
+                else
+                {
+                    ModelState.AddModelError("Username", "Wrong login or password");
+                    return View(model);
+                }
+
             }
             else
             {

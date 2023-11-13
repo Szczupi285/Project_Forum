@@ -6,6 +6,8 @@ using Project_Forum.Services;
 using Microsoft.AspNetCore.Identity;
 using Project_Forum.Data;
 using System.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,14 +18,13 @@ builder.Services.AddDbContext<ForumProjectContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
 
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ForumProjectContext>().AddDefaultTokenProviders();
    
     
 
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IRegisterService, RegisterService>();
-
 
 
 var app = builder.Build();
