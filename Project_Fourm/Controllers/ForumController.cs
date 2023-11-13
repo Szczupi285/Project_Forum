@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Project_.Models;
 using Project_Forum.Models;
 using System.Diagnostics;
@@ -9,20 +12,28 @@ namespace Project_Forum.Controllers
     {
         private readonly ForumProjectContext Context;
 
-        public ForumController(ForumProjectContext context)
+        private readonly SignInManager<ApplicationUser> SignInManager;
+
+        public ForumController(ForumProjectContext context, SignInManager<ApplicationUser> signInManager)
         {
             this.Context = context;
+            SignInManager = signInManager;
         }
 
-        public IActionResult Index(string userId)
+        public IActionResult Index()
         {
-            return View();
+            if (User.Identity.IsAuthenticated)
+                return View("UserIndex");
+            else
+                return View("GuestIndex");
         }
 
         [HttpGet]
-        public IActionResult LogOut()
+        public async Task<IActionResult> LogOut()
         {
-            return View();
+
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
         }
 
 

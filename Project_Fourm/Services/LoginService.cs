@@ -1,19 +1,79 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Project_Forum.Models;
+using System.Security.Claims;
 
 namespace Project_Forum.Services
 {
     public class LoginService : ILoginService
     {
-        public async Task<bool> SignIn(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser> signInManager, LoginModel model)
+        UserManager<ApplicationUser> UserManager { get; }
+        SignInManager<ApplicationUser> SignInManager { get; }
+
+        public LoginService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            var user = await userManager.FindByNameAsync(model.Username);
-            var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, false);
+            UserManager = userManager;
+            SignInManager = signInManager;
+        }
+
+        public async Task<bool> ValidateCreditentials(LoginModel model)
+        {
+            
+            var user = await UserManager.FindByNameAsync(model.Username);
+
+            var result = await SignInManager.CheckPasswordSignInAsync(user, model.Password, false);
 
             return result.Succeeded;
 
         }
+
+
+        public async Task EstablishSession(IHttpContextAccessor httpContextAccessor, LoginModel model)
+        {
+            var user = await UserManager.FindByNameAsync(model.Username);
+
+
+            var claims = new List<Claim>
+            {
+            new Claim("Username", user.UserName),
+            new Claim("Email", user.Email),
+            new Claim(ClaimTypes.Role, "User"),
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                // Refreshing the authentication session should be allowed.
+
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(20),
+                // The time at which the authentication ticket expires. A 
+                // value set here overrides the ExpireTimeSpan option of 
+                // CookieAuthenticationOptions set with AddCookie.
+
+                IsPersistent = true,
+                // Whether the authentication session is persisted across 
+                // multiple requests. When used with cookies, controls
+                // whether the cookie's lifetime is absolute (matching the
+                // lifetime of the authentication ticket) or session-based.
+
+                IssuedUtc = DateTimeOffset.UtcNow,
+                // The time at which the authentication ticket was issued.
+
+            };
+
+
+             await httpContextAccessor.HttpContext.SignInAsync(
+             CookieAuthenticationDefaults.AuthenticationScheme,
+             new ClaimsPrincipal(claimsIdentity),
+             authProperties);
+        }
+
     }
 }

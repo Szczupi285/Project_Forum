@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Project_Forum.Controllers;
+using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Project_Forum.Models;
 
 namespace Project_Forum.Services
 {
     public interface ILoginService
     {
-        Task<bool> SignIn(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, LoginModel model);
+        // "Models" prepended because of ambiguous reference
+        Task<bool> ValidateCreditentials(Models.LoginModel model);
+
+        public Task EstablishSession(IHttpContextAccessor httpContextAccessor, Models.LoginModel model);
     }
 }

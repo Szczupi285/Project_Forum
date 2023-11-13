@@ -7,23 +7,23 @@ namespace Project_Forum.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ForumProjectContext ProjectContext;
         private readonly IRegisterService RegisterService;
         private readonly ILoginService LoginService;
         private readonly UserManager<ApplicationUser> UserManager;
         private readonly SignInManager<ApplicationUser> SignInManager;
         private readonly ILogger<AccountController> _logger;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public AccountController(IRegisterService registerService, ForumProjectContext projectContext,
+        public AccountController(IRegisterService registerService, ILoginService loginService,
             UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager
-            ,ILoginService loginService, ILogger<AccountController> logger)
+            ,ILogger<AccountController> logger, IHttpContextAccessor httpContextAccessor)
         {
             RegisterService = registerService;
-            this.ProjectContext = projectContext;
             UserManager = userManager;
             SignInManager = signInManager;
             LoginService = loginService;
             _logger = logger;
+            _contextAccessor = httpContextAccessor;
         }
 
         [HttpGet]
@@ -36,9 +36,13 @@ namespace Project_Forum.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool result = await LoginService.SignIn(UserManager, SignInManager, model);
+                LoginService loginService = new LoginService(UserManager, SignInManager);
+
+
+                bool result = await loginService.ValidateCreditentials(model);
                 if(result == true)
                 {
+                    await loginService.EstablishSession(_contextAccessor, model);
                     return RedirectToAction("Index", "Forum");
                 }
                 else
@@ -64,7 +68,7 @@ namespace Project_Forum.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool result = await RegisterService.RegisterUser(UserManager, model, ModelState);
+                bool result = await RegisterService.RegisterUser(UserManager, model,ModelState);
                     
                 if(result == true) 
                     return RedirectToAction("Login");
