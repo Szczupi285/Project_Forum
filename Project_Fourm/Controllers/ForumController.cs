@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project_.Models;
 using Project_Forum.Models;
+using Project_Forum.Services;
 using System.Diagnostics;
 
 namespace Project_Forum.Controllers
@@ -14,10 +15,13 @@ namespace Project_Forum.Controllers
 
         private readonly SignInManager<ApplicationUser> SignInManager;
 
-        public ForumController(ForumProjectContext context, SignInManager<ApplicationUser> signInManager)
+        private readonly IPostService PostService;
+
+        public ForumController(ForumProjectContext context, SignInManager<ApplicationUser> signInManager, PostService postService)
         {
             this.Context = context;
             SignInManager = signInManager;
+
         }
 
         public IActionResult Index()
@@ -35,7 +39,11 @@ namespace Project_Forum.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }
-
+        [HttpPost]
+        public async Task CreatePost()
+        {
+            await PostService.AddPostAsync();
+        }
 
         public IActionResult Error()
         {

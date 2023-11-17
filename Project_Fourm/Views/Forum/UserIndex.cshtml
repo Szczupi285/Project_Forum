@@ -4,7 +4,7 @@
 @{
     
     <div class="send-post-form">
-        <form action="POST">
+        <form method="POST" asp-controller="Forum" asp-action="CreatePost" >
             <textarea id="post-message" placeholder="Create a new post..."></textarea>
             <button type="submit" id="send-post-button" value="x">
                 <i class="material-icons">send</i>

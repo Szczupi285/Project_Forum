@@ -11,7 +11,7 @@ public partial class Post
 
     public string PostContent { get; set; } = null!;
 
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public virtual ICollection<PostUpvote> PostUpvotes { get; set; } = new List<PostUpvote>();
 
