@@ -16,12 +16,12 @@ namespace Project_Forum.Services
             throw new NotImplementedException();
         }
 
-        public Task AddTags()
+        public Task AddTagsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task AddUpvote()
+        public Task AddUpvoteAsync()
         {
             throw new NotImplementedException();
         }
