@@ -6,7 +6,7 @@ namespace Project_Forum.Services
 {
     public interface IPostService
     {
-        Task AddPostAsync();
+        Task AddPostAsync(string userId, string postContent);
 
         Task AddTagsAsync();
 

@@ -41,6 +41,7 @@ namespace Project_Forum.Services
             {
             new Claim("Username", user.UserName),
             new Claim("Email", user.Email),
+            new Claim("UserId", user.Id),
             new Claim(ClaimTypes.Role, "User"),
             };
 

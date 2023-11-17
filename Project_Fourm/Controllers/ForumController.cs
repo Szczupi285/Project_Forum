@@ -6,6 +6,7 @@ using Project_.Models;
 using Project_Forum.Models;
 using Project_Forum.Services;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Project_Forum.Controllers
 {
@@ -17,11 +18,11 @@ namespace Project_Forum.Controllers
 
         private readonly IPostService PostService;
 
-        public ForumController(ForumProjectContext context, SignInManager<ApplicationUser> signInManager, PostService postService)
+        public ForumController(ForumProjectContext context, SignInManager<ApplicationUser> signInManager, IPostService postService)
         {
             this.Context = context;
             SignInManager = signInManager;
-
+            PostService = postService;
         }
 
         public IActionResult Index()
@@ -40,9 +41,19 @@ namespace Project_Forum.Controllers
             return RedirectToAction("Login", "Account");
         }
         [HttpPost]
-        public async Task CreatePost()
+        public async Task<IActionResult> CreatePost(Post model)
         {
-            await PostService.AddPostAsync();
+            // we don't use ModelState.IsValid because FK User is not Explicitly set in model
+            if (User.FindFirstValue("UserId") is not null && !String.IsNullOrEmpty(model.PostContent))
+            {
+                await PostService.AddPostAsync(User.FindFirstValue("UserId"), model.PostContent);
+                return RedirectToAction("Index", "Forum");
+            }
+            else
+            {
+                return NoContent();
+            }
+                
         }
 
         public IActionResult Error()
