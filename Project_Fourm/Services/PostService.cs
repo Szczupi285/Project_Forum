@@ -37,7 +37,7 @@ namespace Project_Forum.Services
         }
 
 
-        public Task AddTagsAsync()
+        public Task AddTagsAsync(string postContent)
         {
             throw new NotImplementedException();
         }

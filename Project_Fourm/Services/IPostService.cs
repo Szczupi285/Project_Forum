@@ -8,7 +8,7 @@ namespace Project_Forum.Services
     {
         Task AddPostAsync(string userId, string postContent);
 
-        Task AddTagsAsync();
+        Task AddTagsAsync(string postContent);
 
         Task AddUpvoteAsync();
     }

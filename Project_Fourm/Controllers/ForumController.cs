@@ -27,7 +27,7 @@ namespace Project_Forum.Controllers
 
         public IActionResult Index()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity is not null && User.Identity.IsAuthenticated)
                 return View("UserIndex");
             else
                 return View("GuestIndex");
