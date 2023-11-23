@@ -47,6 +47,7 @@ namespace Project_Forum.Controllers
             if (User.FindFirstValue("UserId") is not null && !String.IsNullOrEmpty(model.PostContent))
             {
                 await PostService.AddPostAsync(User.FindFirstValue("UserId"), model.PostContent);
+                await PostService.AddTagsAsync(model.PostContent);
                 return RedirectToAction("Index", "Forum");
             }
             else

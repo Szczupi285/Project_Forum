@@ -36,8 +36,33 @@ namespace Project_Forum.Services
             await Context.SaveChangesAsync();
         }
 
+       
 
-        public Task AddTagsAsync(string postContent)
+        public async Task AddTagsAsync(string postContent)
+        {
+
+            var Tags = TagExtractor.ExtractTags(postContent);
+
+            foreach (string tag in Tags)
+            {
+                var ExistingTag = await Context.Tags.FindAsync(tag);
+
+                if(ExistingTag is null)
+                {
+                    Tag NonExistingTag = new Tag
+                    {
+                        TagName = tag,
+                    };
+
+                    await Context.Tags.AddAsync(NonExistingTag);
+                }
+
+            }
+            await Context.SaveChangesAsync();
+
+        }
+
+        public Task AddPostTagsAsync(string postId, string tagId, string postContent)
         {
             throw new NotImplementedException();
         }

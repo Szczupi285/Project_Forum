@@ -10,6 +10,8 @@ namespace Project_Forum.Services
 
         Task AddTagsAsync(string postContent);
 
+        Task AddPostTagsAsync(string postId, string tagId, string postContent);
+
         Task AddUpvoteAsync();
     }
 }

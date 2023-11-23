@@ -8,11 +8,13 @@ namespace Project_Forum.Models
         /// Extracts tags from the given content string.
         /// </summary>
         /// <param name="content">The input string containing tags.</param>
-        /// <returns>A HashSet of extracted tags.</returns>
+        /// <returns>A HashSet of extracted tags. <br></br>
+        /// Empty HashSet if content is null.
+        /// </returns>
         /// /// <remarks>
         /// Tags are identified based on the pattern: #tag, where 'tag' consists of 1 to 50 alphanumeric characters. <br></br>
         /// Tags without space in between are not valid. <br></br>
-        /// For example "#tag1#tag2" will be threated like a normal content
+        /// For example "#tag1#tag2" will be threated like a normal content <br></br>
         /// </remarks>
         public static HashSet<string> ExtractTags(string content)
         {
