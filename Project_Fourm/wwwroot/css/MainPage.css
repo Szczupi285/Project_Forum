@@ -102,4 +102,27 @@ span.label-text {
     color: rgb(231, 233, 234);
 }
 
+.search-container {
+    margin-left: 80px;
+}
+#search-input {
+    background-color: rgb(36, 36, 36);
+    border: none;
+    width: 100px;
+    padding: 5px;
+    border-radius:10px;
+    color: rgb(231, 233, 234);
+}
 
+.search-button {
+    position:absolute;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+}
+.search-button i {
+    font-size: 24px;
+    color: rgb(231, 233, 234);
+}
