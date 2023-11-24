@@ -46,8 +46,9 @@ namespace Project_Forum.Controllers
             // we don't use ModelState.IsValid because FK User is not Explicitly set in model
             if (User.FindFirstValue("UserId") is not null && !String.IsNullOrEmpty(model.PostContent))
             {
-                await PostService.AddPostAsync(User.FindFirstValue("UserId"), model.PostContent);
-                await PostService.AddTagsAsync(model.PostContent);
+                int postId = await PostService.AddPostAsync(User.FindFirstValue("UserId"), model.PostContent);
+                var tags = await PostService.AddTagsAsync(model.PostContent);
+                await PostService.AddPostTagsAsync(postId, tags);
                 return RedirectToAction("Index", "Forum");
             }
             else

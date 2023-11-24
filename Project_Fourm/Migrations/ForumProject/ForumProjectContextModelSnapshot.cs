@@ -151,7 +151,7 @@ namespace Project_Forum.Migrations.ForumProject
 
             modelBuilder.Entity("Project_Forum.Models.PostTag", b =>
                 {
-                    b.Property<int?>("PostId")
+                    b.Property<int>("PostId")
                         .HasColumnType("int")
                         .HasColumnName("postID");
 
@@ -294,6 +294,8 @@ namespace Project_Forum.Migrations.ForumProject
                     b.HasOne("Project_Forum.Models.Post", "Post")
                         .WithMany()
                         .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
                         .HasConstraintName("FK_PostTag_Post");
 
                     b.HasOne("Project_Forum.Models.Tag", "TagNameNavigation")

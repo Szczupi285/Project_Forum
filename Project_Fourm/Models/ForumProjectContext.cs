@@ -84,13 +84,15 @@ public partial class ForumProjectContext : DbContext
 
         modelBuilder.Entity<PostTag>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => new { e.PostId, e.TagName });
 
-            entity.Property(e => e.PostId).HasColumnName("postID");
+            entity.Property(e => e.PostId).HasColumnName("postID")
+            .IsRequired();
             entity.Property(e => e.TagName)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasColumnName("tag_name");
+                .HasColumnName("tag_name")
+                .IsRequired();
 
             entity.HasOne(d => d.Post).WithMany()
                 .HasForeignKey(d => d.PostId)

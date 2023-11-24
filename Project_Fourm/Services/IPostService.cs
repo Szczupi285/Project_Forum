@@ -6,11 +6,11 @@ namespace Project_Forum.Services
 {
     public interface IPostService
     {
-        Task AddPostAsync(string userId, string postContent);
+        Task<int> AddPostAsync(string userId, string postContent);
 
-        Task AddTagsAsync(string postContent);
+        Task<HashSet<string>> AddTagsAsync(string postContent);
 
-        Task AddPostTagsAsync(string postId, string tagId, string postContent);
+        Task<HashSet<(int, string)>> AddPostTagsAsync(int postId, HashSet<string> tags);
 
         Task AddUpvoteAsync();
     }
