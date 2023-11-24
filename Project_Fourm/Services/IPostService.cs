@@ -12,6 +12,7 @@ namespace Project_Forum.Services
 
         Task<HashSet<(int, string)>> AddPostTagsAsync(int postId, HashSet<string> tags);
 
+
         Task AddUpvoteAsync();
     }
 }

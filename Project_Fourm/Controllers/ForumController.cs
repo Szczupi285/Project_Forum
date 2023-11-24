@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project_.Models;
@@ -41,13 +42,14 @@ namespace Project_Forum.Controllers
             return RedirectToAction("Login", "Account");
         }
         [HttpPost]
-        public async Task<IActionResult> CreatePost(Post model)
+        [Authorize]
+        public async Task<IActionResult> CreatePost(PostCompositeModel model)
         {
             // we don't use ModelState.IsValid because FK User is not Explicitly set in model
-            if (User.FindFirstValue("UserId") is not null && !String.IsNullOrEmpty(model.PostContent))
+            if (User.FindFirstValue("UserId") is not null && !String.IsNullOrEmpty(model.PostModel.PostContent))
             {
-                int postId = await PostService.AddPostAsync(User.FindFirstValue("UserId"), model.PostContent);
-                var tags = await PostService.AddTagsAsync(model.PostContent);
+                int postId = await PostService.AddPostAsync(User.FindFirstValue("UserId"), model.PostModel.PostContent);
+                var tags = await PostService.AddTagsAsync(model.PostModel.PostContent);
                 await PostService.AddPostTagsAsync(postId, tags);
                 return RedirectToAction("Index", "Forum");
             }
