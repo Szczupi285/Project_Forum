@@ -1,8 +1,43 @@
-﻿@*
+﻿@model PostCompositeModel
+
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-    
-   
 
+    <div class="display-post">
+        <div class="choose-hour-filter">
+            <label class="radio-button-label">
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "6h",
+            new {@class = "radio-button-style"})
+                <span class="label-text">6h</span>
+            </label>
+            <label class="radio-button-label">
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "12h",
+            new {@class = "radio-button-style"})
+                <span class="label-text">12h</span>
+            </label>
+            <label class="radio-button-label">
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "24h",
+            new {@class = "radio-button-style"})
+                <span class="label-text">24h</span>
+            </label>
+            <label class="radio-button-label">
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "7d",
+            new {@class = "radio-button-style"})
+                <span class="label-text">7d</span>
+            </label>
+            <label class="radio-button-label">
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "30d",
+            new {@class = "radio-button-style"})
+                <span class="label-text">30d</span>
+            </label>
+        </div>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Choose tag...">
+            <button class="search-button" value="search">
+                <i class="material-icons">search</i>
+            </button>
+        </div>
+    </div>
 }
