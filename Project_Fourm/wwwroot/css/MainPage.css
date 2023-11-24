@@ -4,8 +4,9 @@
     padding: 10px,0,10px,0;
     overflow-y: auto;
     display: flex;
-    justify-content: center;
-    align-items: top;
+    align-items: center;
+    flex-direction:column;
+    
 }
 
 .send-post-form {
@@ -35,9 +36,9 @@
     white-space: pre-line;
 }
 
-    #post-message::-webkit-scrollbar {
-        display: none;
-    }
+#post-message::-webkit-scrollbar {
+    display: none;
+}
 
 
 #send-post-button {
@@ -53,3 +54,52 @@
     font-size: 24px;
     color: rgb(231, 233, 234);
 }
+.display-post{
+    padding-top:60px;
+    display:flex;
+}
+
+.radio-button-style {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    z-index: 0;
+    width:50px;
+    height:15px;
+    background-color: rgb(36, 36, 36);
+}
+.radio-button-label{
+    position:relative;
+}
+
+span.label-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 999;
+    color: rgb(100,100,100);
+    font-size: 14px;
+    padding-bottom: 5px;
+    transition: color 0.5s;
+    cursor: pointer;
+}
+.radio-button-label:hover span.label-text {
+    transition: 0.5s;
+    color: rgb(231, 233, 234);
+}
+.radio-button-style:checked + span.label-text{
+    transition: 0.5s;
+    color: rgb(231, 233, 234);
+}
+
+

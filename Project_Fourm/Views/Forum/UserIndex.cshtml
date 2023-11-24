@@ -15,7 +15,33 @@
         </form>
     </div>
     <div class="display-post">
-        
+        <div class="choose-hour-filter">
+            <label class="radio-button-label">
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "6h", 
+                    new {@class = "radio-button-style"})
+                    <span class="label-text">6h</span>
+            </label>
+            <label class="radio-button-label">
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "12h", 
+                    new {@class = "radio-button-style"})
+                    <span class="label-text">12h</span>
+            </label>
+            <label class="radio-button-label"> 
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "24h",
+                    new {@class = "radio-button-style"})
+                    <span class="label-text">24h</span>
+            </label>
+            <label class="radio-button-label">
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "7d",
+                    new {@class = "radio-button-style"})
+                    <span class="label-text">7d</span>
+            </label>
+            <label class="radio-button-label"> 
+                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "30d",
+                    new {@class = "radio-button-style"})
+                    <span class="label-text">30d</span>
+            </label>
+        </div>
     </div>
 
 }
