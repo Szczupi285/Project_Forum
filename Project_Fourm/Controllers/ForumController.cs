@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project_.Models;
 using Project_Forum.Models;
+using Project_Forum.Models.Entities;
 using Project_Forum.Services;
 using System.Diagnostics;
 using System.Security.Claims;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Project_Forum.Models;
+namespace Project_Forum.Models.Entities;
 
 public partial class ForumProjectContext : DbContext
 {
@@ -15,14 +15,11 @@ public partial class ForumProjectContext : DbContext
         : base(options)
     {
     }
-
     public DbSet<IdentityUserClaim<string>> AspNetUserClaims { get; set; }
 
     public virtual DbSet<ApplicationUser> AspNetUsers { get; set; }
 
     public virtual DbSet<Post> Posts { get; set; }
-
-    public virtual DbSet<PostTag> PostTags { get; set; }
 
     public virtual DbSet<PostUpvote> PostUpvotes { get; set; }
 
@@ -42,7 +39,6 @@ public partial class ForumProjectContext : DbContext
 
         optionsBuilder.UseSqlServer(configuration.GetConnectionString("ConnectionString"));
     }
-        
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -67,6 +63,7 @@ public partial class ForumProjectContext : DbContext
 
             entity.Property(e => e.PostId).HasColumnName("postID");
             entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
             entity.Property(e => e.PostContent)
@@ -80,38 +77,39 @@ public partial class ForumProjectContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_UserPost");
-        });
 
-        modelBuilder.Entity<PostTag>(entity =>
-        {
-            entity.HasKey(e => new { e.PostId, e.TagName });
-
-            entity.Property(e => e.PostId).HasColumnName("postID")
-            .IsRequired();
-            entity.Property(e => e.TagName)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("tag_name")
-                .IsRequired();
-
-            entity.HasOne(d => d.Post).WithMany()
-                .HasForeignKey(d => d.PostId)
-                .HasConstraintName("FK_PostTag_Post");
-
-            entity.HasOne(d => d.TagNameNavigation).WithMany()
-                .HasForeignKey(d => d.TagName)
-                .HasConstraintName("FK_PostTag_Tag");
+            entity.HasMany(d => d.TagNames).WithMany(p => p.Posts)
+                .UsingEntity<Dictionary<string, object>>(
+                    "PostTag",
+                    r => r.HasOne<Tag>().WithMany()
+                        .HasForeignKey("TagName")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_PostTag_Tag"),
+                    l => l.HasOne<Post>().WithMany()
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_PostTag_Post"),
+                    j =>
+                    {
+                        j.HasKey("PostId", "TagName");
+                        j.ToTable("PostTags");
+                        j.IndexerProperty<int>("PostId").HasColumnName("postID");
+                        j.IndexerProperty<string>("TagName")
+                            .HasMaxLength(50)
+                            .IsUnicode(false)
+                            .HasColumnName("tag_name");
+                    });
         });
 
         modelBuilder.Entity<PostUpvote>(entity =>
         {
-            entity.HasKey(e => e.RespondUpvotesId).HasName("PK__PostUpvo__99FD00505E27DDD4");
+            entity.HasKey(e => e.PostUpvotesId).HasName("PK__PostUpvo__BF22F81D150F14B4");
 
-            entity.Property(e => e.RespondUpvotesId).HasColumnName("RespondUpvotesID");
+            entity.HasIndex(e => new { e.PostId, e.UserId }, "unique_PostID_userID").IsUnique();
+
+            entity.Property(e => e.PostUpvotesId).HasColumnName("PostUpvotesID");
             entity.Property(e => e.PostId).HasColumnName("postID");
-            entity.Property(e => e.UserId)
-                .HasMaxLength(450)
-                .HasColumnName("userID");
+            entity.Property(e => e.UserId).HasColumnName("userID");
 
             entity.HasOne(d => d.Post).WithMany(p => p.PostUpvotes)
                 .HasForeignKey(d => d.PostId)
@@ -153,13 +151,13 @@ public partial class ForumProjectContext : DbContext
 
         modelBuilder.Entity<RespondUpvote>(entity =>
         {
-            entity.HasKey(e => e.RespondUpvotesId).HasName("PK__RespondU__99FD005014F8A6F2");
+            entity.HasKey(e => e.RespondUpvotesId).HasName("PK__RespondU__99FD0050C29CE358");
+
+            entity.HasIndex(e => new { e.RespondId, e.UserId }, "unique_respondID_userID").IsUnique();
 
             entity.Property(e => e.RespondUpvotesId).HasColumnName("RespondUpvotesID");
             entity.Property(e => e.RespondId).HasColumnName("respondID");
-            entity.Property(e => e.UserId)
-                .HasMaxLength(450)
-                .HasColumnName("userID");
+            entity.Property(e => e.UserId).HasColumnName("userID");
 
             entity.HasOne(d => d.Respond).WithMany(p => p.RespondUpvotes)
                 .HasForeignKey(d => d.RespondId)

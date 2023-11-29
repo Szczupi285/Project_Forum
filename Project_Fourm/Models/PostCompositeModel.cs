@@ -1,4 +1,6 @@
-﻿namespace Project_Forum.Models
+﻿using Project_Forum.Models.Entities;
+
+namespace Project_Forum.Models
 {
     public class PostCompositeModel
     {
@@ -8,7 +10,6 @@
 
         public ApplicationUser UserModel { get; set; } = new ApplicationUser(); 
 
-        public PostTag PostTagModel { get; set; } = new PostTag();
 
         public PostUpvote PostUpvoteModel { get; set; } = new PostUpvote();
 

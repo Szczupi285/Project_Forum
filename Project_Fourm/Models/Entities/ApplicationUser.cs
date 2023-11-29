@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Project_Forum.Models
+namespace Project_Forum.Models.Entities
 {
     public class ApplicationUser : IdentityUser
     {

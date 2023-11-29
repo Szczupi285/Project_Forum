@@ -9,6 +9,7 @@ using System.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Project_Forum.Models.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 

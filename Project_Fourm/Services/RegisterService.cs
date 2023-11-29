@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Project_.Models;
 using Project_Forum.Models;
+using Project_Forum.Models.Entities;
 using System.CodeDom;
 
 namespace Project_Forum.Services

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Project_Forum.Models;
+namespace Project_Forum.Models.Entities;
 
 public partial class Respond
 {

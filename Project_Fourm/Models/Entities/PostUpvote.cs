@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Project_Forum.Models;
+namespace Project_Forum.Models.Entities;
 
 public partial class PostUpvote
 {
-    public int RespondUpvotesId { get; set; }
+    public int PostUpvotesId { get; set; }
 
     public string UserId { get; set; } = null!;
 

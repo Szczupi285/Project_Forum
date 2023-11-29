@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Project_Forum.Models;
+using Project_Forum.Models.Entities;
 using System.Security.Claims;
 
 namespace Project_Forum.Services
@@ -125,13 +126,14 @@ namespace Project_Forum.Services
 
                     var result = await Context.PostTags.AddAsync(postTag);
                     PostTagPKs.Add((postId, tag));
-                    
+
                 }
             }
             await Context.SaveChangesAsync();
             return PostTagPKs;
         }
-            
+
+
 
 
 

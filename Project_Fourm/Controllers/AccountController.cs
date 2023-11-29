@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Project_Forum.Models;
+using Project_Forum.Models.Entities;
 using Project_Forum.Services;
 
 namespace Project_Forum.Controllers

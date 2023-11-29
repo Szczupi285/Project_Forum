@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Project_Forum.Models;
+using Project_Forum.Models.Entities;
 
 namespace Project_Forum.Data;
 
