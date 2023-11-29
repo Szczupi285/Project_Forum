@@ -109,28 +109,26 @@ namespace Project_Forum.Services
         /// </returns>
         public async Task<HashSet<(int, string)>> AddPostTagsAsync(int postId, HashSet<string> tags)
         {
-
             var PostTagPKs = new HashSet<(int, string)>();
-
-            foreach (string tag in tags)
+            var existingPost = await Context.Posts.FindAsync(postId);
+            if(existingPost is not null)
             {
-                var ExistingTag = await Context.Tags.FindAsync(tag);
-
-                if (ExistingTag is not null)
+                foreach (string tag in tags)
                 {
-                    PostTag postTag = new PostTag
+                    var existingTag = await Context.Tags.FindAsync(tag);
+
+                    if (existingTag is not null)
                     {
-                        PostId = postId,
-                        TagName = tag
-                    };
 
-                    var result = await Context.PostTags.AddAsync(postTag);
-                    PostTagPKs.Add((postId, tag));
+                        existingPost.TagNames.Add(existingTag);
+                        PostTagPKs.Add((postId, tag));
 
+                    }
                 }
             }
             await Context.SaveChangesAsync();
             return PostTagPKs;
+
         }
 
 
