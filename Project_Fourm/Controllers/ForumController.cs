@@ -31,14 +31,12 @@ namespace Project_Forum.Controllers
         {
             if (User.Identity is not null && User.Identity.IsAuthenticated)
             {
-                var result = await PostService.RetrivePostContentAsync(15,15);
-                
-                foreach(var res in result)
-                {
-                    string test = $"{res.Username}, {res.Content}, {res.CreationDate}, {res.UpvotesCount}";
-                }
 
-                return View("UserIndex");
+                var postCompositeModel = new PostCompositeModel();
+                postCompositeModel.postDisplayContents = await PostService.RetrivePostContentAsync(15, 15);
+
+
+                return View("UserIndex", postCompositeModel);
             }
             else
                 return View("GuestIndex");

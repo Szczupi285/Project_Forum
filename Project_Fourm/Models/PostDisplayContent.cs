@@ -1,6 +1,6 @@
 ﻿namespace Project_Forum.Models
 {
-    public class PostDisplayContent
+    public class PostDisplayContent 
     {
         public string Username { get; set; } = "notfound";
         public string Content { get; set; } = "notfound";

@@ -9,7 +9,7 @@
     
 }
 
-.send-post-form {
+.send-post-form{
     width: 35%;
     height: 25vh;
     margin-top: 20px;
@@ -54,9 +54,12 @@
     font-size: 24px;
     color: rgb(231, 233, 234);
 }
+
 .display-post{
     padding-top:60px;
     display:flex;
+    align-items:center;
+    flex-direction:column;
 }
 
 .radio-button-style {
@@ -104,6 +107,7 @@ span.label-text {
 
 .search-container {
     margin-left: 80px;
+
 }
 #search-input {
     background-color: rgb(36, 36, 36);
@@ -125,4 +129,29 @@ span.label-text {
 .search-button i {
     font-size: 24px;
     color: rgb(231, 233, 234);
+}
+.filters {
+    margin-top: 20px;
+    display: flex;
+    position: relative;
+}
+
+
+.display-post-container {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    align-items:center;
+}
+.single-post-display {
+    width: 75%;
+    height: auto;
+    margin-top: 20px;
+    background-color: rgb(28, 28, 28);
+    border-radius: 15px;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }

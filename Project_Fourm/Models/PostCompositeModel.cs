@@ -10,11 +10,12 @@ namespace Project_Forum.Models
 
         public ApplicationUser UserModel { get; set; } = new ApplicationUser();
 
-
         public PostUpvote PostUpvoteModel { get; set; } = new PostUpvote();
 
         public Respond RespondModel { get; set; } = new Respond();
 
         public RespondUpvote RespondUpvoteModel { get; set; } = new RespondUpvote();
+
+        public List<PostDisplayContent> postDisplayContents { get; set; } = new List<PostDisplayContent>();
     }
 }

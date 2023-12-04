@@ -6,48 +6,63 @@
 @{
     
     <div class="send-post-form">
-        <form method="POST" asp-controller="Forum" asp-action="CreatePost">
-
-            <textarea id="post-message" placeholder="Create a new post..." asp-for="PostModel.PostContent"></textarea>
-            <button type="submit" id="send-post-button" value="x" >
-                <i class="material-icons">send</i>
-            </button>
-        </form>
+            <form method="POST" asp-controller="Forum" asp-action="CreatePost">
+                <textarea id="post-message" placeholder="Create a new post..." asp-for="PostModel.PostContent"></textarea>
+                <button type="submit" id="send-post-button" value="x" >
+                    <i class="material-icons">send</i>
+                </button>
+            </form>
     </div>
     <div class="display-post">
-        <div class="choose-hour-filter">
-            <label class="radio-button-label">
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "6h", 
-                    new {@class = "radio-button-style"})
-                    <span class="label-text">6h</span>
-            </label>
-            <label class="radio-button-label">
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "12h", 
-                    new {@class = "radio-button-style"})
-                    <span class="label-text">12h</span>
-            </label>
-            <label class="radio-button-label"> 
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "24h",
-                    new {@class = "radio-button-style"})
-                    <span class="label-text">24h</span>
-            </label>
-            <label class="radio-button-label">
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "7d",
-                    new {@class = "radio-button-style"})
-                    <span class="label-text">7d</span>
-            </label>
-            <label class="radio-button-label"> 
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "30d",
-                    new {@class = "radio-button-style"})
-                    <span class="label-text">30d</span>
-            </label>
-        </div>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Choose tag...">
-            <button class="search-button" value="search">
-                <i class="material-icons">search</i>
-            </button>
-        </div>
+        <div class="filters">
+                <div class="choose-hour-filter">
+                    <label class="radio-button-label">
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "6h", 
+                        new {@class = "radio-button-style"})
+                            <span class="label-text">6h</span>
+                    </label>
+                    <label class="radio-button-label">
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "12h", 
+                        new {@class = "radio-button-style"})
+                            <span class="label-text">12h</span>
+                    </label>
+                    <label class="radio-button-label"> 
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "24h",
+                        new {@class = "radio-button-style"})
+                            <span class="label-text">24h</span>
+                    </label>
+                    <label class="radio-button-label">
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "7d",
+                        new {@class = "radio-button-style"})
+                            <span class="label-text">7d</span>
+                    </label>
+                    <label class="radio-button-label"> 
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "30d",
+                        new {@class = "radio-button-style"})
+                            <span class="label-text">30d</span>
+                    </label>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Choose tag...">
+                    <button class="search-button" value="search">
+                        <i class="material-icons">search</i>
+                    </button>
+                </div>
+         </div>
+
+            <div class="display-post-container">
+            @foreach(var postDisplay in Model.postDisplayContents)
+            {
+                <div class="single-post-display">
+                    <p>@postDisplay.Username</p>
+                    <p>@postDisplay.Content</p>
+                    <p>@postDisplay.CreationDate</p>
+                    <p>@postDisplay.UpvotesCount</p>
+                </div>
+            }
+            </div>
+
     </div>
 
 }
