@@ -55,10 +55,12 @@
             @foreach(var postDisplay in Model.postDisplayContents)
             {
                 <div class="single-post-display">
-                    <p>@postDisplay.Username</p>
-                    <p>@postDisplay.Content</p>
-                    <p>@postDisplay.CreationDate</p>
-                    <p>@postDisplay.UpvotesCount</p>
+                    <p class="post-username">@postDisplay.Username</p>
+                    <p class="post-content">@postDisplay.Content</p>
+                    <p class="post-creation-date">@postDisplay.CreationDate</p>
+                    <input type="checkbox" class="post-upvote-checkbox">
+                    <i id="post-upvote-favorite" class="material-icons">favorite</i>
+                    <span class="post-upvote-count">@postDisplay.UpvotesCount</span>
                 </div>
             }
             </div>

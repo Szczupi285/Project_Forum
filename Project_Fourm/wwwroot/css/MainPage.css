@@ -56,6 +56,7 @@
 }
 
 .display-post{
+    width:75vh;
     padding-top:60px;
     display:flex;
     align-items:center;
@@ -108,6 +109,7 @@ span.label-text {
 .search-container {
     margin-left: 80px;
 
+
 }
 #search-input {
     background-color: rgb(36, 36, 36);
@@ -154,4 +156,71 @@ span.label-text {
     display: flex;
     flex-direction: column;
     position: relative;
+}
+
+.single-post-display .post-username {
+    color: rgb(231, 233, 234);
+    position: absolute;
+    font-size: 12px;
+    top: 0;
+    left: 0;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.single-post-display .post-content {
+    color: rgb(231, 233, 234);
+    text-align: center;
+    padding:20px;
+}
+
+.single-post-display .post-creation-date {
+    color: rgb(100,100, 100);
+    margin-right:10px;
+    font-size:10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 0;
+}
+
+.single-post-display .post-upvote-checkbox {
+    color: rgb(231, 233, 234);
+    background-color: transparent;
+    border:none;
+    margin-top:7px;
+    margin-right:8px;
+    padding:0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity:0;
+    z-index:1;
+    width:25px;
+    height:25px
+}
+#post-upvote-favorite {
+    color: rgb(231, 233, 234);
+    background-color: transparent;
+    border: none;
+    margin-top: 10px;
+    margin-right: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    transition: color 0.4s;
+}
+
+.single-post-display .post-upvote-checkbox:checked + #post-upvote-favorite {
+    transition: 0.4s;
+    color: orangered;
+}
+.single-post-display .post-upvote-count{
+    color:orangered;
+    position:absolute;
+    margin-top:14px;
+    margin-right:50px;
+    top:0;
+    right:0;
 }
