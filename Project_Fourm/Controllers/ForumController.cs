@@ -27,10 +27,19 @@ namespace Project_Forum.Controllers
             PostService = postService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (User.Identity is not null && User.Identity.IsAuthenticated)
+            {
+                var result = await PostService.RetrivePostContentAsync(15,15);
+                
+                foreach(var res in result)
+                {
+                    string test = $"{res.Username}, {res.Content}, {res.CreationDate}, {res.UpvotesCount}";
+                }
+
                 return View("UserIndex");
+            }
             else
                 return View("GuestIndex");
         }

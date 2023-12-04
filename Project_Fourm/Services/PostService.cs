@@ -1,4 +1,5 @@
 ﻿using Azure;
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
@@ -6,8 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
+using System.Diagnostics;
 using System.Security.Claims;
 
 namespace Project_Forum.Services
@@ -40,7 +43,7 @@ namespace Project_Forum.Services
         /// <returns>The unique identifier (PostId) assigned to the newly added post.</returns>
         public async Task<int> AddPostAsync(string userId, string postContent)
         {
-           
+
             var _Post = new Post
             {
                 UserId = userId,
@@ -74,7 +77,7 @@ namespace Project_Forum.Services
             {
                 var ExistingTag = await Context.Tags.FindAsync(tag);
 
-                if(ExistingTag is null)
+                if (ExistingTag is null)
                 {
                     Tag NonExistingTag = new Tag
                     {
@@ -86,7 +89,7 @@ namespace Project_Forum.Services
 
             }
             await Context.SaveChangesAsync();
-            return Tags;    
+            return Tags;
 
         }
 
@@ -111,7 +114,7 @@ namespace Project_Forum.Services
         {
             var PostTagPKs = new HashSet<(int, string)>();
             var existingPost = await Context.Posts.FindAsync(postId);
-            if(existingPost is not null)
+            if (existingPost is not null)
             {
                 foreach (string tag in tags)
                 {
@@ -131,13 +134,33 @@ namespace Project_Forum.Services
 
         }
 
-
-
-
-
         public Task AddUpvoteAsync()
         {
             throw new NotImplementedException();
         }
+
+
+        public async Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, int DayFilter)
+        {
+
+
+            var query =
+                 (from Post post in Context.Posts
+                  join ApplicationUser users in Context.AspNetUsers on post.UserId equals users.Id
+                  join PostUpvote postUpovtes in Context.PostUpvotes on post.PostId equals postUpovtes.PostId
+                  into UpvGrp
+                  where (post.CreatedAt > DateTime.Now.AddDays(-DayFilter))
+                  orderby UpvGrp.Count() descending
+                  select new PostDisplayContent
+                  (
+                     users.UserName,
+                     post.PostContent,
+                     post.CreatedAt,
+                     UpvGrp.Count()
+                  )).Take(numberOfPosts);
+
+            return await query.ToListAsync();
+        }
+
     }
 }
