@@ -129,7 +129,16 @@ namespace Project_Forum.Services
 
         }
 
-        
+        /// <summary>
+        /// Manages user upvotes for a post asynchronously.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user that performs upvote operation.</param>
+        /// <param name="postId">The unique identifier of the post to be upvoted.</param>
+        ///  /// <remarks>
+        /// Method checks if user already upvoted given post.
+        /// If so it removes the upvote. In other case it adds PostUpvote to the database.
+        /// </remarks>
+        /// <returns>A Task representing the asynchronous operation.</returns>
         public async Task ManageUpvoteAsync(string userId, int postId)
         {
             var existingUpvote = await Context.PostUpvotes.FirstOrDefaultAsync
