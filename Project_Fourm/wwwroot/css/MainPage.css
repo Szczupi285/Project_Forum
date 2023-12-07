@@ -145,6 +145,7 @@ span.label-text {
     flex-direction: column;
     position: relative;
     align-items:center;
+    max-width:100%;
 }
 .single-post-display {
     width: 75%;
@@ -172,6 +173,8 @@ span.label-text {
     color: rgb(231, 233, 234);
     text-align: center;
     padding:20px;
+    word-break:break-all;
+
 }
 
 .single-post-display .post-creation-date {
