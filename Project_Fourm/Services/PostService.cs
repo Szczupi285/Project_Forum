@@ -151,22 +151,24 @@ namespace Project_Forum.Services
         }
 
         /// <summary>
-        /// Retrieves a specified number of posts that has been created (DayFilter) days ago asynchronously.
+        /// Retrieves a specified number of posts that has been created (AgeFilter) hours ago asynchronously.
         /// </summary>
         /// <param name="numberOfPosts">The maximum number of posts to retrieve.</param>
-        /// <param name="DayFilter">The filter that defines how old post can be.</param>
+        /// <param name="AgeFilter">The filter that defines how old post can be.
+        /// The parameter takes value in hours.
+        /// </param>
         /// <returns>
         /// A task representing the asynchronous operation. The task result is a list of PostDisplayContent objects,
         /// containing user information, post content, creation date, and the number of upvotes for each post.
         /// </returns>
         /// <remarks>
         /// This method retrieves posts along with relevant display content, such as user information, post content,
-        /// creation date, and the count of upvotes. The posts are filtered based on the specified number of days
+        /// creation date, and the count of upvotes. The posts are filtered based on the specified number of hours
         /// from the current date. The result is ordered by the descending count of upvotes, and the maximum number of
         /// posts returned is determined by the 'numberOfPosts' parameter.
-        /// maximum post age is determined by the 'DayFilter' parameter.
+        /// maximum post age is determined by the 'AgeFilter' parameter.
         /// </remarks>
-        public async Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, int DayFilter)
+        public async Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, int AgeFilter)
         {
 
 
@@ -175,7 +177,43 @@ namespace Project_Forum.Services
                   join ApplicationUser users in Context.AspNetUsers on post.UserId equals users.Id
                   join PostUpvote postUpovtes in Context.PostUpvotes on post.PostId equals postUpovtes.PostId
                   into UpvGrp
-                  where (post.CreatedAt > DateTime.Now.AddDays(-DayFilter))
+                  where (post.CreatedAt > DateTime.Now.AddHours(-AgeFilter))
+                  orderby UpvGrp.Count() descending
+                  select new PostDisplayContent
+                  (
+                     users.UserName,
+                     post.PostContent,
+                     post.CreatedAt,
+                     UpvGrp.Count(),
+                     post.PostId
+                  )).Take(numberOfPosts);
+
+            return await query.ToListAsync();
+        }
+
+        /// <summary>
+        /// Retrieves a specified number of posts
+        /// </summary>
+        /// <param name="numberOfPosts">The maximum number of posts to retrieve.</param>
+        /// <returns>
+        /// A task representing the asynchronous operation. The task result is a list of PostDisplayContent objects,
+        /// containing user information, post content, creation date, and the number of upvotes for each post.
+        /// </returns>
+        /// <remarks>
+        /// This method retrieves posts along with relevant display content, such as user information, post content,
+        /// creation date, and the count of upvotes. 
+        /// The result is ordered by the descending count of upvotes, and the maximum number of
+        /// posts returned is determined by the 'numberOfPosts' parameter.
+        /// </remarks>
+        public async Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts)
+        {
+
+
+            var query =
+                 (from Post post in Context.Posts
+                  join ApplicationUser users in Context.AspNetUsers on post.UserId equals users.Id
+                  join PostUpvote postUpovtes in Context.PostUpvotes on post.PostId equals postUpovtes.PostId
+                  into UpvGrp
                   orderby UpvGrp.Count() descending
                   select new PostDisplayContent
                   (
