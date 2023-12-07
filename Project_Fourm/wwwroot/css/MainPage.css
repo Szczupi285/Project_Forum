@@ -198,6 +198,11 @@ span.label-text {
     z-index:1;
     width:25px;
     height:25px
+    
+    
+}
+.post-upvote-checkbox{
+    cursor:pointer;
 }
 #post-upvote-favorite {
     color: rgb(231, 233, 234);

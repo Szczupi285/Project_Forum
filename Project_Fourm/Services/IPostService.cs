@@ -14,6 +14,6 @@ namespace Project_Forum.Services
 
         public Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, int DayFilter);
 
-        Task AddUpvoteAsync();
+        Task ManageUpvoteAsync(string userId, int postId);
     }
 }

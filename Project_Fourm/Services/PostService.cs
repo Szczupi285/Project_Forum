@@ -79,12 +79,7 @@ namespace Project_Forum.Services
 
                 if (ExistingTag is null)
                 {
-                    Tag NonExistingTag = new Tag
-                    {
-                        TagName = tag,
-                    };
-
-                    await Context.Tags.AddAsync(NonExistingTag);
+                    await Context.Tags.AddAsync(new Tag { TagName = tag});
                 }
 
             }
@@ -134,12 +129,34 @@ namespace Project_Forum.Services
 
         }
 
-        public Task AddUpvoteAsync()
+        
+        public async Task ManageUpvoteAsync(string userId, int postId)
         {
-            throw new NotImplementedException();
+            var existingUpvote = await Context.PostUpvotes.FirstOrDefaultAsync
+                (up => up.UserId == userId && up.PostId == postId);
+            if(existingUpvote is null)
+               await Context.PostUpvotes.AddAsync(new PostUpvote { UserId = userId, PostId = postId });
+            else
+                Context.PostUpvotes.Remove(existingUpvote);
+                await Context.SaveChangesAsync();
         }
 
-
+        /// <summary>
+        /// Retrieves a specified number of posts that has been created (DayFilter) days ago asynchronously.
+        /// </summary>
+        /// <param name="numberOfPosts">The maximum number of posts to retrieve.</param>
+        /// <param name="DayFilter">The filter that defines how old post can be.</param>
+        /// <returns>
+        /// A task representing the asynchronous operation. The task result is a list of PostDisplayContent objects,
+        /// containing user information, post content, creation date, and the number of upvotes for each post.
+        /// </returns>
+        /// <remarks>
+        /// This method retrieves posts along with relevant display content, such as user information, post content,
+        /// creation date, and the count of upvotes. The posts are filtered based on the specified number of days
+        /// from the current date. The result is ordered by the descending count of upvotes, and the maximum number of
+        /// posts returned is determined by the 'numberOfPosts' parameter.
+        /// maximum post age is determined by the 'DayFilter' parameter.
+        /// </remarks>
         public async Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, int DayFilter)
         {
 
@@ -156,7 +173,8 @@ namespace Project_Forum.Services
                      users.UserName,
                      post.PostContent,
                      post.CreatedAt,
-                     UpvGrp.Count()
+                     UpvGrp.Count(),
+                     post.PostId
                   )).Take(numberOfPosts);
 
             return await query.ToListAsync();

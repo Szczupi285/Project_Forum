@@ -58,7 +58,7 @@
                     <p class="post-username">@postDisplay.Username</p>
                     <p class="post-content">@postDisplay.Content</p>
                     <p class="post-creation-date">@postDisplay.CreationDate</p>
-                    <input type="checkbox" class="post-upvote-checkbox">
+                    <input type="checkbox" class="post-upvote-checkbox" data-postid="@postDisplay.PostId">
                     <i id="post-upvote-favorite" class="material-icons">favorite</i>
                     <span class="post-upvote-count">@postDisplay.UpvotesCount</span>
                 </div>
@@ -66,5 +66,29 @@
             </div>
 
     </div>
-
 }
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('.post-upvote-checkbox').change(function () {
+
+                var postid = $(this).data('postid');
+
+                // Wyślij wartość postId do akcji ManageUpvote na serwerze za pomocą AJAX
+                $.ajax({
+                    url: '@Url.Action("ManageUpvote", "Forum")',
+                    type: 'POST',
+                    data: { postId: postid },
+                    success: function (response) {
+                        console.log(response);
+
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+    }
