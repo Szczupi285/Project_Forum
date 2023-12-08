@@ -151,24 +151,20 @@ namespace Project_Forum.Services
         }
 
         /// <summary>
-        /// Retrieves a specified number of posts that has been created (AgeFilter) hours ago asynchronously.
+        /// Retrieves a specified number of posts that has been created since (showPostSince) asynchronously.
         /// </summary>
         /// <param name="numberOfPosts">The maximum number of posts to retrieve.</param>
-        /// <param name="AgeFilter">The filter that defines how old post can be.
-        /// The parameter takes value in hours.
-        /// </param>
+        /// <param name="showPostSince">The datetime representing the starting point in time for post retrieval.</param>
         /// <returns>
         /// A task representing the asynchronous operation. The task result is a list of PostDisplayContent objects,
         /// containing user information, post content, creation date, and the number of upvotes for each post.
         /// </returns>
         /// <remarks>
-        /// This method retrieves posts along with relevant display content, such as user information, post content,
-        /// creation date, and the count of upvotes. The posts are filtered based on the specified number of hours
-        /// from the current date. The result is ordered by the descending count of upvotes, and the maximum number of
-        /// posts returned is determined by the 'numberOfPosts' parameter.
-        /// maximum post age is determined by the 'AgeFilter' parameter.
+        /// This method performs a query to retrieve post content, user information, creation date, upvote count, and post ID
+        /// from the database based on specified criteria, such as the number of posts and the starting point in time.
+        /// The result is ordered by the count of upvotes in descending order.
         /// </remarks>
-        public async Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, int AgeFilter)
+        public async Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, DateTime showPostSince)
         {
 
 
@@ -177,7 +173,7 @@ namespace Project_Forum.Services
                   join ApplicationUser users in Context.AspNetUsers on post.UserId equals users.Id
                   join PostUpvote postUpovtes in Context.PostUpvotes on post.PostId equals postUpovtes.PostId
                   into UpvGrp
-                  where (post.CreatedAt > DateTime.Now.AddHours(-AgeFilter))
+                  where post.CreatedAt > showPostSince
                   orderby UpvGrp.Count() descending
                   select new PostDisplayContent
                   (

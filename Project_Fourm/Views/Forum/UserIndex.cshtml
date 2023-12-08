@@ -15,32 +15,34 @@
     </div>
 
     <div class="display-post">
+    @using (Html.BeginForm("Index", "Forum", FormMethod.Post))
+    {
         <div class="filters">
                 <div class="choose-hour-filter">
                     <label class="radio-button-label">
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "6h", 
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.sixHours,
             new {@class = "radio-button-style"})
                             <span class="label-text">6h</span>
                     </label>
                     <label class="radio-button-label">
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "12h", 
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.twelveHours, 
             new {@class = "radio-button-style"})
                             <span class="label-text">12h</span>
                     </label>
                     <label class="radio-button-label"> 
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "24h",
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.day,
             new {@class = "radio-button-style"})
-                            <span class="label-text">24h</span>
+                            <span class="label-text">day</span>
                     </label>
                     <label class="radio-button-label">
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "7d",
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.week,
             new {@class = "radio-button-style"})
-                            <span class="label-text">7d</span>
+                            <span class="label-text">week</span>
                     </label>
                     <label class="radio-button-label"> 
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "30d",
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.month,
             new {@class = "radio-button-style"})
-                            <span class="label-text">30d</span>
+                            <span class="label-text">month</span>
                     </label>
                 </div>
 
@@ -51,7 +53,7 @@
                     </button>
                 </div>
         </div>
-
+    }
         <div class="display-post-container">
         @foreach(var postDisplay in Model.postDisplayContents)
 {
@@ -138,4 +140,16 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('input[name="FilterPostsModel.SelectedHourFilter"]').change(function () {
+                // This function will be executed when a radio button is chosen
+
+                // Trigger the form submission
+                $('form').submit();
+            });
+        });
+    </script>
+
     }

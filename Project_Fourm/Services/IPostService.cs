@@ -12,7 +12,7 @@ namespace Project_Forum.Services
 
         Task<HashSet<(int, string)>> AddPostTagsAsync(int postId, HashSet<string> tags);
 
-        public Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, int DayFilter);
+        public Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, DateTime dateTime);
 
         Task ManageUpvoteAsync(string userId, int postId);
     }

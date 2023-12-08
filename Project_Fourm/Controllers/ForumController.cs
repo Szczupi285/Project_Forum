@@ -27,16 +27,17 @@ namespace Project_Forum.Controllers
             PostService = postService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(PostCompositeModel model)
         {
             if (User.Identity is not null && User.Identity.IsAuthenticated)
             {
 
-                var postCompositeModel = new PostCompositeModel();
-                postCompositeModel.postDisplayContents = await PostService.RetrivePostContentAsync(15, 15);
+               
+                var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
+                model.postDisplayContents = await PostService.RetrivePostContentAsync(15, date);
 
 
-                return View("UserIndex", postCompositeModel);
+                return View("UserIndex", model);
             }
             else
                 return View("GuestIndex");
