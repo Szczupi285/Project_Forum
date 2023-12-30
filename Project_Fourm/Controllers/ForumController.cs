@@ -29,18 +29,13 @@ namespace Project_Forum.Controllers
 
         public async Task<IActionResult> Index(PostCompositeModel model)
         {
+            var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
+            model.postDisplayContents = await PostService.RetrivePostContentAsync(15, date);
+
             if (User.Identity is not null && User.Identity.IsAuthenticated)
-            {
-
-               
-                var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
-                model.postDisplayContents = await PostService.RetrivePostContentAsync(15, date);
-
-
                 return View("UserIndex", model);
-            }
             else
-                return View("GuestIndex");
+                return View("GuestIndex", model);
         }
 
         [HttpGet]

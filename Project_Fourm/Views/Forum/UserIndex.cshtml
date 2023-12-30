@@ -70,7 +70,6 @@
 
     </div>
 }
-
 @section scripts {
     <!--increment/decrement the post-upvote-count after post-upvote-checkbox state change-->
     <!--It also sends postId to ManageUpvote action in Controller-->
@@ -143,8 +142,8 @@
 
     <script>
         $(document).ready(function () {
-            $('input[name="FilterPostsModel.SelectedHourFilter"]').change(function () {
-                // This function will be executed when a radio button is chosen
+            // This function will be executed when a radio button is chosen
+            $('input[class="radio-button-style"]').change(function () {
 
                 // Trigger the form submission
                 $('form').submit();

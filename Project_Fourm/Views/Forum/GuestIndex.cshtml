@@ -4,40 +4,141 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-
     <div class="display-post">
-        <div class="choose-hour-filter">
-            <label class="radio-button-label">
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "6h",
-            new {@class = "radio-button-style"})
-                <span class="label-text">6h</span>
-            </label>
-            <label class="radio-button-label">
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "12h",
-            new {@class = "radio-button-style"})
-                <span class="label-text">12h</span>
-            </label>
-            <label class="radio-button-label">
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "24h",
-            new {@class = "radio-button-style"})
-                <span class="label-text">24h</span>
-            </label>
-            <label class="radio-button-label">
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "7d",
-            new {@class = "radio-button-style"})
-                <span class="label-text">7d</span>
-            </label>
-            <label class="radio-button-label">
-                @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedHourFilter, "30d",
-            new {@class = "radio-button-style"})
-                <span class="label-text">30d</span>
-            </label>
+        @using (Html.BeginForm("Index", "Forum", FormMethod.Post))
+        {
+            <div class="filters">
+                <div class="choose-hour-filter">
+                    <label class="radio-button-label">
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.sixHours,
+                new {@class = "radio-button-style"})
+                        <span class="label-text">6h</span>
+                    </label>
+                    <label class="radio-button-label">
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.twelveHours,
+                new {@class = "radio-button-style"})
+                        <span class="label-text">12h</span>
+                    </label>
+                    <label class="radio-button-label">
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.day,
+                new {@class = "radio-button-style"})
+                        <span class="label-text">day</span>
+                    </label>
+                    <label class="radio-button-label">
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.week,
+                new {@class = "radio-button-style"})
+                        <span class="label-text">week</span>
+                    </label>
+                    <label class="radio-button-label">
+                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.month,
+                new {@class = "radio-button-style"})
+                        <span class="label-text">month</span>
+                    </label>
+                </div>
+
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Choose tag...">
+                    <button class="search-button" value="search">
+                        <i class="material-icons">search</i>
+                    </button>
+                </div>
+            </div>
+        }
+        <div class="display-post-container">
+            @foreach (var postDisplay in Model.postDisplayContents)
+            {
+                <div class="single-post-display">
+                    <p class="post-username">@postDisplay.Username</p>
+                    <p class="post-content">@postDisplay.Content</p>
+                    <p class="post-creation-date">@postDisplay.CreationDate</p>
+                    <input type="checkbox" class="post-upvote-checkbox" data-postid="@postDisplay.PostId">
+                    <i id="post-upvote-favorite" class="material-icons">favorite</i>
+                    <span class="post-upvote-count">@postDisplay.UpvotesCount</span>
+                </div>
+            }
         </div>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Choose tag...">
-            <button class="search-button" value="search">
-                <i class="material-icons">search</i>
-            </button>
-        </div>
+
     </div>
 }
+@section scripts {
+    <!--increment/decrement the post-upvote-count after post-upvote-checkbox state change-->
+    <!--It also sends postId to ManageUpvote action in Controller-->
+    <script>
+        $(document).ready(function () {
+            $('.post-upvote-checkbox').change(function () {
+
+                var postid = $(this).data('postid');
+                var icon = document.getElementById('post-upvote-favorite');
+
+                var countNumElement = $(this).closest('.single-post-display').find('.post-upvote-count');
+
+                var isChecked = $(this).prop('checked');
+
+                // Increment or decrement the count based on the checkbox state
+                var newCount = parseInt(countNumElement.text()) + (isChecked ? 1 : -1);
+
+
+                // Update the displayed count
+                countNumElement.text(newCount);
+
+                // send postId to ManageUpvote action
+                $.ajax({
+                    url: '@Url.Action("ManageUpvote", "Forum")',
+                    type: 'POST',
+                    data: { postId: postid },
+                    success: function (response) {
+                        console.log(response);
+
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+    <!--
+    stores state of post-upvote-checkbox in local storage
+    Local storage is used because of the ammount of records that will be stored in PostUpvotes
+    and efficency of getting records for certain (user, post) pair from such a big dataset
+
+    Note: consider method to clear data storage and get values from db in some scenarios.
+    For example store information about all checkboxes user loaded and expire them after a day.
+    Then while loading page check if user store information about loaded posts and for those post
+    that he doesn't store information for, get value of PostUpvotes and change the state of checkbox based
+    on that information'
+    -->
+    <script>
+        $(document).ready(function () {
+            $('.post-upvote-checkbox').change(function () {
+                var postid = $(this).data('postid');
+                var isChecked = $(this).prop('checked');
+
+                // Store the checkbox state in local storage
+                localStorage.setItem('PC' + postid, isChecked);
+
+                var icon = document.getElementById('post-upvote-favorite');
+                var countNumElement = $(this).closest('.single-post-display').find('.post-upvote-count');
+            });
+
+            // Load the state of checkboxes from local storage on page load
+            $('.post-upvote-checkbox').each(function () {
+                var postid = $(this).data('postid');
+                var isChecked = localStorage.getItem('PC' + postid) === 'true';
+                $(this).prop('checked', isChecked);
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // This function will be executed when a radio button is chosen
+            $('input[class="radio-button-style"]').change(function () {
+
+                // Trigger the form submission
+                $('form').submit();
+            });
+        });
+    </script>
+
+    }
