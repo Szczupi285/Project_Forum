@@ -15,7 +15,10 @@ namespace Project_Forum.Services
         UserManager<ApplicationUser> UserManager { get; }
         SignInManager<ApplicationUser> SignInManager { get; }
 
-        public LoginService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        
+
+        public LoginService(UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -36,6 +39,7 @@ namespace Project_Forum.Services
         public async Task EstablishSession(IHttpContextAccessor httpContextAccessor, LoginModel model)
         {
             var user = await UserManager.FindByNameAsync(model.Username);
+            
 
 
             var claims = new List<Claim>

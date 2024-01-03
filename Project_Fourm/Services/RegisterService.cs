@@ -41,6 +41,8 @@ namespace Project_Forum.Services
 
             var result = await userManager.CreateAsync(user, model.Password);
 
+           
+
             return result.Succeeded;
                        
 

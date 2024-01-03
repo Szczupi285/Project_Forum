@@ -21,6 +21,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString
 
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ForumProjectContext>().AddDefaultTokenProviders();
    
     
@@ -58,5 +59,18 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Forum}/{action=LogOut}/{id?}");
+
+using(var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    var roles = new[] { "Admin", "Moderator", "User" };
+
+    foreach(var role in roles)
+    {
+         if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+}
 
 app.Run();

@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace Project_Forum.Models.Entities;
 
-public partial class ForumProjectContext : DbContext
+public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
 {
     public ForumProjectContext()
     {
@@ -15,8 +18,6 @@ public partial class ForumProjectContext : DbContext
         : base(options)
     {
     }
-    public DbSet<IdentityUserClaim<string>> AspNetUserClaims { get; set; }
-
     public virtual DbSet<ApplicationUser> AspNetUsers { get; set; }
 
     public virtual DbSet<Post> Posts { get; set; }
@@ -42,6 +43,7 @@ public partial class ForumProjectContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
         modelBuilder.Entity<ApplicationUser>(entity =>
         {
             entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
@@ -56,6 +58,8 @@ public partial class ForumProjectContext : DbContext
             entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
             entity.Property(e => e.UserName).HasMaxLength(256);
         });
+
+      
 
         modelBuilder.Entity<Post>(entity =>
         {
@@ -179,7 +183,7 @@ public partial class ForumProjectContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("tag_name");
         });
-
+        base.OnModelCreating(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }
 

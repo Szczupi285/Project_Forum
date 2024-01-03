@@ -39,7 +39,6 @@ namespace Project_Forum.Controllers
             {
                 LoginService loginService = new LoginService(UserManager, SignInManager);
 
-
                 bool result = await loginService.ValidateCreditentials(model);
                 if(result == true)
                 {
@@ -70,9 +69,13 @@ namespace Project_Forum.Controllers
             if (ModelState.IsValid)
             {
                 bool result = await RegisterService.RegisterUser(UserManager, model,ModelState);
+
                     
-                if(result == true) 
+                if(result == true)
+                {
+                    
                     return RedirectToAction("Login");
+                }
                 else
                     return View(model);
         }

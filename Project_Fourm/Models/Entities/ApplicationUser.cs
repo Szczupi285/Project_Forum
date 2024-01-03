@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project_Forum.Models.Entities
 {
+    
     public class ApplicationUser : IdentityUser
     {
         public DateTime DateOfBirth { get; set; }
