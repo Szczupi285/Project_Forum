@@ -39,16 +39,17 @@ namespace Project_Forum.Services
         public async Task EstablishSession(IHttpContextAccessor httpContextAccessor, LoginModel model)
         {
             var user = await UserManager.FindByNameAsync(model.Username);
-            
 
+            var roles = await UserManager.GetRolesAsync(user);
 
             var claims = new List<Claim>
             {
             new Claim("Username", user.UserName),
             new Claim("Email", user.Email),
             new Claim("UserId", user.Id),
-            new Claim(ClaimTypes.Role, "User"),
             };
+            foreach (var role in roles)
+                claims.Add(new Claim(ClaimTypes.Role, role));
 
             var claimsIdentity = new ClaimsIdentity(
                 claims, CookieAuthenticationDefaults.AuthenticationScheme);

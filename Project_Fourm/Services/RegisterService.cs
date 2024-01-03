@@ -40,8 +40,9 @@ namespace Project_Forum.Services
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
+            var CreatedUser = await userManager.FindByNameAsync(model.Username);
 
-           
+            await userManager.AddToRoleAsync(CreatedUser, "User");
 
             return result.Succeeded;
                        

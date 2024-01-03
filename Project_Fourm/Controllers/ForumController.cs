@@ -31,8 +31,11 @@ namespace Project_Forum.Controllers
         {
             var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
             model.postDisplayContents = await PostService.RetrivePostContentAsync(15, date);
-
-            if (User.Identity is not null && User.Identity.IsAuthenticated)
+            if (User.IsInRole("Admin"))
+                return View("AdminIndex");
+            else if (User.IsInRole("Moderator"))
+                return View("ModeratorIndex");
+            else if (User.IsInRole("User"))
                 return View("UserIndex", model);
             else
                 return View("GuestIndex", model);
