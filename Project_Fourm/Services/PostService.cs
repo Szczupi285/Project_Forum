@@ -27,7 +27,7 @@ namespace Project_Forum.Services
             UserManager = userManager;
         }
 
-
+        #region POSTS
         /// <summary>
         /// Asynchronously adds a new post to the database.
         /// </summary>
@@ -222,6 +222,93 @@ namespace Project_Forum.Services
 
             return await query.ToListAsync();
         }
+        #endregion
 
+        #region RESPONDS
+        /// <summary>
+        /// Asynchronously adds a new respond to the database.
+        /// </summary>
+        /// <param name="postId">The identifier of the post respond is reffering to</param>
+        /// <param name="userId">The identifier of the user creating the post.</param>
+        /// <param name="respondContent">The content of the respond.</param>
+        /// <remarks>
+        /// Creates a new respond entity with the provided post ID, user ID and post content, <br></br>
+        /// adds it to the database, and asynchronously saves the changes.
+        /// </remarks>
+        public async Task AddRespondAsync(int postId, string userId, string respondContent)
+        {
+            var Respond = new Respond
+            {
+                PostId = postId,
+                RepondContent = respondContent,
+                UserId = userId,
+                CreatedAt = DateTime.Now,
+                
+            };
+
+            await Context.AddAsync(Respond);
+            await Context.SaveChangesAsync();
+
+        }
+
+        /// <summary>
+        /// Manages user upvotes for a respond asynchronously.
+        /// </summary>
+        /// <param name="userId">The unique identifier of the user that performs upvote operation.</param>
+        /// <param name="postId">The unique identifier of the respond to be upvoted.</param>
+        /// <remarks>
+        /// Method checks if user already upvoted given respond.
+        /// If so it removes the upvote. In other case it adds RespondUpvote to the database.
+        /// </remarks>
+        /// <returns>A Task representing the asynchronous operation.</returns>
+        public async Task ManageRespondUpvoteAsync(string userId, int respondId)
+        {
+            var existingUpvote = await Context.RespondUpvotes.FirstOrDefaultAsync
+                (up => up.UserId == userId && up.RespondId == respondId);
+            if (existingUpvote is null)
+                await Context.RespondUpvotes.AddAsync(new RespondUpvote { UserId = userId, RespondId = respondId });
+            else
+                Context.RespondUpvotes.Remove(existingUpvote);
+            await Context.SaveChangesAsync();
+        }
+
+
+        /// <summary>
+        /// Retrieves responds of given post
+        /// </summary>
+        /// <param name="postId">Id of post for which we want to retrive responds</param>
+        /// <returns>
+        /// A task representing the asynchronous operation. The task result is a list of RespondDisplayContent objects,
+        /// containing user information, respond content, respond Id, creation date, Id of post respond is reffering to, and the number of upvotes for each post.
+        /// </returns>
+        /// <remarks>
+        /// This method retrieves respond along with relevant display content, such as user information, respond content,
+        /// respond Id, Id of post respond is refeering to, creation date, and the count of upvotes. 
+        /// </remarks>
+        public async Task<List<RespondDisplayContent>> RetriveRespondContentAsync(int postId)
+        {
+
+
+            var query =
+                 (from Respond respond in Context.Responds
+                  join ApplicationUser users in Context.AspNetUsers on respond.UserId equals users.Id
+                  join RespondUpvote respondUpovtes in Context.RespondUpvotes on respond.RespondId equals respondUpovtes.RespondId
+                  into UpvGrp
+                  orderby UpvGrp.Count() descending
+                  where respond.PostId == postId
+                  select new RespondDisplayContent
+                  (
+                     users.UserName,
+                     respond.RepondContent,
+                     respond.CreatedAt,
+                     UpvGrp.Count(),
+                     respond.RespondId,
+                     respond.PostId
+                  ));
+
+            return await query.ToListAsync();
+        }
+
+        #endregion
     }
 }

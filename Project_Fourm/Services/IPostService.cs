@@ -15,5 +15,11 @@ namespace Project_Forum.Services
         public Task<List<PostDisplayContent>> RetrivePostContentAsync(int numberOfPosts, DateTime dateTime);
 
         Task ManageUpvoteAsync(string userId, int postId);
+
+        Task AddRespondAsync(int postId, string userId, string respondContent);
+
+        Task ManageRespondUpvoteAsync(string userId, int respondId);
+
+        Task<List<RespondDisplayContent>> RetriveRespondContentAsync(int postId);
     }
 }

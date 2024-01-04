@@ -16,6 +16,8 @@ namespace Project_Forum.Models
 
         public RespondUpvote RespondUpvoteModel { get; set; } = new RespondUpvote();
 
-        public List<PostDisplayContent> postDisplayContents { get; set; } = new List<PostDisplayContent>();
+        public HashSet<(PostDisplayContent, List<RespondDisplayContent>)> PostDisplayContents { get; set; } = new HashSet<(PostDisplayContent, List<RespondDisplayContent>)>();
+
+        
     }
 }

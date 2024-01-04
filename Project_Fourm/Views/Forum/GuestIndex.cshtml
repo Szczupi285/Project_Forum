@@ -46,16 +46,17 @@
             </div>
         }
         <div class="display-post-container">
-            @foreach (var postDisplay in Model.postDisplayContents)
+            @foreach (var postDisplay in Model.PostDisplayContents)
             {
                 <div class="single-post-display">
-                    <p class="post-username">@postDisplay.Username</p>
-                    <p class="post-content">@postDisplay.Content</p>
-                    <p class="post-creation-date">@postDisplay.CreationDate</p>
-                    <input type="checkbox" class="post-upvote-checkbox" data-postid="@postDisplay.PostId">
+                    <p class="post-username">@postDisplay.Item1.Username</p>
+                    <p class="post-content">@postDisplay.Item1.Content</p>
+                    <p class="post-creation-date">@postDisplay.Item1.CreationDate</p>
+                    <input type="checkbox" class="post-upvote-checkbox" data-postid="@postDisplay.Item1.PostId">
                     <i id="post-upvote-favorite" class="material-icons">favorite</i>
-                    <span class="post-upvote-count">@postDisplay.UpvotesCount</span>
+                    <span class="post-upvote-count">@postDisplay.Item1.UpvotesCount</span>
                 </div>
+              
             }
         </div>
 

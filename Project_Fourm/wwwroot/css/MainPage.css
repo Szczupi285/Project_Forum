@@ -8,7 +8,7 @@
     flex-direction:column;
     
 }
-
+/*SEND POST*/
 .send-post-form{
     width: 35%;
     height: 25vh;
@@ -54,6 +54,57 @@
     font-size: 24px;
     color: rgb(231, 233, 234);
 }
+
+/*SEND RESPOND*/
+.send-respond-form {
+    margin-left: 175px;
+    width: 75vh;
+    height: auto;
+    margin-top: 10px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+#respond-message {
+    background-color: rgb(36, 36, 36);
+    color: rgb(231, 233, 234);
+    margin-top: 15px;
+    padding: 30px;
+    padding-right: 50px;
+    border: none;
+    resize: none;
+    width: calc(100% - 80px);
+    height: 10vh;
+    border-radius: 15px;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: pre-line;
+    position: relative;
+}
+
+#respond-message::-webkit-scrollbar {
+    display: none;
+}
+
+
+#send-respond-button {
+    position: absolute;
+    right: 10px;
+    bottom: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+#send-respond-button i {
+    font-size: 24px;
+    color: rgb(231, 233, 234);
+}
+
+
+
+
 
 .display-post{
     width:75vh;
@@ -138,7 +189,6 @@ span.label-text {
     position: relative;
 }
 
-
 .display-post-container {
     margin-top: 50px;
     display: flex;
@@ -147,6 +197,8 @@ span.label-text {
     align-items:center;
     max-width:100%;
 }
+
+/*POST*/
 .single-post-display {
     width: 75%;
     height: auto;
@@ -231,4 +283,94 @@ span.label-text {
     margin-right:50px;
     top:0;
     right:0;
+}
+
+
+
+/*RESPOND*/
+
+.single-respond-display {
+    margin-left:175px;
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+    background-color: rgb(36, 36, 36);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.single-respond-display .respond-username {
+    color: rgb(231, 233, 234);
+    position: absolute;
+    font-size: 12px;
+    top: 0;
+    left: 0;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.single-respond-display .respond-content {
+    color: rgb(231, 233, 234);
+    text-align: center;
+    padding: 20px;
+    word-break: break-all;
+}
+
+.single-respond-display .respond-creation-date {
+    color: rgb(100,100, 100);
+    margin-right: 10px;
+    font-size: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 0;
+}
+
+.single-respond-display .respond-upvote-checkbox {
+    color: rgb(231, 233, 234);
+    background-color: transparent;
+    border: none;
+    margin-top: 7px;
+    margin-right: 8px;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    z-index: 1;
+    width: 25px;
+    height: 25px
+}
+
+.respond-upvote-checkbox {
+    cursor: pointer;
+}
+
+#respond-upvote-favorite {
+    color: rgb(231, 233, 234);
+    background-color: transparent;
+    border: none;
+    margin-top: 10px;
+    margin-right: 10px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    transition: color 0.4s;
+}
+
+.single-respond-display .respond-upvote-checkbox:checked + #respond-upvote-favorite {
+    transition: 0.4s;
+    color: orangered;
+}
+
+.single-respond-display .respond-upvote-count {
+    color: orangered;
+    position: absolute;
+    margin-top: 14px;
+    margin-right: 50px;
+    top: 0;
+    right: 0;
 }
