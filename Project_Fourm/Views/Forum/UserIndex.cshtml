@@ -82,7 +82,7 @@
                     <p class="respond-username">@respondDisplay.Username</p>
                     <p class="respond-content">@respondDisplay.Content</p>
                     <p class="respond-creation-date">@respondDisplay.CreationDate</p>
-                    <input type="checkbox" class="respond-upvote-checkbox" data-postid="@respondDisplay.PostId">
+                    <input type="checkbox" class="respond-upvote-checkbox" data-respondid="@respondDisplay.RespondId">
                     <i id="respond-upvote-favorite" class="material-icons">favorite</i>
                     <span class="respond-upvote-count">@respondDisplay.UpvotesCount</span>
                 </div>  
@@ -161,6 +161,90 @@
             });
         });
     </script>
+
+
+
+
+
+    <!--increment/decrement the respond-upvote-count after respond-upvote-checkbox state change-->
+    <!--It also sends respondId to ManageRespondUpvote action in Controller-->
+    <script>
+        $(document).ready(function () {
+            $('.respond-upvote-checkbox').change(function () {
+
+                var respondid = $(this).data('respondid');
+                var icon = document.getElementById('respond-upvote-favorite');
+
+                var countNumElement = $(this).closest('.single-respond-display').find('.respond-upvote-count');
+
+                var isChecked = $(this).prop('checked');
+
+                // Increment or decrement the count based on the checkbox state
+                var newCount = parseInt(countNumElement.text()) + (isChecked ? 1 : -1);
+
+
+                // Update the displayed count
+                countNumElement.text(newCount);
+
+                // send respondId to ManageUpvote action
+                $.ajax({
+                    url: '@Url.Action("ManageRespondUpvote", "Forum")',
+                    type: 'POST',
+                    data: { respondId: respondid },
+                    success: function (response) {
+                        console.log(response);
+
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+    </script>
+    <!--
+    stores state of respond-upvote-checkbox in local storage
+    Local storage is used because of the ammount of records that will be stored in PostUpvotes
+    and efficency of getting records for certain (user, post) pair from such a big dataset
+
+    Note: consider method to clear data storage and get values from db in some scenarios.
+    For example store information about all checkboxes user loaded and expire them after a day.
+    Then while loading page check if user store information about loaded posts and for those post
+    that he doesn't store information for, get value of PostUpvotes and change the state of checkbox based
+    on that information'
+    -->
+    <script>
+        $(document).ready(function () {
+            $('.respond-upvote-checkbox').change(function () {
+                var respondid = $(this).data('respondid');
+                var isChecked = $(this).prop('checked');
+
+                // Store the checkbox state in local storage
+                localStorage.setItem('RC' + postid, isChecked);
+
+                var icon = document.getElementById('respond-upvote-favorite');
+                var countNumElement = $(this).closest('.single-respond-display').find('.respond-upvote-count');
+            });
+
+            // Load the state of checkboxes from local storage on page load
+            $('.respond-upvote-checkbox').each(function () {
+                var respondid = $(this).data('respondid');
+                var isChecked = localStorage.getItem('RC' + respondid) === 'true';
+                $(this).prop('checked', isChecked);
+            });
+        });
+    </script>
+
+
+
+
+
+
+
+
+
+
+
 
     <script>
         $(document).ready(function () {

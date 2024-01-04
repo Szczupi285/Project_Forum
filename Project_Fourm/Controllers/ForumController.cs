@@ -72,6 +72,20 @@ namespace Project_Forum.Controllers
             }
                 
         }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ManageUpvote(int postId)
+        {
+            if (User.FindFirstValue("UserId") is not null)
+            {
+                await PostService.ManageUpvoteAsync(User.FindFirstValue("UserId"), postId);
+                return StatusCode(201);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
 
         [HttpPost]
         [Authorize]
@@ -92,11 +106,11 @@ namespace Project_Forum.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> ManageUpvote(int postId)
+        public async Task<IActionResult> ManageRespondUpvote(int respondId)
         {
-            if(User.FindFirstValue("UserId") is not null)
+            if (User.FindFirstValue("UserId") is not null)
             {
-                await PostService.ManageUpvoteAsync(User.FindFirstValue("UserId"), postId);
+                await PostService.ManageRespondUpvoteAsync(User.FindFirstValue("UserId"), respondId);
                 return StatusCode(201);
             }
             else
@@ -104,6 +118,8 @@ namespace Project_Forum.Controllers
                 return NoContent();
             }
         }
+
+
 
 
         public IActionResult Error()
