@@ -181,7 +181,8 @@ namespace Project_Forum.Services
                      post.PostContent,
                      post.CreatedAt,
                      UpvGrp.Count(),
-                     post.PostId
+                     post.PostId,
+                     post.UserId
                   )).Take(numberOfPosts);
 
             return await query.ToListAsync();
@@ -217,7 +218,8 @@ namespace Project_Forum.Services
                      post.PostContent,
                      post.CreatedAt,
                      UpvGrp.Count(),
-                     post.PostId
+                     post.PostId,
+                     post.UserId
                   )).Take(numberOfPosts);
 
             return await query.ToListAsync();
@@ -303,7 +305,8 @@ namespace Project_Forum.Services
                      respond.CreatedAt,
                      UpvGrp.Count(),
                      respond.RespondId,
-                     respond.PostId
+                     respond.PostId,
+                     respond.UserId
                   ));
 
             return await query.ToListAsync();

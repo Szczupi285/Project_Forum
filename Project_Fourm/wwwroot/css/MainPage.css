@@ -374,3 +374,69 @@ span.label-text {
     top: 0;
     right: 0;
 }
+
+/*REPORT BUTTONS*/
+#post-report-button {
+    position: absolute;
+    top:0;
+    right:0;
+    z-index:10;
+    margin-top: 9px;
+    margin-right: 70px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#post-report-button i {
+    background-color: transparent;
+}
+
+#respond-report-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    margin-top: 9px;
+    margin-right: 70px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#respond-report-button i {
+    background-color: transparent;
+}
+
+/*DELETE BUTTONS*/
+#post-delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    margin-top: 9px;
+    margin-right: 70px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#post-delete-button i {
+    background-color: transparent;
+}
+
+#respond-delete-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    margin-top: 9px;
+    margin-right: 70px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#respond-delete-button i {
+    background-color: transparent;
+}

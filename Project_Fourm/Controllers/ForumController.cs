@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Project_.Models;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
@@ -29,6 +30,9 @@ namespace Project_Forum.Controllers
 
         public async Task<IActionResult> Index(PostCompositeModel model)
         {
+            // Assigning the value here so we only use FindFirstValue once instead of once per post/respond in foreach loop
+            model.CurrentUserId = User.FindFirstValue("UserId");
+
             var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
             var posts = await PostService.RetrivePostContentAsync(15, date);
             foreach (var post in posts)
@@ -112,6 +116,32 @@ namespace Project_Forum.Controllers
             {
                 await PostService.ManageRespondUpvoteAsync(User.FindFirstValue("UserId"), respondId);
                 return StatusCode(201);
+            }
+            else
+            {
+                return NoContent();
+            }
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> HandlePostButtons(string action)
+        {
+            if (User.FindFirstValue("UserId") is not null)
+            {
+                switch (action)
+                {
+                    case "DeletePost":
+                        throw new NotImplementedException();
+                    case "ReportPost":
+                        throw new NotImplementedException();
+                    case "DeleteRespond":
+                        throw new NotImplementedException();
+                    case "ReportRespond":
+                        throw new NotImplementedException();
+                        default: throw new NotImplementedException();
+
+                }
             }
             else
             {

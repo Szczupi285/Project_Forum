@@ -54,41 +54,76 @@
                 </div>
         </div>
     }
-        <div class="display-post-container">
-        @foreach(var postDisplay in Model.PostDisplayContents)
+
+        @using (Html.BeginForm("HandlePostButtons", "Forum", FormMethod.Post))
         {
-            <div class="single-post-display">
-                <p class="post-username">@postDisplay.Item1.Username</p>
-                <p class="post-content">@postDisplay.Item1.Content</p>
-                <p class="post-creation-date">@postDisplay.Item1.CreationDate</p>
-                <input type="checkbox" class="post-upvote-checkbox" data-postid="@postDisplay.Item1.PostId">
-                <i id="post-upvote-favorite" class="material-icons">favorite</i>
-                <span class="post-upvote-count">@postDisplay.Item1.UpvotesCount</span>
-            </div>
-
-            <div class="send-respond-form">
-            <form method="POST" asp-controller="Forum" asp-action="CreateRespond">
-                <input type="hidden" name="postId" value="@postDisplay.Item1.PostId">
-                <textarea id="respond-message" placeholder="Respond..." asp-for="RespondModel.RepondContent"></textarea>
-                <button type="submit" id="send-respond-button" value="x" >
-                    <i class="material-icons">send</i>
-                </button>
-            </form>
-            </div>
-
-            @foreach (var respondDisplay in postDisplay.Item2)
+            <div class="display-post-container">
+            @foreach(var postDisplay in Model.PostDisplayContents)
             {
-                <div class="single-respond-display">
-                    <p class="respond-username">@respondDisplay.Username</p>
-                    <p class="respond-content">@respondDisplay.Content</p>
-                    <p class="respond-creation-date">@respondDisplay.CreationDate</p>
-                    <input type="checkbox" class="respond-upvote-checkbox" data-respondid="@respondDisplay.RespondId">
-                    <i id="respond-upvote-favorite" class="material-icons">favorite</i>
-                    <span class="respond-upvote-count">@respondDisplay.UpvotesCount</span>
-                </div>  
+                <div class="single-post-display">
+                    <p class="post-username">@postDisplay.Item1.Username</p>
+                    <p class="post-content">@postDisplay.Item1.Content</p>
+                    <p class="post-creation-date">@postDisplay.Item1.CreationDate</p>
+                    <input type="checkbox" class="post-upvote-checkbox" data-postid="@postDisplay.Item1.PostId">
+                    <i id="post-upvote-favorite" class="material-icons">favorite</i>
+                    <span class="post-upvote-count">@postDisplay.Item1.UpvotesCount</span>
+
+             
+
+                    @if (Model.CurrentUserId == postDisplay.Item1.UserId)
+                    {
+                        <button type="submit" name="action" id="post-delete-button" value="deletePost">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" name="action" id="post-report-button" value="ReportPost">
+                            <i class="material-icons">flag</i>
+                        </button>
+                    }
+                </div>
+
+                <div class="send-respond-form">
+                    <form method="POST" asp-controller="Forum" asp-action="CreateRespond">
+                        <input type="hidden" name="postId" value="@postDisplay.Item1.PostId">
+                        <textarea id="respond-message" placeholder="Respond..." asp-for="RespondModel.RepondContent"></textarea>
+                        <button type="submit" id="send-respond-button" value="x" >
+                            <i class="material-icons">send</i>
+                        </button>
+                    </form>
+                </div>
+
+            
+
+                @foreach (var respondDisplay in postDisplay.Item2)
+                {
+                    <div class="single-respond-display">
+                        <p class="respond-username">@respondDisplay.Username</p>
+                        <p class="respond-content">@respondDisplay.Content</p>
+                        <p class="respond-creation-date">@respondDisplay.CreationDate</p>
+                        <input type="checkbox" class="respond-upvote-checkbox" data-respondid="@respondDisplay.RespondId">
+                        <i id="respond-upvote-favorite" class="material-icons">favorite</i>
+                        <span class="respond-upvote-count">@respondDisplay.UpvotesCount</span>
+
+
+                        @if (Model.CurrentUserId == respondDisplay.UserId)
+                        {
+                             <button type="submit" name="action" id="respond-delete-button" value="DeleteRespond">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" name="action" id="respond-report-button" value="ReportRespond">
+                                <i class="material-icons">flag</i>
+                            </button>
+                        }
+                    </div>  
+                }
             }
+            </div>
         }
-        </div>
 
     </div>
 }
