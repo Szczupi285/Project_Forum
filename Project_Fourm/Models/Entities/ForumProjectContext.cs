@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 
 namespace Project_Forum.Models.Entities;
 
@@ -18,11 +15,14 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
         : base(options)
     {
     }
+
     public virtual DbSet<ApplicationUser> AspNetUsers { get; set; }
 
     public virtual DbSet<Post> Posts { get; set; }
 
     public virtual DbSet<PostUpvote> PostUpvotes { get; set; }
+
+    public virtual DbSet<ReportedContent> ReportedContents { get; set; }
 
     public virtual DbSet<Respond> Responds { get; set; }
 
@@ -43,7 +43,6 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
         modelBuilder.Entity<ApplicationUser>(entity =>
         {
             entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
@@ -58,8 +57,6 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
             entity.Property(e => e.UserName).HasMaxLength(256);
         });
-
-      
 
         modelBuilder.Entity<Post>(entity =>
         {
@@ -91,7 +88,6 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
                         .HasConstraintName("FK_PostTag_Tag"),
                     l => l.HasOne<Post>().WithMany()
                         .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("FK_PostTag_Post"),
                     j =>
                     {
@@ -117,13 +113,44 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.Post).WithMany(p => p.PostUpvotes)
                 .HasForeignKey(d => d.PostId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PostUpvotes_Post");
 
             entity.HasOne(d => d.User).WithMany(p => p.PostUpvotes)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_PostUpvotes_User");
+        });
+
+        modelBuilder.Entity<ReportedContent>(entity =>
+        {
+            entity.HasKey(e => e.ReportId).HasName("PK__Reported__D5BD48058D9919DE");
+
+            entity.ToTable("Reported_Content");
+
+            entity.Property(e => e.Content).HasColumnType("text");
+            entity.Property(e => e.ContentId).HasColumnName("Content_id");
+            entity.Property(e => e.ContentType)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .IsFixedLength()
+                .HasColumnName("Content_type");
+            entity.Property(e => e.IsResolved).HasColumnName("is_resolved");
+            entity.Property(e => e.ModeratorId).HasMaxLength(450);
+            entity.Property(e => e.Reason)
+                .HasMaxLength(200)
+                .HasColumnName("reason");
+            entity.Property(e => e.ReportedUserId).HasMaxLength(450);
+            entity.Property(e => e.Resolution)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .IsFixedLength();
+            entity.Property(e => e.SubmitterId)
+                .HasMaxLength(450)
+                .HasColumnName("Submitter_id");
+
+            entity.HasOne(d => d.Moderator).WithMany(p => p.ReportedContents)
+                .HasForeignKey(d => d.ModeratorId)
+                .HasConstraintName("FK__Reported___Moder__1AD3FDA4");
         });
 
         modelBuilder.Entity<Respond>(entity =>
@@ -144,7 +171,6 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.Post).WithMany(p => p.Responds)
                 .HasForeignKey(d => d.PostId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_RespondPost");
 
             entity.HasOne(d => d.User).WithMany(p => p.Responds)
@@ -165,7 +191,6 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
 
             entity.HasOne(d => d.Respond).WithMany(p => p.RespondUpvotes)
                 .HasForeignKey(d => d.RespondId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_RespondUpvotes_Respond");
 
             entity.HasOne(d => d.User).WithMany(p => p.RespondUpvotes)
@@ -183,6 +208,7 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
                 .IsUnicode(false)
                 .HasColumnName("tag_name");
         });
+
         base.OnModelCreating(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }

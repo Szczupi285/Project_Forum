@@ -20,5 +20,8 @@ namespace Project_Forum.Models.Entities
 
         public virtual ICollection<Respond> Responds { get; set; } = new List<Respond>();
 
+        public virtual ICollection<ReportedContent> ReportedContents { get; set; } = new List<ReportedContent>();
+
+
     }
 }
