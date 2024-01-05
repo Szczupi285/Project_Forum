@@ -125,28 +125,51 @@ namespace Project_Forum.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> HandlePostButtons(string action)
+        public async Task<IActionResult> DeletePost(int postId)
         {
             if (User.FindFirstValue("UserId") is not null)
             {
-                switch (action)
-                {
-                    case "DeletePost":
-                        throw new NotImplementedException();
-                    case "ReportPost":
-                        throw new NotImplementedException();
-                    case "DeleteRespond":
-                        throw new NotImplementedException();
-                    case "ReportRespond":
-                        throw new NotImplementedException();
-                        default: throw new NotImplementedException();
+                await PostService.RemovePost(postId);
+                return RedirectToAction("Index", "Forum");
 
-                }
             }
-            else
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> DeleteRespond(int respondId)
+        {
+            if (User.FindFirstValue("UserId") is not null)
             {
-                return NoContent();
+                await PostService.RemoveRespond(respondId);
+                return RedirectToAction("Index", "Forum");
             }
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ReportPost(int postId)
+        {
+            if (User.FindFirstValue("UserId") is not null)
+            {
+                await PostService.RemovePost(postId);
+                return RedirectToAction("Index", "Forum");
+            }
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ReportRespond(int respondId)
+        {
+            if (User.FindFirstValue("UserId") is not null)
+            {
+                await PostService.RemovePost(respondId);
+                return RedirectToAction("Index", "Forum");
+            }
+            return NoContent();
         }
 
 

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
 using System.Diagnostics;
@@ -313,5 +314,55 @@ namespace Project_Forum.Services
         }
 
         #endregion
+
+        #region ActionButtons
+
+        // on delete modificator in database is cascade so
+        // removing Post will also remove every upvote/respond/respondUpvote/PostTags
+        public async Task<bool> RemovePost(int postId)
+        {
+            var post = await Context.Posts.FindAsync(postId);
+
+            if(post is not null)
+            {
+                Context.Posts.Remove(post);
+                Context.SaveChanges();
+                return true;
+            }
+            return false;
+               
+        }
+
+        // on delete modificator in database is cascade so removing Respond will also remove every respondUpvote
+
+        public async Task<bool> RemoveRespond(int respondId)
+        {
+            var respond = await Context.Responds.FindAsync(respondId);
+
+            if (respond is not null)
+            {
+                Context.Responds.Remove(respond);
+                Context.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> ReportPost(int postId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<bool> ReportRespond(int respondId)
+        {
+            throw new NotImplementedException();
+        }
+
+
+
+
+        #endregion
+
+
     }
 }

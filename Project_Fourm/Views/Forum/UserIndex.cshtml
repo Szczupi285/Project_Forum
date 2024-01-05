@@ -15,51 +15,53 @@
     </div>
 
     <div class="display-post">
-    @using (Html.BeginForm("Index", "Forum", FormMethod.Post))
-    {
-        <div class="filters">
-                <div class="choose-hour-filter">
-                    <label class="radio-button-label">
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.sixHours,
-            new {@class = "radio-button-style"})
-                            <span class="label-text">6h</span>
-                    </label>
-                    <label class="radio-button-label">
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.twelveHours, 
-            new {@class = "radio-button-style"})
-                            <span class="label-text">12h</span>
-                    </label>
-                    <label class="radio-button-label"> 
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.day,
-            new {@class = "radio-button-style"})
-                            <span class="label-text">day</span>
-                    </label>
-                    <label class="radio-button-label">
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.week,
-            new {@class = "radio-button-style"})
-                            <span class="label-text">week</span>
-                    </label>
-                    <label class="radio-button-label"> 
-                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.month,
-            new {@class = "radio-button-style"})
-                            <span class="label-text">month</span>
-                    </label>
-                </div>
-
-                <div class="search-container">
-                    <input type="text" id="search-input" placeholder="Choose tag...">
-                    <button class="search-button" value="search">
-                        <i class="material-icons">search</i>
-                    </button>
-                </div>
-        </div>
-    }
-
-        @using (Html.BeginForm("HandlePostButtons", "Forum", FormMethod.Post))
+        @using (Html.BeginForm("Index", "Forum", FormMethod.Post))
         {
-            <div class="display-post-container">
+            <div class="filters">
+                    <div class="choose-hour-filter">
+                        <label class="radio-button-label">
+                            @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.sixHours,
+                new {@class = "radio-button-style"})
+                                <span class="label-text">6h</span>
+                        </label>
+                        <label class="radio-button-label">
+                            @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.twelveHours, 
+                new {@class = "radio-button-style"})
+                                <span class="label-text">12h</span>
+                        </label>
+                        <label class="radio-button-label"> 
+                            @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.day,
+                new {@class = "radio-button-style"})
+                                <span class="label-text">day</span>
+                        </label>
+                        <label class="radio-button-label">
+                            @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.week,
+                new {@class = "radio-button-style"})
+                                <span class="label-text">week</span>
+                        </label>
+                        <label class="radio-button-label"> 
+                            @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.month,
+                new {@class = "radio-button-style"})
+                                <span class="label-text">month</span>
+                        </label>
+                    </div>
+
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="Choose tag...">
+                        <button class="search-button" value="search">
+                            <i class="material-icons">search</i>
+                        </button>
+                    </div>
+            </div>
+        }
+
+        
+        <div class="display-post-container">
             @foreach(var postDisplay in Model.PostDisplayContents)
             {
+                
+
+
                 <div class="single-post-display">
                     <p class="post-username">@postDisplay.Item1.Username</p>
                     <p class="post-content">@postDisplay.Item1.Content</p>
@@ -72,15 +74,21 @@
 
                     @if (Model.CurrentUserId == postDisplay.Item1.UserId)
                     {
-                        <button type="submit" name="action" id="post-delete-button" value="deletePost">
-                            <i class="material-icons">delete</i>
-                        </button>
+                        <form method="POST" asp-controller="Forum" asp-action="DeletePost">
+                            <input type="hidden" name="postId" value="@postDisplay.Item1.PostId">
+                            <button type="submit" name="action" id="post-delete-button" value="deletePost">
+                                <i class="material-icons">delete</i>
+                            </button>
+                        </form>
                     }
                     else
                     {
-                        <button type="submit" name="action" id="post-report-button" value="ReportPost">
+                        <form method="POST" asp-controller="Forum" asp-action="ReportPost">
+                        <input type="hidden" name="postId" value="@postDisplay.Item1.PostId">
+                        <button type="submit" name="action" id="post-report-button" value="reportPost">
                             <i class="material-icons">flag</i>
                         </button>
+                        </form>
                     }
                 </div>
 
@@ -98,6 +106,7 @@
 
                 @foreach (var respondDisplay in postDisplay.Item2)
                 {
+
                     <div class="single-respond-display">
                         <p class="respond-username">@respondDisplay.Username</p>
                         <p class="respond-content">@respondDisplay.Content</p>
@@ -109,21 +118,27 @@
 
                         @if (Model.CurrentUserId == respondDisplay.UserId)
                         {
-                             <button type="submit" name="action" id="respond-delete-button" value="DeleteRespond">
-                                <i class="material-icons">delete</i>
-                            </button>
+                            <form method="POST" asp-controller="Forum" asp-action="DeleteRespond">
+                                <input type="hidden" name="respondId" value="@respondDisplay.RespondId">
+                                <button type="submit" name="action" id="respond-delete-button" value="deleteRespond">
+                                    <i class="material-icons">delete</i>
+                                </button>
+                            </form>
                         }
                         else
                         {
-                            <button type="submit" name="action" id="respond-report-button" value="ReportRespond">
-                                <i class="material-icons">flag</i>
-                            </button>
+                            <form method="POST" asp-controller="Forum" asp-action="ReportRespond">
+                                <input type="hidden" name="respondId" value="@respondDisplay.RespondId">
+                                <button type="submit" name="action" id="respond-report-button" value="reportRespond">
+                                    <i class="material-icons">flag</i>
+                                </button>
+                            </form>
                         }
                     </div>  
                 }
             }
-            </div>
-        }
+        </div>
+        
 
     </div>
 }

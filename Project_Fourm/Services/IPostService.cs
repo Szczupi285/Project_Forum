@@ -21,5 +21,14 @@ namespace Project_Forum.Services
         Task ManageRespondUpvoteAsync(string userId, int respondId);
 
         Task<List<RespondDisplayContent>> RetriveRespondContentAsync(int postId);
+
+        Task<bool> RemovePost(int postId);
+        
+        Task<bool> RemoveRespond(int respondId);
+        
+        Task<bool> ReportPost(int postId);
+        
+        Task<bool> ReportRespond(int respondId);
+
     }
 }
