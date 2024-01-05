@@ -348,14 +348,43 @@ namespace Project_Forum.Services
             return false;
         }
 
-        public async Task<bool> ReportPost(int postId)
+
+        private async Task<bool> ReportContent(int postId, string submitterId, string reason, string contentType)
         {
-            throw new NotImplementedException();
+            
+            var post = await Context.Posts.FindAsync(postId);
+
+            if(post is not null && reason.Length <= 200)
+            {
+                var repContent = new ReportedContent
+                {
+                    ReportedUserId = post.UserId,
+                    SubmitterId = submitterId,
+                    ContentId = postId,
+                    ContentType = contentType,
+                    IsResolved = false,
+                    Reason = reason,
+                    Content = post.PostContent,
+                    ReportDate = DateTime.Now
+                    
+                };
+                await Context.ReportedContents.AddAsync(repContent);
+                await Context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+            
+            
         }
 
-        public async Task<bool> ReportRespond(int respondId)
+
+        public async Task<bool> ReportPost(int respondId, string submitterId, string reason)
         {
-            throw new NotImplementedException();
+            return await ReportContent(respondId, submitterId, reason, "Post");
+        }
+        public async Task<bool> ReportRespond(int respondId, string submitterId, string reason)
+        {
+            return await ReportContent(respondId, submitterId, reason, "Respond");
         }
 
 

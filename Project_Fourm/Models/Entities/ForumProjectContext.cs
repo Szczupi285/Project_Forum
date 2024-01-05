@@ -147,6 +147,15 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.SubmitterId)
                 .HasMaxLength(450)
                 .HasColumnName("Submitter_id");
+            entity.Property(e => e.ReportDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime")
+                .HasColumnName("ReportDate");
+            entity.Property(e => e.ResolveDate)
+                .HasColumnType("datetime")
+                .HasColumnName("ResolveDate");
+
+            
 
             entity.HasOne(d => d.Moderator).WithMany(p => p.ReportedContents)
                 .HasForeignKey(d => d.ModeratorId)

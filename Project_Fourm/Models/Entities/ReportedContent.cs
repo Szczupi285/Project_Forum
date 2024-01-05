@@ -25,5 +25,8 @@ public partial class ReportedContent
 
     public string? Resolution { get; set; }
 
+    public DateTime ReportDate { get; set; }
+    public DateTime? ResolveDate { get; set; }
+
     public virtual ApplicationUser? Moderator { get; set; }
 }
