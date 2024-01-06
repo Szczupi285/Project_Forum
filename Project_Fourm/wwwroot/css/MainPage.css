@@ -376,7 +376,7 @@ span.label-text {
 }
 
 /*REPORT BUTTONS*/
-#post-report-button {
+.post-report-button {
     position: absolute;
     top:0;
     right:0;
@@ -388,11 +388,11 @@ span.label-text {
     cursor: pointer;
 }
 
-#post-report-button i {
+.post-report-button i {
     background-color: transparent;
 }
 
-#respond-report-button {
+.respond-report-button {
     position: absolute;
     top: 0;
     right: 0;
@@ -404,7 +404,7 @@ span.label-text {
     cursor: pointer;
 }
 
-#respond-report-button i {
+.respond-report-button i {
     background-color: transparent;
 }
 
@@ -439,4 +439,46 @@ span.label-text {
 
 #respond-delete-button i {
     background-color: transparent;
+}
+
+.modal {
+    background-color: rgb(22, 22, 22);
+    width:40%;
+    height:22%;
+}
+.modal textarea {
+    padding:10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(36, 36, 36);
+    color: rgb(231, 233, 234);
+    border: none;
+    resize: none;
+    width: 90%;
+    height: 15vh;
+    border-radius: 15px;
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: pre-line;
+    font-size:20px;
+}
+.modal button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color:white;
+    z-index: 10;
+    margin-bottom: 50px;
+    margin-right: 60px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.modal h2 {
+    text-align: center;
+    margin-top: -10px;
+    color: rgb(231, 233, 234);
+    
 }

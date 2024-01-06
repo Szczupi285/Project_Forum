@@ -138,35 +138,12 @@ namespace Project_Forum.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> DeleteRespond(int respondId)
+        public async Task<IActionResult> Report(int contentId, string reportReason, string contentType)
         {
-            if (User.FindFirstValue("UserId") is not null)
+            var userId = (User.FindFirstValue("UserId"));
+            if (userId is not null)
             {
-                await PostService.RemoveRespond(respondId);
-                return RedirectToAction("Index", "Forum");
-            }
-            return NoContent();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> ReportPost(int postId)
-        {
-            if (User.FindFirstValue("UserId") is not null)
-            {
-                await PostService.RemovePost(postId);
-                return RedirectToAction("Index", "Forum");
-            }
-            return NoContent();
-        }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<IActionResult> ReportRespond(int respondId)
-        {
-            if (User.FindFirstValue("UserId") is not null)
-            {
-                await PostService.RemovePost(respondId);
+                await PostService.ReportContent(contentId, userId, reportReason, contentType);
                 return RedirectToAction("Index", "Forum");
             }
             return NoContent();

@@ -349,22 +349,48 @@ namespace Project_Forum.Services
         }
 
 
-        private async Task<bool> ReportContent(int postId, string submitterId, string reason, string contentType)
+        public async Task<bool> ReportContent(int contentId, string submitterId, string reason, string contentType)
         {
-            
-            var post = await Context.Posts.FindAsync(postId);
+            if (reason.Length > 200)
+                return false;
 
-            if(post is not null && reason.Length <= 200)
+            string userId = "";
+            string content = "";
+
+            if (contentType == "Post")
+            {
+                var post = await Context.Posts.FindAsync(contentId);
+                if(post is not null)
+                {
+                    userId = post.UserId;
+                    content = post.PostContent;
+                }
+
+            }
+            else if (contentType == "Respond")
+            {
+                var respond = await Context.Responds.FindAsync(contentId);
+
+                if(respond is not null)
+                {
+                    userId = respond.UserId;
+                    content = respond.RepondContent;
+                }
+                
+            }
+            else return false;
+
+            if (!String.IsNullOrEmpty(userId) || !String.IsNullOrEmpty(content))
             {
                 var repContent = new ReportedContent
                 {
-                    ReportedUserId = post.UserId,
+                    ReportedUserId = userId,
                     SubmitterId = submitterId,
-                    ContentId = postId,
+                    ContentId = contentId,
                     ContentType = contentType,
                     IsResolved = false,
                     Reason = reason,
-                    Content = post.PostContent,
+                    Content = content,
                     ReportDate = DateTime.Now
                     
                 };
@@ -376,19 +402,6 @@ namespace Project_Forum.Services
             
             
         }
-
-
-        public async Task<bool> ReportPost(int respondId, string submitterId, string reason)
-        {
-            return await ReportContent(respondId, submitterId, reason, "Post");
-        }
-        public async Task<bool> ReportRespond(int respondId, string submitterId, string reason)
-        {
-            return await ReportContent(respondId, submitterId, reason, "Respond");
-        }
-
-
-
 
         #endregion
 

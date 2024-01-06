@@ -25,10 +25,10 @@ namespace Project_Forum.Services
         Task<bool> RemovePost(int postId);
         
         Task<bool> RemoveRespond(int respondId);
-        
-        Task<bool> ReportPost(int postId, string submitterId, string reason);
-        
-        Task<bool> ReportRespond(int respondId, string submitterId, string reason);
+
+        Task<bool> ReportContent(int postId, string submitterId, string reason, string contentType);
+
+  
 
     }
 }
