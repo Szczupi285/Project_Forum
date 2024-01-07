@@ -26,9 +26,9 @@ namespace Project_Forum.Services
         
         Task<bool> RemoveRespond(int respondId);
 
-        Task<bool> ReportContent(int postId, string submitterId, string reason, string contentType);
+        Task<bool> ReportContent(int contentId, string submitterId, string reason, string contentType);
 
-  
+        Task<bool> EditContent(int contentId, string newContent, string contentType);
 
     }
 }

@@ -403,6 +403,37 @@ namespace Project_Forum.Services
             
         }
 
+
+
+
+        public async Task<bool> EditContent(int contentId, string newContent, string contentType)
+        {
+            if (contentType == "Post")
+            {
+                var post = await Context.Posts.FindAsync(contentId);
+                if (post is not null)
+                {
+                    post.PostContent = newContent;
+                    await Context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            else if (contentType == "Respond")
+            {
+                var respond = await Context.Responds.FindAsync(contentId);
+                if (respond is not null)
+                {
+                    respond.RepondContent = newContent;
+                    await Context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            else
+                return false;
+        }
+
         #endregion
 
 

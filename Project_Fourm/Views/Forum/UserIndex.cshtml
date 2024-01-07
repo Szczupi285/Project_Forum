@@ -6,19 +6,27 @@
 @{
     
     <div class="send-post-form">
-                                <form method="POST" asp-controller="Forum" asp-action="CreatePost">
-                                    <textarea id="post-message" placeholder="Create a new post..." asp-for="PostModel.PostContent"></textarea>
-                                    <button type="submit" id="send-post-button" value="x" >
-                                        <i class="material-icons">send</i>
-                                    </button>
-                                </form>
+                                    <form method="POST" asp-controller="Forum" asp-action="CreatePost">
+                                        <textarea id="post-message" placeholder="Create a new post..." asp-for="PostModel.PostContent"></textarea>
+                                        <button type="submit" id="send-post-button" value="x" >
+                                            <i class="material-icons">send</i>
+                                        </button>
+                                    </form>
     </div>
 
     
     <dialog class="modal" id="modal">
-            <h2>Report details</h2>
-            <textarea placeholder="200 characters..." maxlength="200" data-contentid="" data-contenttype=""></textarea>
-            <button type="submit" id="send-report-details" value="x">
+                <h2>Report details</h2>
+                <textarea placeholder="200 characters..." maxlength="200" data-contentid="" data-contenttype=""></textarea>
+                <button type="submit" id="send-report-details" value="x">
+                    <i class="material-icons">send</i>
+                </button>
+    </dialog>
+
+    <dialog class="modal" id="edit-modal">
+            <h2>Edit Post</h2>
+            <textarea placeholder="Edit content..." data-contentid="" data-contenttype=""></textarea>
+            <button type="submit" id="edit-button" value="x">
                 <i class="material-icons">send</i>
             </button>
     </dialog>
@@ -26,134 +34,141 @@
 
 
     <div class="display-post">
-                                @using (Html.BeginForm("Index", "Forum", FormMethod.Post))
+                                    @using (Html.BeginForm("Index", "Forum", FormMethod.Post))
         {
-                                    <div class="filters">
-                                            <div class="choose-hour-filter">
-                                                <label class="radio-button-label">
-                                                    @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.sixHours,
+                                        <div class="filters">
+                                                <div class="choose-hour-filter">
+                                                    <label class="radio-button-label">
+                                                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.sixHours,
                 new {@class = "radio-button-style"})
-                                                        <span class="label-text">6h</span>
-                                                </label>
-                                                <label class="radio-button-label">
-                                                    @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.twelveHours, 
+                                                            <span class="label-text">6h</span>
+                                                    </label>
+                                                    <label class="radio-button-label">
+                                                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.twelveHours, 
                 new {@class = "radio-button-style"})
-                                                        <span class="label-text">12h</span>
-                                                </label>
-                                                <label class="radio-button-label"> 
-                                                    @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.day,
+                                                            <span class="label-text">12h</span>
+                                                    </label>
+                                                    <label class="radio-button-label"> 
+                                                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.day,
                 new {@class = "radio-button-style"})
-                                                        <span class="label-text">day</span>
-                                                </label>
-                                                <label class="radio-button-label">
-                                                    @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.week,
+                                                            <span class="label-text">day</span>
+                                                    </label>
+                                                    <label class="radio-button-label">
+                                                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.week,
                 new {@class = "radio-button-style"})
-                                                        <span class="label-text">week</span>
-                                                </label>
-                                                <label class="radio-button-label"> 
-                                                    @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.month,
+                                                            <span class="label-text">week</span>
+                                                    </label>
+                                                    <label class="radio-button-label"> 
+                                                        @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.month,
                 new {@class = "radio-button-style"})
-                                                        <span class="label-text">month</span>
-                                                </label>
-                                            </div>
+                                                            <span class="label-text">month</span>
+                                                    </label>
+                                                </div>
 
-                                            <div class="search-container">
-                                                <input type="text" id="search-input" placeholder="Choose tag...">
-                                                <button class="search-button" value="search">
-                                                    <i class="material-icons">search</i>
-                                                </button>
-                                            </div>
-                                    </div>
+                                                <div class="search-container">
+                                                    <input type="text" id="search-input" placeholder="Choose tag...">
+                                                    <button class="search-button" value="search">
+                                                        <i class="material-icons">search</i>
+                                                    </button>
+                                                </div>
+                                        </div>
         }
 
-                                
-                                <div class="display-post-container">
-                                    @foreach(var postDisplay in Model.PostDisplayContents)
+                                    
+                                    <div class="display-post-container">
+                                        @foreach(var postDisplay in Model.PostDisplayContents)
             {
                 
 
 
-                                        <div class="single-post-display">
-                                            <p class="post-username">@postDisplay.Item1.Username</p>
-                                            <p class="post-content">@postDisplay.Item1.Content</p>
-                                            <p class="post-creation-date">@postDisplay.Item1.CreationDate</p>
-                                            <input type="checkbox" class="post-upvote-checkbox" data-postid="@postDisplay.Item1.PostId">
-                                            <i id="post-upvote-favorite" class="material-icons">favorite</i>
-                                            <span class="post-upvote-count">@postDisplay.Item1.UpvotesCount</span>
+                                            <div class="single-post-display">
+                                                <p class="post-username">@postDisplay.Item1.Username</p>
+                                                <p class="post-content">@postDisplay.Item1.Content</p>
+                                                <p class="post-creation-date">@postDisplay.Item1.CreationDate</p>
+                                                <input type="checkbox" class="post-upvote-checkbox" data-postid="@postDisplay.Item1.PostId">
+                                                <i id="post-upvote-favorite" class="material-icons">favorite</i>
+                                                <span class="post-upvote-count">@postDisplay.Item1.UpvotesCount</span>
 
-                                     
+                                         
 
-                                            @if (Model.CurrentUserId == postDisplay.Item1.UserId)
-                    {
-                                                <form method="POST" asp-controller="Forum" asp-action="DeletePost">
-                                                    <input type="hidden" name="postId" value="@postDisplay.Item1.PostId">
-                                                    <button type="submit" name="action" id="post-delete-button" value="deletePost">
-                                                        <i class="material-icons">delete</i>
-                                                    </button>
-                                                </form>
-                    }
-                    else
-                    {
-                                            //<form method="POST" asp-controller="Forum" asp-action="ReportPost">
-                                            //<input type="hidden" name="postId" value="@postDisplay.Item1.PostId">
-                                                <button type="submit" name="action" class="post-report-button"
-                                                    data-contentid="@postDisplay.Item1.PostId"
-                                                    data-contenttype="respond" value="reportPost">
-                                                        <i class="material-icons">flag</i>
-                                                </button>
-                                            //</form>
-                    }
-                                        </div>
-
-                                        <div class="send-respond-form">
-                                            <form method="POST" asp-controller="Forum" asp-action="CreateRespond">
-                                                <input type="hidden" name="postId" value="@postDisplay.Item1.PostId">
-                                                <textarea id="respond-message" placeholder="Respond..." asp-for="RespondModel.RepondContent"></textarea>
-                                                <button type="submit" id="send-respond-button" value="x" >
-                                                    <i class="material-icons">send</i>
-                                                </button>
-                                            </form>
-                                        </div>
-
-            
-
-                                        @foreach (var respondDisplay in postDisplay.Item2)
-                {
-
-                                            <div class="single-respond-display">
-                                                <p class="respond-username">@respondDisplay.Username</p>
-                                                <p class="respond-content">@respondDisplay.Content</p>
-                                                <p class="respond-creation-date">@respondDisplay.CreationDate</p>
-                                                <input type="checkbox" class="respond-upvote-checkbox" data-respondid="@respondDisplay.RespondId">
-                                                <i id="respond-upvote-favorite" class="material-icons">favorite</i>
-                                                <span class="respond-upvote-count">@respondDisplay.UpvotesCount</span>
-
-
-                                                @if (Model.CurrentUserId == respondDisplay.UserId)
-                        {
-                                                    <form method="POST" asp-controller="Forum" asp-action="DeleteRespond">
-                                                        <input type="hidden" name="respondId" value="@respondDisplay.RespondId">
-                                                        <button type="submit" name="action" id="respond-delete-button" value="deleteRespond">
+                                                @if (Model.CurrentUserId == postDisplay.Item1.UserId)
+                                            {
+                                                    <form method="POST" asp-controller="Forum" asp-action="DeletePost">
+                                                        <input type="hidden" name="postId" value="@postDisplay.Item1.PostId">
+                                                        <button type="submit" name="action" id="post-delete-button" value="deletePost">
                                                             <i class="material-icons">delete</i>
                                                         </button>
                                                     </form>
-                        }
-                        else
-                        {
-                                                //<form method="POST" asp-controller="Forum" asp-action="ReportRespond">
+
+                                                    <button type="submit" name="action" class="edit-button"
+                                                        data-contentid="@postDisplay.Item1.PostId"
+                                                        data-contenttype="Post" value="reportPost">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                            }
+                                            else
+                                            {
+                                                    <button type="submit" name="action" class="post-report-button"
+                                                        data-contentid="@postDisplay.Item1.PostId"
+                                                        data-contenttype="post" value="reportPost">
+                                                            <i class="material-icons">flag</i>
+                                                    </button>
+                                            }
+                                            </div>
+
+                                            <div class="send-respond-form">
+                                                <form method="POST" asp-controller="Forum" asp-action="CreateRespond">
+                                                    <input type="hidden" name="postId" value="@postDisplay.Item1.PostId">
+                                                    <textarea id="respond-message" placeholder="Respond..." asp-for="RespondModel.RepondContent"></textarea>
+                                                    <button type="submit" id="send-respond-button" value="x" >
+                                                        <i class="material-icons">send</i>
+                                                    </button>
+                                                </form>
+                                            </div>
+
+            
+
+                                            @foreach (var respondDisplay in postDisplay.Item2)
+                {
+
+                                                <div class="single-respond-display">
+                                                    <p class="respond-username">@respondDisplay.Username</p>
+                                                    <p class="respond-content">@respondDisplay.Content</p>
+                                                    <p class="respond-creation-date">@respondDisplay.CreationDate</p>
+                                                    <input type="checkbox" class="respond-upvote-checkbox" data-respondid="@respondDisplay.RespondId">
+                                                    <i id="respond-upvote-favorite" class="material-icons">favorite</i>
+                                                    <span class="respond-upvote-count">@respondDisplay.UpvotesCount</span>
+
+
+                                                    @if (Model.CurrentUserId == respondDisplay.UserId)
+                                                {
+                                                        <form method="POST" asp-controller="Forum" asp-action="DeleteRespond">
+                                                            <input type="hidden" name="respondId" value="@respondDisplay.RespondId">
+                                                            <button type="submit" name="action" id="respond-delete-button" value="deleteRespond">
+                                                                <i class="material-icons">delete</i>
+                                                            </button>
+                                                        </form>
+
+                                                        <button type="submit" name="action" class="edit-button"
+                                                            data-contentid="@respondDisplay.RespondId"
+                                                            data-contenttype="Respond" value="reportRespond">
+                                                            <i class="material-icons">edit</i>
+                                                        </button>
+                                                }
+                                                else
+                                                {
                                                         <input type="hidden" name="respondId" value="@respondDisplay.RespondId">
                                                         <button type="submit" name="action" class="respond-report-button" 
                                                             data-contentid="@respondDisplay.RespondId"
                                                             data-contenttype="respond" value="reportRespond">
                                                                 <i class="material-icons">flag</i>
                                                         </button>
-                                                //</form>
-                        }
-                                            </div>  
+                                                }
+                                                </div>  
                 }
             }
-                                </div>
-                                
+                                    </div>
+                                    
 
     </div>
 }
@@ -285,7 +300,7 @@
                 var isChecked = $(this).prop('checked');
 
                 // Store the checkbox state in local storage
-                localStorage.setItem('RC' + postid, isChecked);
+                localStorage.setItem('RC' + respondid, isChecked);
 
                 var icon = document.getElementById('respond-upvote-favorite');
                 var countNumElement = $(this).closest('.single-respond-display').find('.respond-upvote-count');
@@ -367,11 +382,64 @@
     </script>
 
 
+    <!--
+        Open and closes modal, pass the value contentid and contenttype to textarea attributes inside of modal.
+        Upon clicking retrives values and text from textarea and sends it to Edit method in Forum controller
+    -->
+    <script>
+        // Wait for the document to be ready
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get all elements with class "edit-button"
+            var editButtons = document.querySelectorAll(".edit-button");
+            // Get the modal element by ID
+            var modal = document.getElementById("edit-modal");
+            const editTextarea = modal.querySelector('textarea');
 
+            // Loop through each edit button
+            editButtons.forEach(function (button) {
+                // Add a click event listener to each edit button
+                button.addEventListener("click", function () {
+                    const Id = button.getAttribute('data-contentid');
+                    const contentType = button.getAttribute('data-contenttype')
 
+                    const nearestContent = contentType === 'Post' ?
+                        button.closest('.single-post-display').querySelector('.post-content') :
+                        button.closest('.single-respond-display').querySelector('.respond-content');
+                    editTextarea.value = nearestContent ? nearestContent.textContent : '';
 
+                    editTextarea.setAttribute('data-contentid', Id);
+                    editTextarea.setAttribute('data-contenttype', contentType);
 
+                    // Open the modal
+                    modal.showModal();
+                });
+            });
 
+            // Close the modal when the button inside the modal is clicked
+            const sendReportDetailsButton = document.getElementById('edit-button');
+            sendReportDetailsButton.addEventListener('click', () => {
+                const contentId = editTextarea.getAttribute('data-contentid');
+                const contentType = editTextarea.getAttribute('data-contenttype');
+                const newContent = editTextarea.value;
+
+                $.ajax({
+                    url: '@Url.Action("Edit", "Forum")',
+                    type: 'PUT',
+                    data: { contentId: contentId, newContent: newContent, contentType: contentType },
+                    success: function (response) {
+                        console.log(response);
+                        // reload page after edit
+                        location.reload(true);
+                    },
+                    error: function (error) {
+                        console.error(error);
+                    }
+                });
+
+                modal.close();
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function () {

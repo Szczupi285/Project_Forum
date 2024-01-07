@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Mono.TextTemplating;
 using Project_.Models;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
@@ -41,10 +43,10 @@ namespace Project_Forum.Controllers
                 model.PostDisplayContents.Add((post,respond));
             }
 
-            if (User.IsInRole("Admin"))
-                return View("AdminIndex");
-            else if (User.IsInRole("Moderator"))
-                return View("ModeratorIndex");
+           // if (User.IsInRole("Admin"))
+             //   return View("AdminIndex");
+             if (User.IsInRole("Moderator"))
+                return RedirectToAction("Index", "Moderator");
             else if (User.IsInRole("User"))
                 return View("UserIndex", model);
             else
@@ -138,6 +140,19 @@ namespace Project_Forum.Controllers
 
         [HttpPost]
         [Authorize]
+        public async Task<IActionResult> DeleteRespond(int respondId)
+        {
+            if (User.FindFirstValue("UserId") is not null)
+            {
+                await PostService.RemoveRespond(respondId);
+                return RedirectToAction("Index", "Forum");
+
+            }
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Authorize]
         public async Task<IActionResult> Report(int contentId, string reportReason, string contentType)
         {
             var userId = (User.FindFirstValue("UserId"));
@@ -149,6 +164,18 @@ namespace Project_Forum.Controllers
             return NoContent();
         }
 
+        [HttpPut]
+        [Authorize]
+        public async Task<IActionResult> Edit(int contentId, string newContent, string contentType)
+        {
+            var userId = (User.FindFirstValue("UserId"));
+            if (userId is not null)
+            {
+                await PostService.EditContent(contentId, newContent, contentType);
+                return Ok();
+            }
+            return NotFound();
+        }
 
 
 

@@ -43,6 +43,9 @@ namespace Project_Forum.Controllers
                 if(result == true)
                 {
                     await loginService.EstablishSession(_contextAccessor, model);
+                    // we redirect to another View because
+                    // claims aren't available until the next request from user
+                    // SignInAsync in Establish Session doen't refresh these claims
                     return RedirectToAction("Index", "Forum");
                 }
                 else
