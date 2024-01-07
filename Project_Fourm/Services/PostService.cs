@@ -354,18 +354,26 @@ namespace Project_Forum.Services
             if (reason.Length > 200)
                 return false;
 
+            // checking if submitter already reported this content
+            var matchingReport = Context.ReportedContents
+                   .Where(rc => rc.ContentId == contentId
+                   && rc.SubmitterId == submitterId && rc.ContentType == contentType);
+
+            if (matchingReport.Any())
+                return false;
+
+
             string userId = "";
             string content = "";
 
             if (contentType == "Post")
             {
-                var post = await Context.Posts.FindAsync(contentId);
-                if(post is not null)
-                {
-                    userId = post.UserId;
-                    content = post.PostContent;
-                }
-
+                    var post = await Context.Posts.FindAsync(contentId);
+                    if (post is not null)
+                    {
+                        userId = post.UserId;
+                        content = post.PostContent;
+                    }
             }
             else if (contentType == "Respond")
             {
