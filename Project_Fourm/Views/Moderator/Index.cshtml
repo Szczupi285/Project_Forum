@@ -1,6 +1,36 @@
-﻿@model Project_Forum.Models.Entities.ReportedContent
+﻿@model List<Project_Forum.Models.Entities.ReportedContent>
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moderator</title>
+
+    <link rel="stylesheet" href="~/css/ModeratorIndex.css" />
+</head>
+
+@foreach(var reportedContent in Model){
+
+    <div class="single-report-display">
+        <div class="report-content">
+            <p>@reportedContent.Content</p>
+        </div>
+        <div class="report-reason">
+            <p>@reportedContent.Reason</p>
+        </div>
+        <form method="POST" asp-controller="Moderator" asp-action="Remove">
+            <button type="submit" id="delete-post">
+                <i class="material-icons">delete</i>
+            </button>
+        </form>
+        <form method="POST" asp-controller="Moderator" asp-action="Keep">
+            <button type="submit" id="keep-post">
+                <i class="material-icons">check_circle</i>
+            </button>
+        </form>
+    </div>
+
 }

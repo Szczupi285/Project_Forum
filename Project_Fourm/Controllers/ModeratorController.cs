@@ -5,9 +5,30 @@ namespace Project_Forum.Controllers
 {
     public class ModeratorController : Controller
     {
-        public IActionResult Index(ReportedContent reportedContent)
+
+        private readonly ForumProjectContext Context;
+
+        public ModeratorController(ForumProjectContext context)
         {
-            return View();
+            Context = context;
+        }
+        public IActionResult Index()
+        {
+            var reportedContent = Context.ReportedContents.ToList();
+            return View(reportedContent);
+        }
+
+
+        public IActionResult Remove()
+        {
+            var reportedContent = Context.ReportedContents.ToList();
+            return View(reportedContent);
+        }
+
+        public IActionResult Keep()
+        {
+            var reportedContent = Context.ReportedContents.ToList();
+            return View(reportedContent);
         }
     }
 }
