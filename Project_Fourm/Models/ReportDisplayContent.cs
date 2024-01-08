@@ -2,7 +2,7 @@
 {
     public class ReportDisplayContent
     {
-        public int RepordId;
+        public int ReportId;
 
         public int ContentId;
 
@@ -16,7 +16,7 @@
 
         public ReportDisplayContent(int repordId, int contentId, string? content, string? contentType, string? reason, DateTime reportDate)
         {
-            RepordId = repordId;
+            ReportId = repordId;
             ContentId = contentId;
             Content = content;
             ContentType = contentType;

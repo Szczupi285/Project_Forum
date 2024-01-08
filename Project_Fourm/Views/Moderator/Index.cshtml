@@ -22,15 +22,15 @@
             <p>@reportedContent.Reason</p>
         </div>
         <form method="POST" asp-controller="Moderator" asp-action="Remove">
-            <input type="hidden" value="@reportedContent.ContentId">
-            <input type="hidden" value="@reportedContent.ContentType">
+            <input type="hidden" name="reportId" value="@reportedContent.ReportId">
+            <input type="hidden" name="contentId" value="@reportedContent.ContentId">
+            <input type="hidden" name="contentType" value="@reportedContent.ContentType">
             <button type="submit" id="delete-post">
                 <i class="material-icons">delete</i>
             </button>
         </form>
         <form method="POST" asp-controller="Moderator" asp-action="Keep">
-            <input type="hidden" value="@reportedContent.ContentId">
-            <input type="hidden" value="@reportedContent.ContentType">
+            <input type="hidden" name="reportId" value="@reportedContent.ReportId">
             <button type="submit" id="keep-post">
                 <i class="material-icons">check_circle</i>
             </button>

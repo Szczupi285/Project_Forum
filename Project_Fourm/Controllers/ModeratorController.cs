@@ -2,6 +2,7 @@
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
 using Project_Forum.Services;
+using System.Security.Claims;
 
 namespace Project_Forum.Controllers
 {
@@ -24,14 +25,17 @@ namespace Project_Forum.Controllers
         }
 
 
-        public IActionResult Remove(ReportedContent reportedContent)
+        public async Task<IActionResult> Remove(int reportId, int contentId, string contentType)
         {
-            return View(reportedContent);
+
+            await ModeratorService.Delete(reportId, contentId, User.FindFirstValue("UserId"), contentType);
+            return RedirectToAction("Index");
         }
 
-        public IActionResult Keep(ReportedContent reportedContent)
+        public async Task<IActionResult> Keep(int reportId)
         {
-            return View(reportedContent);
+            await ModeratorService.Keep(reportId, User.FindFirstValue("UserId"));
+            return RedirectToAction("Index");
         }
     }
 }

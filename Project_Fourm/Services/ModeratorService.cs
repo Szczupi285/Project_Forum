@@ -31,7 +31,7 @@ namespace Project_Forum.Services
                      reports.ReportId,
                      reports.ContentId,
                      reports.Content,
-                     reports.ContentType,
+                     reports.ContentType.Trim(),
                      reports.Reason,
                      reports.ReportDate
                 );
