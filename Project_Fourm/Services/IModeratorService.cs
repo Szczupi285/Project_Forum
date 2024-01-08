@@ -7,7 +7,7 @@ namespace Project_Forum.Services
 {
     public interface IModeratorService
     {
-        Task<bool> RetriveNotSolvedReports();
+        Task<List<ReportDisplayContent>> RetriveNotSolvedReports();
         Task<bool> Delete(int reportId, int contentId, string moderatorId, string contentType);
         Task<bool> Keep(int reportId, string moderatorId);
     }

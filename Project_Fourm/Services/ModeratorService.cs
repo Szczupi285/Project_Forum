@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
 using System.Security.Claims;
@@ -20,12 +21,12 @@ namespace Project_Forum.Services
             Context = context;
         }
 
-        public Task<List<ReportedContent>> RetriveNotSolvedReports()
+        public async Task<List<ReportDisplayContent>> RetriveNotSolvedReports()
         {
             var result =
                 from reports in Context.ReportedContents
-                where reports.IsResolved == true
-                select new ReportedContent
+                where reports.IsResolved == false
+                select new ReportDisplayContent
                 (
                      reports.ReportId,
                      reports.ContentId,
@@ -33,11 +34,9 @@ namespace Project_Forum.Services
                      reports.ContentType,
                      reports.Reason,
                      reports.ReportDate
-                ).ToList<ReportedContent>();
+                );
                 
-            if (result is not null)
-                return result;
-            return new List<ReportedContent>;
+                return await result.ToListAsync();
                 
         }
 

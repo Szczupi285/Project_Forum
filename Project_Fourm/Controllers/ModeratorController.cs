@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Project_Forum.Models;
 using Project_Forum.Models.Entities;
+using Project_Forum.Services;
 
 namespace Project_Forum.Controllers
 {
@@ -8,14 +10,17 @@ namespace Project_Forum.Controllers
 
         private readonly ForumProjectContext Context;
 
-        public ModeratorController(ForumProjectContext context)
+        private readonly IModeratorService ModeratorService;
+
+        public ModeratorController(ForumProjectContext context, IModeratorService moderatorService)
         {
             Context = context;
+            ModeratorService = moderatorService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(List<ReportDisplayContent> reportDisplayContent)
         {
-            var reportedContent = Context.ReportedContents.ToList();
-            return View(reportedContent);
+            reportDisplayContent = await ModeratorService.RetriveNotSolvedReports();
+            return View(reportDisplayContent);
         }
 
 
