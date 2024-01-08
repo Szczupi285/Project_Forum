@@ -19,15 +19,13 @@ namespace Project_Forum.Controllers
         }
 
 
-        public IActionResult Remove()
+        public IActionResult Remove(ReportedContent reportedContent)
         {
-            var reportedContent = Context.ReportedContents.ToList();
             return View(reportedContent);
         }
 
-        public IActionResult Keep()
+        public IActionResult Keep(ReportedContent reportedContent)
         {
-            var reportedContent = Context.ReportedContents.ToList();
             return View(reportedContent);
         }
     }
