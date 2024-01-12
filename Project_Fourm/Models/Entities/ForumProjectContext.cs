@@ -30,6 +30,8 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
 
     public virtual DbSet<Tag> Tags { get; set; }
 
+    public virtual DbSet<Warning> Warnings { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         IConfiguration configuration = new ConfigurationBuilder()
@@ -139,23 +141,18 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.Reason)
                 .HasMaxLength(200)
                 .HasColumnName("reason");
+            entity.Property(e => e.ReportDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.ReportedUserId).HasMaxLength(450);
             entity.Property(e => e.Resolution)
                 .HasMaxLength(30)
                 .IsUnicode(false)
                 .IsFixedLength();
+            entity.Property(e => e.ResolveDate).HasColumnType("datetime");
             entity.Property(e => e.SubmitterId)
                 .HasMaxLength(450)
                 .HasColumnName("Submitter_id");
-            entity.Property(e => e.ReportDate)
-                .HasDefaultValueSql("(getdate())")
-                .HasColumnType("datetime")
-                .HasColumnName("ReportDate");
-            entity.Property(e => e.ResolveDate)
-                .HasColumnType("datetime")
-                .HasColumnName("ResolveDate");
-
-            
 
             entity.HasOne(d => d.Moderator).WithMany(p => p.ReportedContents)
                 .HasForeignKey(d => d.ModeratorId)
@@ -218,6 +215,27 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
                 .HasColumnName("tag_name");
         });
 
+        modelBuilder.Entity<Warning>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Warnings__3214EC0770BF8809");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.AdditionalNotes)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("additional_notes");
+            entity.Property(e => e.ExpirationDate)
+                .HasColumnType("date")
+                .HasColumnName("Expiration_date");
+            entity.Property(e => e.WarningType)
+                .HasDefaultValueSql("((1))")
+                .HasColumnName("Warning_type");
+
+            entity.HasOne(d => d.IdNavigation).WithOne(p => p.Warning)
+                .HasForeignKey<Warning>(d => d.Id)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Warnings__Id__1F98B2C1");
+        });
         base.OnModelCreating(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }
