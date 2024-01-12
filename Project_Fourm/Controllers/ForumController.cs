@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -23,6 +24,7 @@ namespace Project_Forum.Controllers
 
         private readonly IPostService PostService;
 
+
         public ForumController(ForumProjectContext context, SignInManager<ApplicationUser> signInManager, IPostService postService)
         {
             this.Context = context;
@@ -40,12 +42,12 @@ namespace Project_Forum.Controllers
             foreach (var post in posts)
             {
                 var respond = await PostService.RetriveRespondContentAsync(post.PostId);
-                model.PostDisplayContents.Add((post,respond));
+                model.PostDisplayContents.Add((post, respond));
             }
 
-           // if (User.IsInRole("Admin"))
-             //   return View("AdminIndex");
-             if (User.IsInRole("Moderator"))
+            // if (User.IsInRole("Admin"))
+            //   return View("AdminIndex");
+            if (User.IsInRole("Moderator"))
                 return RedirectToAction("Index", "Moderator");
             else if (User.IsInRole("User"))
                 return View("UserIndex", model);
@@ -76,7 +78,7 @@ namespace Project_Forum.Controllers
             {
                 return NoContent();
             }
-                
+
         }
         [HttpPost]
         [Authorize]
@@ -177,7 +179,23 @@ namespace Project_Forum.Controllers
             return NotFound();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Tag(PostCompositeModel model, string tag)
+        {
+            
+            // Assigning the value here so we only use FindFirstValue once instead of once per post/respond in foreach loop
+            model.CurrentUserId = User.FindFirstValue("UserId");
 
+            var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
+            var posts = await PostService.RetrivePostsByTag(15, date, tag);
+            foreach (var post in posts)
+            {
+                var respond = await PostService.RetriveRespondContentAsync(post.PostId);
+                model.PostDisplayContents.Add((post, respond));
+            }
+
+            return View("Tag", model);
+        }
 
         public IActionResult Error()
         {

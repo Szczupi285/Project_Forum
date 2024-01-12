@@ -30,5 +30,7 @@ namespace Project_Forum.Services
 
         Task<bool> EditContent(int contentId, string newContent, string contentType);
 
+        Task<List<PostDisplayContent>> RetrivePostsByTag(int numberOfPosts, DateTime showPostSince, string tag);
+
     }
 }

@@ -444,6 +444,36 @@ namespace Project_Forum.Services
 
         #endregion
 
+        #region Search
 
+        public async Task<List<PostDisplayContent>> RetrivePostsByTag(int numberOfPosts, DateTime showPostSince, string tag)
+        {
+            Tag tagEntity = new Tag
+            {
+                TagName = tag
+            };
+
+            var query =
+                 (from Post post in Context.Posts
+                  join ApplicationUser users in Context.AspNetUsers on post.UserId equals users.Id
+                  join PostUpvote postUpovtes in Context.PostUpvotes on post.PostId equals postUpovtes.PostId
+                  into UpvGrp
+                  where post.CreatedAt > showPostSince && 
+                  post.TagNames.Contains(tagEntity)
+                  orderby UpvGrp.Count() descending
+                  select new PostDisplayContent
+                  (
+                     users.UserName,
+                     post.PostContent,
+                     post.CreatedAt,
+                     UpvGrp.Count(),
+                     post.PostId,
+                     post.UserId
+                  )).Take(numberOfPosts);
+
+            return await query.ToListAsync();
+        }
+
+        #endregion
     }
 }
