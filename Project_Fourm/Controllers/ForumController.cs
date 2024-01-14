@@ -72,7 +72,9 @@ namespace Project_Forum.Controllers
                 int postId = await PostService.AddPostAsync(User.FindFirstValue("UserId"), model.PostModel.PostContent);
                 var tags = await PostService.AddTagsAsync(model.PostModel.PostContent);
                 await PostService.AddPostTagsAsync(postId, tags);
-                return RedirectToAction("Index", "Forum");
+                // redirect to same page we're currently on 
+                string referringUrl = HttpContext.Request.Headers["Referer"].ToString();
+                return Redirect(referringUrl);
             }
             else
             {
@@ -103,7 +105,10 @@ namespace Project_Forum.Controllers
             if (User.FindFirstValue("UserId") is not null && !String.IsNullOrEmpty(model.RespondModel.RepondContent))
             {
                 await PostService.AddRespondAsync(postId, User.FindFirstValue("UserId"), model.RespondModel.RepondContent);
-                return RedirectToAction("Index", "Forum");
+
+                // redirect to same page we're currently on 
+                string referringUrl = HttpContext.Request.Headers["Referer"].ToString();
+                return Redirect(referringUrl);
             }
             else
             {
@@ -134,7 +139,10 @@ namespace Project_Forum.Controllers
             if (User.FindFirstValue("UserId") is not null)
             {
                 await PostService.RemovePost(postId);
-                return RedirectToAction("Index", "Forum");
+
+                // redirect to same page we're currently on 
+                string referringUrl = HttpContext.Request.Headers["Referer"].ToString();
+                return Redirect(referringUrl);
 
             }
             return NoContent();
@@ -147,7 +155,10 @@ namespace Project_Forum.Controllers
             if (User.FindFirstValue("UserId") is not null)
             {
                 await PostService.RemoveRespond(respondId);
-                return RedirectToAction("Index", "Forum");
+
+                // redirect to same page we're currently on 
+                string referringUrl = HttpContext.Request.Headers["Referer"].ToString();
+                return Redirect(referringUrl);
 
             }
             return NoContent();
@@ -161,7 +172,10 @@ namespace Project_Forum.Controllers
             if (userId is not null)
             {
                 await PostService.ReportContent(contentId, userId, reportReason, contentType);
-                return RedirectToAction("Index", "Forum");
+
+                // redirect to same page we're currently on 
+                string referringUrl = HttpContext.Request.Headers["Referer"].ToString();
+                return Redirect(referringUrl);
             }
             return NoContent();
         }
@@ -182,7 +196,8 @@ namespace Project_Forum.Controllers
         [HttpGet]
         public async Task<IActionResult> Tag(PostCompositeModel model, string tag)
         {
-            
+
+          
             // Assigning the value here so we only use FindFirstValue once instead of once per post/respond in foreach loop
             model.CurrentUserId = User.FindFirstValue("UserId");
 
@@ -196,6 +211,9 @@ namespace Project_Forum.Controllers
 
             return View("Tag", model);
         }
+
+        
+    
 
         public IActionResult Error()
         {

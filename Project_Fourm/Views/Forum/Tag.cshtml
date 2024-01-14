@@ -35,9 +35,10 @@
 
     <div class="display-post">
         <div class="filters">
-            @using (Html.BeginForm("Index", "Forum", FormMethod.Post))
+            @using (Html.BeginForm("Tag", "Forum", FormMethod.Get))
             {
-
+                // retrives previous tag so changing filter won't change tag we're currently on to empty string
+                @Html.Hidden("tag", ViewContext.HttpContext.Request.Query["tag"])
                 <div class="choose-hour-filter">
                     <label class="radio-button-label">
                         @Html.RadioButtonFor(model => model.FilterPostsModel.SelectedTimeFilter, TimeFilter.sixHours,
