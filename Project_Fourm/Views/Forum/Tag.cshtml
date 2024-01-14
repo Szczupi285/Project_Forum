@@ -4,35 +4,6 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
-
-    <div class="send-post-form">
-        <form method="POST" asp-controller="Forum" asp-action="CreatePost">
-            <textarea id="post-message" placeholder="Create a new post..." asp-for="PostModel.PostContent"></textarea>
-            <button type="submit" id="send-post-button" value="x">
-                <i class="material-icons">send</i>
-            </button>
-        </form>
-    </div>
-
-
-    <dialog class="modal" id="modal">
-        <h2>Report details</h2>
-        <textarea placeholder="200 characters..." maxlength="200" data-contentid="" data-contenttype=""></textarea>
-        <button type="submit" id="send-report-details" value="x">
-            <i class="material-icons">send</i>
-        </button>
-    </dialog>
-
-    <dialog class="modal" id="edit-modal">
-        <h2>Edit Post</h2>
-        <textarea placeholder="Edit content..." data-contentid="" data-contenttype=""></textarea>
-        <button type="submit" id="edit-button" value="x">
-            <i class="material-icons">send</i>
-        </button>
-    </dialog>
-
-
-
     <div class="display-post">
         <div class="filters">
             @using (Html.BeginForm("Tag", "Forum", FormMethod.Get))

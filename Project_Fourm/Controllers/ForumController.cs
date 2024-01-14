@@ -208,8 +208,10 @@ namespace Project_Forum.Controllers
                 var respond = await PostService.RetriveRespondContentAsync(post.PostId);
                 model.PostDisplayContents.Add((post, respond));
             }
-
-            return View("Tag", model);
+            if (User.IsInRole("User"))
+                return View("Tag", model);
+            else
+                return View("GuestTag", model);
         }
 
         
