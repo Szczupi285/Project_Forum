@@ -200,7 +200,6 @@ namespace Project_Forum.Controllers
           
             // Assigning the value here so we only use FindFirstValue once instead of once per post/respond in foreach loop
             model.CurrentUserId = User.FindFirstValue("UserId");
-
             var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
             var posts = await PostService.RetrivePostsByTag(15, date, tag);
             foreach (var post in posts)

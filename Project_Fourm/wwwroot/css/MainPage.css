@@ -1,12 +1,16 @@
 .main {
+    -ms-overflow-style: none;
     height: inherit;
     width: 100%;
     padding: 10px,0,10px,0;
     overflow-y: auto;
     display: flex;
     align-items: center;
-    flex-direction:column;
-    
+    flex-direction: column;
+}
+/*hide scrollbar*/
+.main::-webkit-scrollbar{
+    display:none;
 }
 /*SEND POST*/
 .send-post-form{
@@ -101,7 +105,6 @@
     font-size: 24px;
     color: rgb(231, 233, 234);
 }
-
 
 
 
@@ -499,3 +502,4 @@ span.label-text {
 .edit-button i {
     background-color: transparent;
 }
+

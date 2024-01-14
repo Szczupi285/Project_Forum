@@ -58,6 +58,29 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
             entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
             entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
             entity.Property(e => e.UserName).HasMaxLength(256);
+
+            entity.HasMany(d => d.TagNames).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "UserTagSubscription",
+                    r => r.HasOne<Tag>().WithMany()
+                        .HasForeignKey("TagName")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__UserTagSu__tag_n__282DF8C2"),
+                    l => l.HasOne<ApplicationUser>().WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK__UserTagSu__UserI__2739D489"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "TagName")
+                            .HasName("PK__UserTagS__D9A14A189D457DCF")
+                            .IsClustered(false);
+                        j.ToTable("UserTagSubscription");
+                        j.IndexerProperty<string>("TagName")
+                            .HasMaxLength(50)
+                            .IsUnicode(false)
+                            .HasColumnName("tag_name");
+                    });
         });
 
         modelBuilder.Entity<Post>(entity =>
@@ -236,6 +259,7 @@ public partial class ForumProjectContext : IdentityDbContext<ApplicationUser>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Warnings__Id__1F98B2C1");
         });
+
         base.OnModelCreating(modelBuilder);
         OnModelCreatingPartial(modelBuilder);
     }

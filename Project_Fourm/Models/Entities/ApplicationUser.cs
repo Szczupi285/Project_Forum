@@ -22,6 +22,8 @@ namespace Project_Forum.Models.Entities
 
         public virtual ICollection<ReportedContent> ReportedContents { get; set; } = new List<ReportedContent>();
 
+        public virtual ICollection<Tag> TagNames { get; set; } = new List<Tag>();
+
 
     }
 }
