@@ -212,9 +212,25 @@ namespace Project_Forum.Controllers
             else
                 return View("GuestTag", model);
         }
+        [HttpGet]
+        public async Task<IActionResult> Feed(PostCompositeModel model)
+        {
 
-        
-    
+
+            // Assigning the value here so we only use FindFirstValue once instead of once per post/respond in foreach loop
+            model.CurrentUserId = User.FindFirstValue("UserId");
+            var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
+            var posts = await PostService.RetriveFeed(15, date, User.FindFirstValue("UserId"));
+            foreach (var post in posts)
+            {
+                var respond = await PostService.RetriveRespondContentAsync(post.PostId);
+                model.PostDisplayContents.Add((post, respond));
+            }
+            return View("Feed", model);
+           
+        }
+
+
 
         public IActionResult Error()
         {

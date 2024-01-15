@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Extensions.Hosting;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
 using System.Diagnostics;
@@ -470,6 +472,36 @@ namespace Project_Forum.Services
                      post.PostId,
                      post.UserId
                   )).Take(numberOfPosts);
+
+            return await query.ToListAsync();
+        }
+
+        public async Task<List<PostDisplayContent>> RetriveFeed(int numberOfPosts, DateTime showPostSince, string userId)
+        {
+            // gets Tags user is subscribedTo
+            var SubsribedTags =
+                                Context.AspNetUsers.Where(u => u.Id == userId).
+                                SelectMany(u => u.TagNames).ToList();
+
+           var query =
+                 (from Post post in Context.Posts
+                  join ApplicationUser users in Context.AspNetUsers on post.UserId equals users.Id
+                  join PostUpvote postUpovtes in Context.PostUpvotes on post.PostId equals postUpovtes.PostId
+                  into UpvGrp
+                  where post.CreatedAt > showPostSince &&
+                  post.TagNames.Any(t => SubsribedTags.Contains(t))
+                  orderby UpvGrp.Count() descending
+                  select new PostDisplayContent
+                  (
+                     users.UserName,
+                     post.PostContent,
+                     post.CreatedAt,
+                     UpvGrp.Count(),
+                     post.PostId,
+                     post.UserId
+                  )).Take(numberOfPosts);
+
+           
 
             return await query.ToListAsync();
         }

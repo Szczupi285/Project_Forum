@@ -32,5 +32,7 @@ namespace Project_Forum.Services
 
         Task<List<PostDisplayContent>> RetrivePostsByTag(int numberOfPosts, DateTime showPostSince, string tag);
 
+        Task<List<PostDisplayContent>> RetriveFeed(int numberOfPosts, DateTime showPostSince, string userId);
+
     }
 }
