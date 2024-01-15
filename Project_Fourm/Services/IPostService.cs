@@ -34,5 +34,8 @@ namespace Project_Forum.Services
 
         Task<List<PostDisplayContent>> RetriveFeed(int numberOfPosts, DateTime showPostSince, string userId);
 
+        Task<bool> HandleTagObservation(string tagName, string userId);
+
+        Task<bool> IsTagObserved(string tagName, string userId);
     }
 }

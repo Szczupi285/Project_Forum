@@ -5,6 +5,8 @@ namespace Project_Forum.Models
     public class PostCompositeModel
     {
         public string? CurrentUserId;
+
+        public string? visibility;
         public Post PostModel { get; set; } = new Post();
 
         public FilterPosts FilterPostsModel { get; set; } = new FilterPosts();

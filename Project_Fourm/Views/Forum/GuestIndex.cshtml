@@ -41,7 +41,7 @@
             @using (Html.BeginForm("Tag", "Forum", FormMethod.Get))
             {
                 <div class="search-container">
-                    <input type="text" id="search-input" name="tag" placeholder="Choose tag...">
+                    <input type="text" id="search-input" name="tag" maxlength="50" placeholder="Choose tag...">
                     <button class="search-button" value="search">
                         <i class="material-icons">search</i>
                     </button>

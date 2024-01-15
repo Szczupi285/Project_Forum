@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Mono.TextTemplating;
@@ -197,7 +198,12 @@ namespace Project_Forum.Controllers
         public async Task<IActionResult> Tag(PostCompositeModel model, string tag)
         {
 
-          
+            var result = await PostService.IsTagObserved(tag, User.FindFirstValue("UserId"));
+            if (result == true)
+                model.visibility = "visibility_off";
+            else
+                model.visibility = "visibility";
+
             // Assigning the value here so we only use FindFirstValue once instead of once per post/respond in foreach loop
             model.CurrentUserId = User.FindFirstValue("UserId");
             var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
@@ -212,6 +218,22 @@ namespace Project_Forum.Controllers
             else
                 return View("GuestTag", model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Observe(PostCompositeModel model, string tagName)
+        {
+
+            var result = await PostService.HandleTagObservation(tagName, User.FindFirstValue("UserId"));
+            if (result == true)
+            {
+                // redirect to same page we're currently on 
+                string referringUrl = HttpContext.Request.Headers["Referer"].ToString();
+                return Redirect(referringUrl);
+            }
+            return NoContent();
+
+        }
+
         [HttpGet]
         public async Task<IActionResult> Feed(PostCompositeModel model)
         {
@@ -229,6 +251,7 @@ namespace Project_Forum.Controllers
             return View("Feed", model);
            
         }
+    
 
 
 
