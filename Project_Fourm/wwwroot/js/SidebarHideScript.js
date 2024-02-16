@@ -5,6 +5,7 @@ const sidebarCollapsed = "sidebar--collapsed";
 const sidebar = document.querySelector(".sidebar")
 const sidebarHide = sidebar.querySelector(".sidebar_hide");
 
+// checks initial state
 if (localStorage.getItem('SidebarState') === "chevron_right") {
     sidebar.classList.add(sidebarCollapsed);
     iconElement.textContent = "chevron_right";
@@ -12,8 +13,6 @@ if (localStorage.getItem('SidebarState') === "chevron_right") {
     sidebar.classList.remove(sidebarCollapsed);
     iconElement.textContent = "chevron_left";
 }
-
-
 
 sidebarHide.addEventListener("click", () => {
     sidebar.classList.toggle(sidebarCollapsed);
