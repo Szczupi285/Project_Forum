@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="~/css/MainPage.css" asp-append-version="true" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
+   
+    
 </head>
 <body>
     <div class="page-container">
@@ -56,9 +58,10 @@
             @RenderBody()
         </main>
 
-    
     </div>
-    @RenderSection("scripts", required: false)
+    @RenderSection("Scripts",false)
     <script src="~/js/SidebarHideScript.js"></script>
+
+    
 </body>
 </html>
