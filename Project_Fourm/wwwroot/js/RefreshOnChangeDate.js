@@ -1,8 +1,12 @@
-﻿$(document).ready(function () {
-// This function will be executed when a radio button is chosen
-$('input[class="radio-button-style"]').change(function () {
+﻿document.addEventListener("DOMContentLoaded", function () {
+    // This function will be executed when a radio button is chosen
+    var radioButtons = document.querySelectorAll('input[class="radio-button-style"]');
 
-    var form = $(this).closest('form');
-    // Trigger the form submission
-    form.submit();
+    radioButtons.forEach(function (radioButton) {
+        radioButton.addEventListener("change", function () {
+            var form = radioButton.closest('form');
+            // Trigger the form submission
+            form.submit();
+        });
+    });
 });
