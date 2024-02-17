@@ -11,7 +11,11 @@ using Mono.TextTemplating;
 using Project_.Models;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
-using Project_Forum.Services;
+using Project_Forum.Services.ActionButtons;
+using Project_Forum.Services.Observe;
+using Project_Forum.Services.PostCreation;
+using Project_Forum.Services.RetriveContent;
+using Project_Forum.Services.Upvoting;
 using System.Diagnostics;
 using System.Security.Claims;
 
@@ -19,18 +23,28 @@ namespace Project_Forum.Controllers
 {
     public class ForumController : Controller
     {
-        private readonly ForumProjectContext Context;
+        private readonly IPostCreationService PostService;
 
-        private readonly SignInManager<ApplicationUser> SignInManager;
+        private readonly IActionButtonsService ActionButtonsService;
 
-        private readonly IPostService PostService;
+        private readonly IObserveService ObserveService;
+
+        private readonly IRetriveContentService RetriveContentService;
+
+        private readonly IUpvotingService UpvotingService;
 
 
-        public ForumController(ForumProjectContext context, SignInManager<ApplicationUser> signInManager, IPostService postService)
+        public ForumController(IPostCreationService postService, IObserveService observeService,
+        IActionButtonsService actionButtonsService, 
+        IRetriveContentService retriveContentService,
+        IUpvotingService upvotingService)
         {
-            this.Context = context;
-            SignInManager = signInManager;
             PostService = postService;
+            ActionButtonsService = actionButtonsService;
+            ObserveService = observeService;
+            RetriveContentService = retriveContentService;
+            UpvotingService = upvotingService;
+
         }
 
         public async Task<IActionResult> Index(PostCompositeModel model)
@@ -39,10 +53,10 @@ namespace Project_Forum.Controllers
             model.CurrentUserId = User.FindFirstValue("UserId");
 
             var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
-            var posts = await PostService.RetrivePostContentAsync(15, date);
+            var posts = await RetriveContentService.RetrivePostContentAsync(15, date);
             foreach (var post in posts)
             {
-                var respond = await PostService.RetriveRespondContentAsync(post.PostId);
+                var respond = await RetriveContentService.RetriveRespondContentAsync(post.PostId);
                 model.PostDisplayContents.Add((post, respond));
             }
 
@@ -89,7 +103,7 @@ namespace Project_Forum.Controllers
         {
             if (User.FindFirstValue("UserId") is not null)
             {
-                await PostService.ManageUpvoteAsync(User.FindFirstValue("UserId"), postId);
+                await UpvotingService.ManageUpvoteAsync(User.FindFirstValue("UserId"), postId);
                 return StatusCode(201);
             }
             else
@@ -124,7 +138,7 @@ namespace Project_Forum.Controllers
         {
             if (User.FindFirstValue("UserId") is not null)
             {
-                await PostService.ManageRespondUpvoteAsync(User.FindFirstValue("UserId"), respondId);
+                await UpvotingService.ManageRespondUpvoteAsync(User.FindFirstValue("UserId"), respondId);
                 return StatusCode(201);
             }
             else
@@ -139,7 +153,7 @@ namespace Project_Forum.Controllers
         {
             if (User.FindFirstValue("UserId") is not null)
             {
-                await PostService.RemovePost(postId);
+                await ActionButtonsService.RemovePost(postId);
 
                 // redirect to same page we're currently on 
                 string referringUrl = HttpContext.Request.Headers["Referer"].ToString();
@@ -155,7 +169,7 @@ namespace Project_Forum.Controllers
         {
             if (User.FindFirstValue("UserId") is not null)
             {
-                await PostService.RemoveRespond(respondId);
+                await ActionButtonsService.RemoveRespond(respondId);
 
                 // redirect to same page we're currently on 
                 string referringUrl = HttpContext.Request.Headers["Referer"].ToString();
@@ -172,7 +186,7 @@ namespace Project_Forum.Controllers
             var userId = (User.FindFirstValue("UserId"));
             if (userId is not null)
             {
-                await PostService.ReportContent(contentId, userId, reportReason, contentType);
+                await ActionButtonsService.ReportContent(contentId, userId, reportReason, contentType);
 
                 // redirect to same page we're currently on 
                 string referringUrl = HttpContext.Request.Headers["Referer"].ToString();
@@ -188,7 +202,7 @@ namespace Project_Forum.Controllers
             var userId = (User.FindFirstValue("UserId"));
             if (userId is not null)
             {
-                await PostService.EditContent(contentId, newContent, contentType);
+                await ActionButtonsService.EditContent(contentId, newContent, contentType);
                 return Ok();
             }
             return NotFound();
@@ -198,7 +212,7 @@ namespace Project_Forum.Controllers
         public async Task<IActionResult> Tag(PostCompositeModel model, string tag)
         {
 
-            var result = await PostService.IsTagObserved(tag, User.FindFirstValue("UserId"));
+            var result = await ObserveService.IsTagObserved(tag, User.FindFirstValue("UserId"));
             if (result == true)
                 model.visibility = "visibility_off";
             else
@@ -207,10 +221,10 @@ namespace Project_Forum.Controllers
             // Assigning the value here so we only use FindFirstValue once instead of once per post/respond in foreach loop
             model.CurrentUserId = User.FindFirstValue("UserId");
             var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
-            var posts = await PostService.RetrivePostsByTag(15, date, tag);
+            var posts = await RetriveContentService.RetrivePostsByTag(15, date, tag);
             foreach (var post in posts)
             {
-                var respond = await PostService.RetriveRespondContentAsync(post.PostId);
+                var respond = await RetriveContentService.RetriveRespondContentAsync(post.PostId);
                 model.PostDisplayContents.Add((post, respond));
             }
             if (User.IsInRole("User"))
@@ -220,10 +234,10 @@ namespace Project_Forum.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Observe(PostCompositeModel model, string tagName)
+        public async Task<IActionResult> Observe(string tagName)
         {
 
-            var result = await PostService.HandleTagObservation(tagName, User.FindFirstValue("UserId"));
+            var result = await ObserveService.HandleTagObservation(tagName, User.FindFirstValue("UserId"));
             if (result == true)
             {
                 // redirect to same page we're currently on 
@@ -242,19 +256,16 @@ namespace Project_Forum.Controllers
             // Assigning the value here so we only use FindFirstValue once instead of once per post/respond in foreach loop
             model.CurrentUserId = User.FindFirstValue("UserId");
             var date = model.FilterPostsModel.GetDateDiffFromCurrentDate();
-            var posts = await PostService.RetriveFeed(15, date, User.FindFirstValue("UserId"));
+            var posts = await RetriveContentService.RetriveFeed(15, date, User.FindFirstValue("UserId"));
             foreach (var post in posts)
             {
-                var respond = await PostService.RetriveRespondContentAsync(post.PostId);
+                var respond = await RetriveContentService.RetriveRespondContentAsync(post.PostId);
                 model.PostDisplayContents.Add((post, respond));
             }
             return View("Feed", model);
            
         }
     
-
-
-
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

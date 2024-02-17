@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
 
-namespace Project_Forum.Services
+namespace Project_Forum.Services.Register
 {
     public interface IRegisterService
     {

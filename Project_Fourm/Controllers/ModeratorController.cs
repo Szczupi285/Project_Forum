@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
-using Project_Forum.Services;
+using Project_Forum.Services.Moderator;
 using System.Security.Claims;
 
 namespace Project_Forum.Controllers

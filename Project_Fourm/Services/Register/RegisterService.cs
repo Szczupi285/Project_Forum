@@ -5,7 +5,7 @@ using Project_Forum.Models;
 using Project_Forum.Models.Entities;
 using System.CodeDom;
 
-namespace Project_Forum.Services
+namespace Project_Forum.Services.Register
 {
     public class RegisterService : IRegisterService
     {
@@ -13,8 +13,8 @@ namespace Project_Forum.Services
         {
             var doesEmailExist = await userManager.FindByEmailAsync(model.Email);
             var doesUsernameExist = await userManager.FindByNameAsync(model.Username);
-                    
-            if(doesEmailExist != null && doesUsernameExist != null)
+
+            if (doesEmailExist != null && doesUsernameExist != null)
             {
                 modelState.AddModelError("Email", "Email already taken");
                 modelState.AddModelError("Username", "Username already taken");
@@ -45,7 +45,7 @@ namespace Project_Forum.Services
             await userManager.AddToRoleAsync(CreatedUser, "User");
 
             return result.Succeeded;
-                       
+
 
 
 

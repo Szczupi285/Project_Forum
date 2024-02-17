@@ -8,16 +8,16 @@ using Project_Forum.Models;
 using Project_Forum.Models.Entities;
 using System.Security.Claims;
 
-namespace Project_Forum.Services
+namespace Project_Forum.Services.Login
 {
     public class LoginService : ILoginService
     {
         UserManager<ApplicationUser> UserManager { get; }
         SignInManager<ApplicationUser> SignInManager { get; }
 
-        
 
-        public LoginService(UserManager<ApplicationUser> userManager, 
+
+        public LoginService(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager)
         {
             UserManager = userManager;
@@ -26,7 +26,7 @@ namespace Project_Forum.Services
 
         public async Task<bool> ValidateCreditentials(LoginModel model)
         {
-            
+
             var user = await UserManager.FindByNameAsync(model.Username);
 
             var result = await SignInManager.CheckPasswordSignInAsync(user, model.Password, false);
@@ -76,10 +76,10 @@ namespace Project_Forum.Services
             };
 
 
-             await httpContextAccessor.HttpContext.SignInAsync(
-             CookieAuthenticationDefaults.AuthenticationScheme,
-             new ClaimsPrincipal(claimsIdentity),
-             authProperties);
+            await httpContextAccessor.HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity),
+            authProperties);
         }
 
     }

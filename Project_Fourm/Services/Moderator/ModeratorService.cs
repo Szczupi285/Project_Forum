@@ -10,7 +10,7 @@ using Project_Forum.Models.Entities;
 using System.Security.Claims;
 using System.Transactions;
 
-namespace Project_Forum.Services
+namespace Project_Forum.Services.Moderator
 {
     public class ModeratorService : IModeratorService
     {
@@ -35,15 +35,15 @@ namespace Project_Forum.Services
                      reports.Reason,
                      reports.ReportDate
                 );
-                
-                return await result.ToListAsync();
-                
+
+            return await result.ToListAsync();
+
         }
 
         private async Task<bool> DeletePost(int postId)
         {
             var post = await Context.Posts.FindAsync(postId);
-            if(post is not null)
+            if (post is not null)
             {
                 Context.Posts.Remove(post);
                 await Context.SaveChangesAsync();
@@ -68,7 +68,7 @@ namespace Project_Forum.Services
         {
             var report = await Context.ReportedContents.FindAsync(reportId);
 
-            if(report is not null)
+            if (report is not null)
             {
                 report.ModeratorId = moderatorId;
                 report.Resolution = resolution;
@@ -80,9 +80,9 @@ namespace Project_Forum.Services
             return false;
         }
 
-        
 
-        public async Task<bool> Delete(int reportId ,int contentId, string moderatorId, string contentType)
+
+        public async Task<bool> Delete(int reportId, int contentId, string moderatorId, string contentType)
         {
             using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -105,14 +105,14 @@ namespace Project_Forum.Services
                 }
                 return false;
             }
-           
+
         }
 
         public async Task<bool> Keep(int reportId, string moderatorId)
         {
-            return await UpdateReport(reportId, moderatorId, "Keeped"); 
+            return await UpdateReport(reportId, moderatorId, "Keeped");
         }
 
-      
+
     }
 }

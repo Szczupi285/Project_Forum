@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
 using Microsoft.Net.Http.Headers;
 using Project_Forum.Models;
 
-namespace Project_Forum.Services
+namespace Project_Forum.Services.Moderator
 {
     public interface IModeratorService
     {
