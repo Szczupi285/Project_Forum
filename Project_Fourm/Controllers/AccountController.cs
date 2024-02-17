@@ -77,7 +77,6 @@ namespace Project_Forum.Controllers
                     
                 if(result == true)
                 {
-                    
                     return RedirectToAction("Login");
                 }
                 else
