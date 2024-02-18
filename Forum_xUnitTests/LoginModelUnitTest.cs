@@ -12,9 +12,9 @@ namespace Forum_xUnitTests
     {
         [Theory]
         [InlineData("alice","password")]
-        [InlineData("b","password")]
+        [InlineData("mikey","password")]
         [InlineData("michael123","password")]
-        [InlineData("mike1232131sa!@33", "password")]
+        [InlineData("mike1232131sa33", "password")]
         public void LoginModel_ShouldReturnTrue_WhenUsernameLengthValid(params string[] userCreditentials)
         {
             var model = new Mod.LoginModel()
@@ -33,9 +33,9 @@ namespace Forum_xUnitTests
 
         [Theory]
         [InlineData("alice", "password")]
-        [InlineData("bob", "password")]
+        [InlineData("mikey", "password")]
         [InlineData("michael123", "password")]
-        [InlineData("mike1232131sa!@33", "password")]
+        [InlineData("mike1232131sa33", "password")]
         public void LoginModel_ShouldReturnTrue_WhenUsernameIsNotNullOrEmpty(params string[] userCreditentials)
         {
             var model = new Mod.LoginModel()
@@ -53,10 +53,10 @@ namespace Forum_xUnitTests
         }
 
         [Theory]
-        [InlineData("alice", "password")]
-        [InlineData("bob", "password123!")]
-        [InlineData("michael123", "validpass_!@3#$")]
-        [InlineData("mike1232131sa!@33", "password")]
+        [InlineData("alice", "Password_2@!*")]
+        [InlineData("mikey", "Password123!")]
+        [InlineData("michael123", "Validpass_!@3#$")]
+        [InlineData("mike1232131sa33", "****1pasSword")]
         public void LoginModel_ShouldReturnTrue_WhenPasswordIsNotNullOrEmpty(params string[] userCreditentials)
         {
             var model = new Mod.LoginModel()
@@ -129,7 +129,7 @@ namespace Forum_xUnitTests
         }
 
         [Theory]
-        [InlineData("login", "password123!")]
+        [InlineData("login", "Password123!")]
         [InlineData("login", "ValidPaswd2@")]
         public void LoginModel_ShouldReturnTrue_WhenPasswordAndUsernameIsValid(params string[] userCreditentials)
         {
