@@ -26,6 +26,6 @@ namespace Project_Forum.Models
         [Required(ErrorMessage = "Date is required")]
         [DateValidation]
         [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } 
     }
 }

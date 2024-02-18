@@ -40,7 +40,7 @@ namespace Forum_xUnitTests
             var loginModel = new Mod.LoginModel
             {
                 Username = "ValidPassword",
-                Password = "InvalidPassword"
+                Password = "ValidPassword"
             };
 
             var user = new ApplicationUser

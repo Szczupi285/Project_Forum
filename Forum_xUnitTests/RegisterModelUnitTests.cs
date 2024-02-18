@@ -249,7 +249,7 @@ namespace Forum_xUnitTests
 
             Assert.False(isValid);
         }
-        // 
+        
         [Theory]
         [InlineData("exampleEmail@gmail.c")]
         [InlineData("exampleEmail@yahoo.c")]
@@ -269,6 +269,58 @@ namespace Forum_xUnitTests
 
             Assert.False(isValid);
         }
+        [Theory]
+        [InlineData("2004.02.13")]
+        [InlineData("1993.02.13")]
+        [InlineData("1900.01.01")]
+        public void RegisterModel_ShouldReturnTrue_WhenDateIsValid(string date)
+        {
+            var model = new Mod.RegisterModel()
+            {
+                Date = DateTime.Parse(date)
+            };
+
+            var validationResults = new List<ValidationResult>();
+            var isValid = Validator.TryValidateProperty(model.Date,
+                new ValidationContext(model) { MemberName = "Date" },
+                validationResults);
+
+            Assert.True(isValid);
+        }
+
+        [Theory]
+        [InlineData("1899.12.31")]
+        [InlineData("1800.02.13")]
+        public void RegisterModel_ShouldReturnFalse_WhenDateIsInvalid(string date)
+        {
+            var model = new Mod.RegisterModel()
+            {
+                Date = DateTime.Parse(date)
+            };
+
+            var validationResults = new List<ValidationResult>();
+            var isValid = Validator.TryValidateProperty(model.Date,
+                new ValidationContext(model) { MemberName = "Date" },
+                validationResults);
+
+            Assert.False(isValid);
+        }
+        [Fact]
+        public void RegisterModel_ShouldReturnFalse_WhenDateIsInTheFuture()
+        {
+            var model = new Mod.RegisterModel()
+            {
+                Date = DateTime.Now.AddDays(1)
+            };
+
+            var validationResults = new List<ValidationResult>();
+            var isValid = Validator.TryValidateProperty(model.Date,
+                new ValidationContext(model) { MemberName = "Date" },
+                validationResults);
+
+            Assert.False(isValid);
+        }
+
         #endregion
     }
 }

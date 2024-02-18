@@ -8,12 +8,13 @@ namespace Project_.Models
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
 
-            if (!String.IsNullOrEmpty(value.ToString()))
+            if (value is not null && !String.IsNullOrEmpty(value.ToString()))
             {
-                
-                DateTime dateOfBirth = (DateTime)value;
 
-                if (dateOfBirth < DateTime.Now)
+                DateTime dateOfBirth;
+                bool isDateTime = DateTime.TryParse(value.ToString(), out dateOfBirth);
+
+                if (isDateTime == true && dateOfBirth < DateTime.Now && dateOfBirth >= DateTime.Parse("1900.01.01"))
                     return ValidationResult.Success;
                 else
                     return new ValidationResult("Invalid date");
