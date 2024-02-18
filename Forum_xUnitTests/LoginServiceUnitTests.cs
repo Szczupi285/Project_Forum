@@ -15,7 +15,7 @@ using Microsoft.Extensions.Options;
 
 namespace Forum_xUnitTests
 {
-    public class LoginServiceUnitTest
+    public class LoginServiceUnitTests
     {
         [Fact]
         public async Task ValidateCreditentials_ShouldReturnTrue_WhenCreditentialsAreValid()

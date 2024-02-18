@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Mod = Project_Forum.Models;
 namespace Forum_xUnitTests
 {
-    public class LoginModelUnitTest
+    public class LoginModelUnitTests
     {
         [Theory]
         [InlineData("alice","password")]

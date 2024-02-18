@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace Forum_xUnitTests
 {
-    public class RegisterServiceUnitTest
+    public class RegisterServiceUnitTests
     {
-        [Fact]
-        public void RegisterUser_ShouldReturnTrue_WhenDataIsValid()
-        {
-
-        }
+        
     }
 }

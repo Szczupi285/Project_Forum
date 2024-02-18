@@ -20,7 +20,7 @@ namespace Project_Forum.Models
 
         [EmailAddress(ErrorMessage ="Invalid E-Mail")]
         [Required(ErrorMessage = "E-Mail is required")]
-        [RegularExpression(pattern: @"^[\w\.-]+@[\w\.-]+\.\w+$", ErrorMessage ="Invalid E-Mail")]
+        [RegularExpression(pattern: @"^[\w\.-]+@[\w\.-]+\.\w{2,}$", ErrorMessage ="Invalid E-Mail")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Date is required")]
