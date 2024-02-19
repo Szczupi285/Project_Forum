@@ -20,22 +20,9 @@ namespace Forum_xUnitTests
         [Fact]
         public async Task ValidateCreditentials_ShouldReturnTrue_WhenCreditentialsAreValid()
         {
-            // Arrange
-            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
-            var userManagerMock = new Mock<UserManager<ApplicationUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-            userManagerMock.Object.UserValidators.Add(new UserValidator<ApplicationUser>());
-            userManagerMock.Object.PasswordValidators.Add(new PasswordValidator<ApplicationUser>());
+            MockedIdentity mockedIdentity = new MockedIdentity();
 
-            var signInManagerMock = new Mock<SignInManager<ApplicationUser>>(
-                userManagerMock.Object,
-                new HttpContextAccessor(),
-                new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>().Object,
-                new Mock<IOptions<IdentityOptions>>().Object,
-                new Mock<ILogger<SignInManager<ApplicationUser>>>().Object,
-                new Mock<IAuthenticationSchemeProvider>().Object,
-                new Mock<IUserConfirmation<ApplicationUser>>().Object);
-
-            var loginService = new LoginService(userManagerMock.Object, signInManagerMock.Object);
+            var loginService = new LoginService(mockedIdentity.userManagerMock.Object, mockedIdentity.signInManagerMock.Object);
 
             var loginModel = new Mod.LoginModel
             {
@@ -48,8 +35,8 @@ namespace Forum_xUnitTests
                 UserName = loginModel.Username,
             };
 
-            userManagerMock.Setup(x => x.FindByNameAsync(loginModel.Username)).ReturnsAsync(user);
-            signInManagerMock.Setup(x => x.CheckPasswordSignInAsync(user, loginModel.Password, false))
+            mockedIdentity.userManagerMock.Setup(x => x.FindByNameAsync(loginModel.Username)).ReturnsAsync(user);
+            mockedIdentity.signInManagerMock.Setup(x => x.CheckPasswordSignInAsync(user, loginModel.Password, false))
                             .ReturnsAsync(SignInResult.Success);
 
             // Act
@@ -63,22 +50,9 @@ namespace Forum_xUnitTests
         [Fact]
         public async Task ValidateCreditentials_ShouldReturnFalse_WhenCreditentialsAreInvalid()
         {
-            // Arrange
-            var userStoreMock = new Mock<IUserStore<ApplicationUser>>();
-            var userManagerMock = new Mock<UserManager<ApplicationUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-            userManagerMock.Object.UserValidators.Add(new UserValidator<ApplicationUser>());
-            userManagerMock.Object.PasswordValidators.Add(new PasswordValidator<ApplicationUser>());
+            MockedIdentity mockedIdentity = new MockedIdentity();
 
-            var signInManagerMock = new Mock<SignInManager<ApplicationUser>>(
-                userManagerMock.Object,
-                new HttpContextAccessor(),
-                new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>().Object,
-                new Mock<IOptions<IdentityOptions>>().Object,
-                new Mock<ILogger<SignInManager<ApplicationUser>>>().Object,
-                new Mock<IAuthenticationSchemeProvider>().Object,
-                new Mock<IUserConfirmation<ApplicationUser>>().Object);
-
-            var loginService = new LoginService(userManagerMock.Object, signInManagerMock.Object);
+            var loginService = new LoginService(mockedIdentity.userManagerMock.Object, mockedIdentity.signInManagerMock.Object);
 
             var loginModel = new Mod.LoginModel
             {
@@ -91,8 +65,8 @@ namespace Forum_xUnitTests
                 UserName = loginModel.Username,
             };
 
-            userManagerMock.Setup(x => x.FindByNameAsync(loginModel.Username)).ReturnsAsync(user);
-            signInManagerMock.Setup(x => x.CheckPasswordSignInAsync(user, loginModel.Password, false))
+            mockedIdentity.userManagerMock.Setup(x => x.FindByNameAsync(loginModel.Username)).ReturnsAsync(user);
+            mockedIdentity.signInManagerMock.Setup(x => x.CheckPasswordSignInAsync(user, loginModel.Password, false))
                             .ReturnsAsync(SignInResult.Failed);
 
             // Act

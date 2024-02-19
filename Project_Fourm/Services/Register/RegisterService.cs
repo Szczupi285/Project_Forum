@@ -46,10 +46,6 @@ namespace Project_Forum.Services.Register
 
             return result.Succeeded;
 
-
-
-
-
         }
     }
 }
