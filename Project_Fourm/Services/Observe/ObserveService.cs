@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using Project_Forum.Models.Entities;
 
 namespace Project_Forum.Services.Observe
