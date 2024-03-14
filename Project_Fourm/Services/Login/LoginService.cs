@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Project_Forum.Models;
 using Project_Forum.Models.Entities;
 using System.Security.Claims;
@@ -26,12 +27,13 @@ namespace Project_Forum.Services.Login
 
         public async Task<bool> ValidateCreditentials(LoginModel model)
         {
-
             var user = await UserManager.FindByNameAsync(model.Username);
-
-            var result = await SignInManager.CheckPasswordSignInAsync(user, model.Password, false);
-
-            return result.Succeeded;
+            if(user is not null)
+            {
+                var result = await SignInManager.CheckPasswordSignInAsync(user, model.Password, false);
+                return result.Succeeded;
+            }
+            return false;
 
         }
 
